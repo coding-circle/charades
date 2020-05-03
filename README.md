@@ -30,11 +30,11 @@ This project aims to solve these problems and build a tool that can be used over
 
 ## Data Model
 
-The Game Object
+The Party Object
 
 ```
 {
-  gameSlug: string, // x90l
+  partySlug: string,
   host: string,
   createdAt: timestamp,
   updatedAt: timestamp,
@@ -42,27 +42,25 @@ The Game Object
     usernames,
   ],
   settings: {
-    rotations: number, // infinite
-    roundDuration: number, seconds
+    rotations: number,
+    turnDuration: number,
     teamNumber: number,
-    autoStart: boolean // if game should automatically start vs waiting for actor to click start
+    autoStart: boolean,
   },
   games: [
     {
       startTime: timestamp;
       endTime:
-      teams: [ // order teams go in is randomly chosen by this order.
+      teams: [
         {
-          teamName: "",
-          players: [ // order is playing order randomly chosen.
-            string // usernames
-          ],
+          teamName: string,
+          players: string[],
           playerIndex: number,
           score: number,
         },
       ],
-      rotation: 0,
-      rounds: [
+      rotation: number,
+      turns: [
         {
           startTime: timestamp,
           author: string,
@@ -76,12 +74,9 @@ The Game Object
   ],
   clues: [
     {
-      author: string // username
+      author: string
       clue: string,
     },
-  ],
-  results: [
-
   ],
 }
 ```
