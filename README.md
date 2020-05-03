@@ -12,6 +12,14 @@ This project aims to solve these problems and build a tool that can be used over
 
 ## MVP Features
 
+## Post-MVP Features
+
+- pre-made clues for noobs
+- allow users to choose
+- skips?
+- casual mode
+- custom dictionary // userID with custom dictionary
+
 ## Tech Stack
 
 - React
@@ -23,9 +31,60 @@ This project aims to solve these problems and build a tool that can be used over
 ## Data Model
 
 The Game Object
-{
 
+```
+{
+  gameSlug: string, // x90l
+  host: string,
+  createdAt: timestamp,
+  updatedAt: timestamp,
+  players: [
+    usernames,
+  ],
+  settings: {
+    rotations: number, // infinite
+    roundDuration: number, seconds
+    teamNumber: number,
+    autoStart: boolean // if game should automatically start vs waiting for actor to click start
+  },
+  games: [
+    {
+      startTime: timestamp;
+      endTime:
+      teams: [ // order teams go in is randomly chosen by this order.
+        {
+          teamName: "",
+          players: [ // order is playing order randomly chosen.
+            string // usernames
+          ],
+          playerIndex: number,
+          score: number,
+        },
+      ],
+      rotation: 0,
+      rounds: [
+        {
+          startTime: timestamp,
+          author: string,
+          clue: string,
+          teamIndex: number,
+          success: boolean,
+        },
+      ],
+    },
+    ...
+  ],
+  clues: [
+    {
+      author: string // username
+      clue: string,
+    },
+  ],
+  results: [
+
+  ],
 }
+```
 
 ## Contributions
 
