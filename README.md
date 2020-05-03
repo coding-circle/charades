@@ -14,7 +14,18 @@ This project aims to solve these problems and build a tool that can be used over
 
 ## Tech Stack
 
+- React
+- Express
+- Socket.io
+- MongoDB (or other noSQL db)
+- [BEM](http://getbem.com/naming/)
+
 ## Data Model
+
+The Game Object
+{
+
+}
 
 ## Contributions
 
