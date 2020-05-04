@@ -2,6 +2,33 @@
 
 A companion app for playing [charades](https://en.wikipedia.org/wiki/Charades)
 
+## Connecting to MongoDB
+
+To run this server, you have to connect to a MongoDB database. Your server will do this automatically once you've set the MONGO_URI environment variable.
+
+You have at least three options for getting a MONGO_URI for development:
+
+- (Easiest) Slack Andy and ask for your own database on his Mongo Atlas account, he'll send you a URI
+- (Easy) Sign up for Mongo Atlas yourself and create a databse for yourself, find the URI by going through the "Connect" flow on the Atlas dashboard
+- (Probably Easy) Run MongoDB on your machine locally, figure out your own URI
+
+### Set up .env
+
+Set your `MONGO_URI` evironment variable in a `.env` file inside `server/`. If you use Mongo Atlas, your `.env` file will look something like:
+`MONGO_URI="mongodb+srv://<username>:<password>@cluster0-cusns.mongodb.net/<dbname>?retryWrites=true&w=majority"`
+
+## Game Model
+
+The beginnings of the Game Model schema can be found in model.js. We can read and write these objects from and to MongoDB.
+
+The best way to create Game objects in MongoDB is with interactive js.
+
+- Inside `/server` run `node`
+- bring the makeGame function in from model.js `const { makeGame } = require("./model.js")`
+- call `makeGame()`
+
+See all the game objects you've created is by visiting `/games` in a browser
+
 ## Inspiration
 
 After attempting to play charades over zoom, we found the mechanisms to be difficult. Sharing clues was a process involving texting individual users. Keeping track of whose turn it was and who should send those clues was confusing.
