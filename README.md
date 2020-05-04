@@ -15,7 +15,7 @@ You have at least three options for getting a MONGO_URI for development:
 ### Set up .env
 
 Set your `MONGO_URI` evironment variable in a `.env` file inside `server/`. If you use Mongo Atlas, your `.env` will look like:
-`MONGO_URI="mongodb+srv://andy:jmlv8nd1jbgvSEN4@cluster0-cusns.mongodb.net/charades?retryWrites=true&w=majority"`
+`MONGO_URI="mongodb+srv://<username>:<password>@cluster0-cusns.mongodb.net/<database>?retryWrites=true&w=majority"`
 
 ## Game Model
 
