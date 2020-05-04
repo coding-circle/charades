@@ -5,8 +5,6 @@ if (process.env.NODE_ENV !== "production") {
   dotenv.config();
 }
 
-console.log(process.env);
-
 let mongoUri = process.env.MONGO_URI;
 if (mongoUri) {
   mongoose.connect(mongoUri, {
@@ -41,7 +39,6 @@ const makeGame = (
 };
 
 const clearGames = (callback) => {
-  console.log("HERE");
   GameModel.deleteMany({}, callback);
 };
 
