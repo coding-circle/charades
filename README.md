@@ -17,6 +17,8 @@ You have at least three options for getting a MONGO_URI for development:
 Set your `MONGO_URI` evironment variable in a `.env` file inside `server/`. If you use Mongo Atlas, your `.env` will look like:
 `MONGO_URI="mongodb+srv://<username>:<password>@cluster0-cusns.mongodb.net/<database>?retryWrites=true&w=majority"`
 
+I put an example `.env` file in `.env.sample` feel free to `mv .env.sample .env` to get started.
+
 ## Game Model
 
 The beginnings of the `Game` schema can be found in `/models/game.js`. We can read and write these objects from and to MongoDB.
