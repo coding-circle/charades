@@ -5,6 +5,8 @@ import socketIo from "socket.io";
 import SocketService from "./services/socket.js";
 import AppManager from "./AppManager.js";
 
+import { GameModel } from "./models/game.js";
+
 // TODO: load from env
 const PORT = 4001;
 
@@ -12,7 +14,7 @@ const PORT = 4001;
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
-const socket = new SocketService(io)
+const socket = new SocketService(io);
 const manager = new AppManager(socket);
 
 /* MARK: middleware */
@@ -20,10 +22,13 @@ const manager = new AppManager(socket);
 //  - add `{ body: {} }` to post that don't have a body
 //  - at some point we'll want sone security middleware
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // TODO: better cors handling
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header("Access-Control-Allow-Credentials", "true")
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.header("Access-Control-Allow-Credentials", "true");
   next();
 });
 
@@ -41,6 +46,12 @@ app.post("/parties/players", (req, res) => {
   const { playerName = "newplayer", partyId = "0000" } = req.body || {};
   const newState = manager.addPlayerToParty(playerName, partyId);
   res.status(200).send(newState);
+});
+
+app.get("/games", (req, res) => {
+  GameModel.find().then((result) => {
+    res.send(result);
+  });
 });
 
 /* MARK: listen */
