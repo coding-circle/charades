@@ -2,8 +2,6 @@
 
 Sockets are handled via `socket.io`. They primarily used for "pointing" at users as well as for triggering updates. When users join a "party" they enter a socket room. Each party will have it's own socket.io "room"
 
-Calls to socket server established on `/socket/` namespace. For more info see: tutorialspoint.com/socket.io/socket.io_namespaces.htm
-
 ## Party Connection
 
 **Note:** I just copied this from other socket work I did but seems like reasonable practice for modularity within socket.io since all event listeners need to be inside the connection closure.
