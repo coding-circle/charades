@@ -1,4 +1,4 @@
-# charades
+# Web Charades
 
 A companion app for playing [charades](https://en.wikipedia.org/wiki/Charades)
 
@@ -15,7 +15,10 @@ You have at least three options for getting a MONGO_URI for development:
 ### Set up .env
 
 Set your `MONGO_URI` evironment variable in a `.env` file inside `server/`. If you use Mongo Atlas, your `.env` will look like:
-`MONGO_URI="mongodb+srv://<username>:<password>@cluster0-cusns.mongodb.net/<database>?retryWrites=true&w=majority"`
+
+```
+MONGO_URI="mongodb+srv://<username>:<password>@cluster0-cusns.mongodb.net/<database>?retryWrites=true&w=majority"
+```
 
 I put an example `.env` file in `.env.sample` feel free to `mv .env.sample .env` to get started.
 
@@ -31,7 +34,7 @@ You can create game objects using the `models/makeGame.js` and `models/clearGame
 
 ## Inspiration
 
-After attempting to play charades over zoom, we found the mechanisms to be difficult. Sharing clues was a process involving texting individual users. Keeping track of whose turn it was and who should send those clues was confusing.
+After attempting to play charades over zoom, we found the mechanisms to be difficult. Sharing prompts was a process involving texting individual users. Keeping track of whose turn it was and who should send those prompts was confusing.
 
 Another problem, specific to video-conferencing is it was difficult for the actor to communicate with guessers when they have a correct partial answer.
 
@@ -42,18 +45,18 @@ This project aims to solve these problems and build a tool that can be used over
 - create parties with unique access code
 - join parties via unique access code / url link
 - waiting room pre and post game
-- clue writing phase
+- prompt writing phase
 - automatic team creation
 - settings modified by game host
 - ability to leave and join parties mid game.
 - score-keeping
-- automatic clue distribution and timing
+- automatic prompt distribution and timing
 
 ## Post-MVP Features
 
-- pre-made clues
+- pre-made prompts
 - team selection / drafting
-- skipping difficult clues
+- skipping difficult prompts
 - casual mode (no score, unlimited play, maybe no teams either)
 - auth / with
 
@@ -67,7 +70,7 @@ This project aims to solve these problems and build a tool that can be used over
 
 ## Data Model
 
-Party Object:
+#### Party Object:
 
 ```
 {
@@ -87,7 +90,7 @@ Party Object:
   games: [
     {
       startTime: timestamp;
-      endTime:
+      endTime: timestamp,
       teams: [
         {
           teamName: string,
@@ -96,12 +99,13 @@ Party Object:
           score: number,
         },
       ],
-      rotation: number,
+      totalTurns: number,
       turns: [
         {
           startTime: timestamp,
+          endTime: timestamp,
           author: string,
-          clue: string,
+          prompt: string,
           teamIndex: number,
           player: string,
           success: boolean,
@@ -110,16 +114,16 @@ Party Object:
     },
     ...
   ],
-  clues: [
+  prompts: [
     {
       author: string
-      clue: string,
+      prompt: string,
     },
   ],
 }
 ```
 
-Example:
+#### Example:
 
 ```
 {
@@ -137,7 +141,7 @@ Example:
     "jerry",
   ],
   settings: {
-    rotations: 0, // if 0 is "infinte game". A rotation is everyone taking a turn.
+    rotations: 2,
     turnDuration: 90,
     teamNumber: 2, // defaults to 2, number of teams.
     autoStart: true, // if true automatically starts a turn after preivous (with countdown). Otherwise the actor has a button to click when ready.
@@ -158,7 +162,7 @@ Example:
           playerIndex: 0,
           score: 0,
         },
-                {
+        {
           teamName: "Turkey Team",
           players: [
             "jerry",
@@ -169,40 +173,74 @@ Example:
           score: 0,
         },
       ],
-      rotation: number,
+      totalTurns: 8,
       turns: [
         {
           startTime: 1588553102804,
+          endTime: 1588553102804
           author: "lady ash",
-          clue: "Bubba Gump Shrimp Co.",
+          prompt: "Bubba Gump Shrimp Co.",
           teamIndex: 0,
           player: "lady ash"
           success: true,
         },
         {
           startTime: 1588553102804,
+          endTime: 1588553102804,
           author: "jerry",
-          clue: "Luigi's Mansion",
+          prompt: "Luigi's Mansion",
           teamIndex: 0,
           player: "lady ash"
           success: true,
         },
       ],
     },
-    ...
   ],
-  clues: [
+  prompts: [
     {
       author: "chedgo"
-      clue: "Tuna Salad",
+      prompt: "Tuna Salad",
     },
     {
       author: "mick"
-      clue: "Bald Eagle",
+      prompt: "Bald Eagle",
     },
   ],
 }
 ```
+
+## How to tell what phase game is in:
+
+**pre-game lobby:**
+
+```
+games.length === 0;
+```
+
+**prompt-writing:**
+
+```
+games[games.length - 1].startTime === null;
+```
+
+**game-play:**
+
+```
+games[games.length - 1].startTime &&
+games[games.length - 1].endTime === null;
+```
+
+**post-game lobby**
+
+```
+games[games.length - 1].endTime !== null;
+```
+
+## Timer Thoughts
+
+Simple solution would be to set the start time for a turn as a future moment. And then use `setInterval` on client with a countdown 3 sec before turn `startTime` and then counting down to 0 based on the `turnDuration` setting.
+
+This depends on how in sync device times are but I think for now we can rely on it or at least try it. There are obviously more sophisticated methods we can use.
 
 ## Contributions
 
