@@ -1,21 +1,24 @@
 import http from "http";
 import express from "express";
-import socketIo from "socket.io";
+import dotenv from "dotenv";
 
 import SocketService from "./services/socket.js";
+import DbService from "./services/db.js";
 import AppManager from "./AppManager.js";
 
-import { GameModel } from "./models/game.js";
+import { PartyModel } from "./models/party.js";
 
-// TODO: load from env
-const PORT = 4001;
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config();
+}
 
 /* MARK: initializations */
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server);
-const socket = new SocketService(io);
-const manager = new AppManager(socket);
+
+const db =  new DbService(process.env.MONGO_URI)
+const socket = new SocketService(server);
+const manager = new AppManager(socket, db);
 
 /* MARK: middleware */
 // TODO: break out into separate file, add more middleware:
@@ -36,25 +39,54 @@ app.use(function (req, res, next) {
 // TODO: create separate routes and controllers files
 app.get("/", (req, res) => res.send("everyone is good enough"));
 
-app.post("/parties", (req, res) => {
+app.get("/parties", async (req, res) => {
+  const parties = await manager.getParties();
+  res.status(200).send(parties)
+});
+
+app.post("/parties", async (req, res) => {
   const { hostName = "player1", settings = {} } = req.body || {};
-  const initialState = manager.createParty(hostName, settings);
-  res.status(200).send(initialState);
+  const party = await manager.createParty(hostName, settings);
+  console.log(party)
+  res.status(200).send(party);
 });
 
 app.post("/parties/players", (req, res) => {
   const { playerName = "newplayer", partyId = "0000" } = req.body || {};
-  const newState = manager.addPlayerToParty(playerName, partyId);
-  res.status(200).send(newState);
+  manager.addPlayerToParty(playerName, partyId);
+  res.status(200).send(partyId);
 });
 
-app.get("/games", (req, res) => {
-  GameModel.find().then((result) => {
-    res.send(result);
-  });
+app.get("/parties/:id", (req, res) => {
+  // get one party
+});
+
+app.post("/parties/:id/clues", (req, res) => {
+  // a new clues to the party
+});
+
+app.post("/parties/:id/startGame", (req, res) => {
+  // create a new game for the party
+});
+
+app.post("/parties/:id/startRound", (req, res) => {
+  // start a new round for the party's active game
+});
+
+app.post("/parties/:id/endRound", (req, res) => {
+  // a clue was guessed correctly, end the round and update the score
+});
+
+app.post("/parties/:id/signalPlayer/:player", (req, res) => {
+  // signal that the guesser is pointing to a player
 });
 
 /* MARK: listen */
-server.listen(PORT, () => {
-  console.log(`Charades server listening on port ${PORT}`);
-});
+let port = process.env.PORT;
+if (port) {
+  server.listen(process.env.PORT, () => {
+    console.log(`Charades server listening on port ${process.env.PORT}`);
+  });
+} else {
+  console.error("PORT environment variable not set!")
+}

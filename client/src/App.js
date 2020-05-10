@@ -7,12 +7,11 @@ const BASE_URL = "http://localhost:4001";
 
 function App() {
   const [partyId, setPartyId] = useState(null);
-  const [gameState, setGameState] = useState({});
 
   useEffect(() => {
     const connect = async () => {
       const res = await axios.get(BASE_URL);
-      console.log(res);
+      console.log(res)
     };
     connect();
   }, []);
@@ -23,7 +22,7 @@ function App() {
       socket.on("connect", () => {
         console.log("** socket connected")
       });
-      socket.on("update", setGameState)
+      socket.on("update", console.log)
     }
   }, [partyId]);
 
@@ -33,8 +32,8 @@ function App() {
       console.log(res)
   
       const { data = {} } = res;
-      const { partyId } = data;
-      setPartyId(partyId);
+      const { slug } = data;
+      setPartyId(slug);
     }
 
     makeRequest();
@@ -50,7 +49,7 @@ function App() {
           : <button onClick={ createParty }>Create Party</button>
       }
       <br/>
-      { JSON.stringify(gameState)}
+      { JSON.stringify(partyId)}
     </div>
   );
 }
