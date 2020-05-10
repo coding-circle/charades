@@ -1,17 +1,28 @@
-import { EventEmitter } from 'events';
+import mongoose from "mongoose";
 
-export default class Party extends EventEmitter {
-  constructor(settings) {
-    super();
-    this.state = {
-      settings,
-      players: [],
-    }
-  }
+// This is just the beginning of the schema laid out in the README
+const Party = new mongoose.Schema(
+  {
+    partySlug: String,
+    players: [String],
+  },
+  { timestamps: true }
+);
 
- addPlayer = (playerName) => {
-   this.state.players.push(playerName)
-   console.log(this.state);
-   this.emit("update", this.state);
- }
-}
+export const PartyModel = mongoose.model("Party", Party);
+
+export const makeParty = (
+  settings = {},
+  partySlug = "asdf",
+  players = ["jacten", "n8", "ders", "andy"]
+) => {
+  const instance = new PartyModel({
+    partySlug: partySlug,
+    players: players,
+  });
+  return instance.save();
+};
+
+export const clearParties = () => {
+  return PartyModel.deleteMany({});
+};
