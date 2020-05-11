@@ -16,7 +16,7 @@ if (process.env.NODE_ENV !== "production") {
 const app = express();
 const server = http.createServer(app);
 
-const db =  new DbService(process.env.MONGO_URI)
+const db = new DbService(process.env.MONGO_URI);
 const socket = new SocketService(server);
 const manager = new AppManager(socket, db);
 
@@ -41,13 +41,13 @@ app.get("/", (req, res) => res.send("everyone is good enough"));
 
 app.get("/parties", async (req, res) => {
   const parties = await manager.getParties();
-  res.status(200).send(parties)
+  res.status(200).send(parties);
 });
 
 app.post("/parties", async (req, res) => {
   const { hostName = "player1", settings = {} } = req.body || {};
   const party = await manager.createParty(hostName, settings);
-  console.log(party)
+  console.log(party);
   res.status(200).send(party);
 });
 
@@ -83,10 +83,11 @@ app.post("/parties/:id/signalPlayer/:player", (req, res) => {
 
 /* MARK: listen */
 let port = process.env.PORT;
-if (port) {
-  server.listen(process.env.PORT, () => {
-    console.log(`Charades server listening on port ${process.env.PORT}`);
-  });
-} else {
-  console.error("PORT environment variable not set!")
+if (!port) {
+  port = 4001;
+  console.log("No port environment variable set. Using 4001.");
 }
+
+server.listen(port, () => {
+  console.log(`Charades server listening on port ${port}`);
+});

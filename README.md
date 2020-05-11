@@ -74,7 +74,7 @@ This project aims to solve these problems and build a tool that can be used over
 
 ```
 {
-  partySlug: string,
+  slug: string,
   host: string,
   createdAt: timestamp,
   updatedAt: timestamp,
@@ -83,8 +83,8 @@ This project aims to solve these problems and build a tool that can be used over
   ],
   settings: {
     rotations: number,
-    turnDuration: number,
-    teamNumber: number,
+    turnDurationSeconds: number,
+    teamsCount: number,
     autoStart: boolean,
   },
   games: [
@@ -127,7 +127,7 @@ This project aims to solve these problems and build a tool that can be used over
 
 ```
 {
-  partySlug: "XL9T", // randomly generated. roomCode.
+  slug: "XL9T", // randomly generated. roomCode.
   host: "jacten",
   createdAt: 1588553102804,
   updatedAt: 1588553102804,
@@ -142,8 +142,8 @@ This project aims to solve these problems and build a tool that can be used over
   ],
   settings: {
     rotations: 2,
-    turnDuration: 90,
-    teamNumber: 2, // defaults to 2, number of teams.
+    turnDurationSeconds: 90,
+    teamsCount: 2, // defaults to 2, number of teams.
     autoStart: true, // if true automatically starts a turn after preivous (with countdown). Otherwise the actor has a button to click when ready.
   },
   games: [
@@ -238,7 +238,7 @@ games[games.length - 1].endTime !== null;
 
 ## Timer Thoughts
 
-Simple solution would be to set the start time for a turn as a future moment. And then use `setInterval` on client with a countdown 3 sec before turn `startTime` and then counting down to 0 based on the `turnDuration` setting.
+Simple solution would be to set the start time for a turn as a future moment. And then use `setInterval` on client with a countdown 3 sec before turn `startTime` and then counting down to 0 based on the `turnDurationSeconds` setting.
 
 This depends on how in sync device times are but I think for now we can rely on it or at least try it. There are obviously more sophisticated methods we can use.
 

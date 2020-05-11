@@ -8,8 +8,8 @@ Sockets are handled via `socket.io`. They primarily used for "pointing" at users
 
 ```
 io.on('connection', (client) => {
-  const { partySlug } = client.handshake.query;
-  const room = partySlug;
+  const { slug } = client.handshake.query;
+  const room = slug;
 
   client.join(room);
 
