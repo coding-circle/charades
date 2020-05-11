@@ -1,10 +1,4 @@
-import mongoose from "mongoose";
-import dotenv from "dotenv";
 import { clearParties } from "../models/party.js";
-
-if (process.env.NODE_ENV !== "production") {
-  dotenv.config();
-}
 
 let mongoUri = process.env.MONGO_URI;
 if (mongoUri) {
@@ -19,6 +13,6 @@ if (mongoUri) {
 async function run() {
   await clearParties();
   process.exit();
-};
+}
 
 run();

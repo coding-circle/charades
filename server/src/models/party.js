@@ -19,7 +19,7 @@ const Party = new mongoose.Schema(
       rotations: { type: Number, default: 1 },
       turnDurationSeconds: { type: Number, default: 120 },
       teamsCount: { type: Number, default: 2 },
-      autoStart: { type: Boolean, default: true },
+      autoStart: { type: Boolean, default: false },
     },
     games: [
       {
@@ -82,23 +82,22 @@ const Party = new mongoose.Schema(
   { timestamps: true }
 );
 
+export const PartyModel = mongoose.model("Party", Party);
+
 const computeTotalTurns = (party) => {
   let maxTeamSize = Math.ceil(party.players.length / party.settings.teamsCount);
   return maxTeamSize * party.settings.rotations * party.settings.teamsCount;
 };
 
-export const PartyModel = mongoose.model("Party", Party);
+export const makeParty = ({ host, settings } = {}) => {
+  const slug = `slug${Date.now()}`;
+  const players = [host];
 
-export const makeParty = (
-  host = "bobanya",
-  settings = {},
-  slug = "asdf",
-  players = ["bobanya", "jacten", "n8", "ders", "andy"]
-) => {
   const instance = new PartyModel({
-    host: host,
-    slug: slug,
-    players: players,
+    host,
+    settings,
+    slug,
+    players,
   });
 
   return instance.save();
@@ -115,11 +114,11 @@ export const createGame = async (slug) => {
 };
 
 export const getParty = (slug) => {
-  return PartyModel.findOne({ slug: slug });
+  return PartyModel.findOne({ slug });
 };
 
 export const deleteParty = (slug) => {
-  return PartyModel.deleteOne({ slug: slug });
+  return PartyModel.deleteOne({ slug });
 };
 
 export const clearParties = () => {
