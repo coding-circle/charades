@@ -7,23 +7,19 @@ export default class AppManager {
 
   async createParty(hostName, settings) {
     const party = await makeParty(settings);
-    this.addPlayerToParty(hostName, party.partySlug)
-    const socket = this.socketService.create(party.partySlug);
-  
-    socket.on('connect', (connection) => {
-      connection.emit('update');
-    }); 
-    return { slug: party.partySlug };
+    this.addPlayerToParty(hostName, party.slug);
+    const socket = this.socketService.create(party.slug);
+
+    socket.on("connect", (connection) => {
+      connection.emit("update");
+    });
+    return { slug: party.slug };
   }
 
-  addPlayerToParty(playerName, partyId) {
-
-  }
+  addPlayerToParty(playerName, partyId) {}
 
   async getParties() {
     const parties = await PartyModel.find();
     return parties;
   }
-
 }
-

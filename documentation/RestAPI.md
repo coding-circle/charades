@@ -13,10 +13,10 @@ All RestAPI endpoints prefixed with: `/api/`
 ```
 {
   host: string,
-  settings: {
+  settings: {party
     rotations?: number,
     turnDuration?: number,
-    teamNumber?: number,
+    teamsCount?: number,
     autoStart?: boolean,
   }
 }
@@ -33,7 +33,7 @@ All RestAPI endpoints prefixed with: `/api/`
 
 ### Join Party
 
-**URL:** `/party/:partySlug`
+**URL:** `/party/:slug`
 
 **Method:** `PUT`
 
@@ -57,7 +57,7 @@ All RestAPI endpoints prefixed with: `/api/`
 
 ### Get Party Object
 
-**URL:** `/party/:partySlug`
+**URL:** `/party/:slug`
 
 **Method:** `GET`
 
@@ -71,7 +71,7 @@ All RestAPI endpoints prefixed with: `/api/`
 
 ### Create Game
 
-**URL:** `/party/:partySlug/game/create`
+**URL:** `/party/:slug/game/create`
 
 **Method:** `POST`
 
@@ -90,7 +90,7 @@ All RestAPI endpoints prefixed with: `/api/`
 
 ### Add Prompt
 
-**URL:** `/party/:partySlug/prompt`
+**URL:** `/party/:slug/prompt`
 
 **Method:** `POST`
 
@@ -116,7 +116,7 @@ All RestAPI endpoints prefixed with: `/api/`
 
 ### Start Game
 
-**URL:** `/party/:partySlug/game/start`
+**URL:** `/party/:slug/game/start`
 
 **Method:** `PUT`
 
@@ -137,7 +137,7 @@ All RestAPI endpoints prefixed with: `/api/`
 
 ### Start Turn
 
-**URL:** `/party/:partySlug/turn/start`
+**URL:** `/party/:slug/turn/start`
 
 **Method:** `PUT`
 
@@ -156,7 +156,7 @@ All RestAPI endpoints prefixed with: `/api/`
 
 ### End Turn
 
-**URL:** `/party/:partySlug/turn/end`
+**URL:** `/party/:slug/turn/end`
 
 **Method:** `PUT`
 
@@ -188,7 +188,7 @@ All RestAPI endpoints prefixed with: `/api/`
 
 ### Update Party Settings
 
-**URL:** `/party/:partySlug/settings`
+**URL:** `/party/:slug/settings`
 
 **Method:** `PUT`
 
@@ -198,7 +198,7 @@ All RestAPI endpoints prefixed with: `/api/`
 {
   rotations?: number,
   turnDuration?: number,
-  teamNumber?: number,
+  teamsCount?: number,
   autoStart?: boolean,
 }
 ```
@@ -216,7 +216,7 @@ All RestAPI endpoints prefixed with: `/api/`
 
 ### Leave Party
 
-**URL:** `/party/:partySlug/leave`
+**URL:** `/party/:slug/leave`
 
 **Method:** `DELETE`
 

@@ -16,10 +16,9 @@ if (mongoUri) {
   console.log("MONGO_URI environment variable not found!!");
 }
 
-
-async function run () {
+async function run() {
   await makeParty();
   process.exit();
-} 
+}
 
 run();
