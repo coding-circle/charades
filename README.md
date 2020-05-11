@@ -22,6 +22,15 @@ MONGO_URI="mongodb+srv://<username>:<password>@cluster0-cusns.mongodb.net/<datab
 
 I put an example `.env` file in `.env.sample` feel free to `mv .env.sample .env` to get started.
 
+## To Test
+
+Testing is only on server for now. Tests use jest.
+
+```
+cd server
+npm test
+```
+
 ## Party Model
 
 The beginnings of the `Party` schema can be found in `/models/party.js`. We can read and write these objects from and to MongoDB.
