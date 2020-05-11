@@ -186,6 +186,32 @@ All RestAPI endpoints prefixed with: `/api/`
 
 ---
 
+### Rename Team
+
+**URL:** `/party/:slug/rename`
+
+**Method:** `PUT`
+
+**Data Params:**
+
+```
+{
+  teamIndex: number,
+  teamName: string,
+}
+```
+
+**Response:** Party Object
+
+**Notes:** Can only rename your own team
+
+**Server Actions:**
+
+- updates team object
+- emits 'update' to other clients via socket
+
+---
+
 ### Update Party Settings
 
 **URL:** `/party/:slug/settings`
