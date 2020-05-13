@@ -31,16 +31,6 @@ cd server
 npm test
 ```
 
-## Party Model
-
-The beginnings of the `Party` schema can be found in `/models/party.js`. We can read and write these objects from and to MongoDB.
-
-You can create party objects using the `models/makeParty.js` and `models/clearParties.js` scripts
-
-- Inside `/server` run `node models/makeParty.js`
-- Go to `/parties` in a web browser to see the game you just created
-- Inside `/server` run `node models/clearParties.js` to delete all created games
-
 ## Inspiration
 
 After attempting to play charades over zoom, we found the mechanisms to be difficult. Sharing prompts was a process involving texting individual users. Keeping track of whose turn it was and who should send those prompts was confusing.

@@ -1,49 +1,45 @@
 import express from "express";
 
-import { PartyModel } from "../models/party.js";
+import {
+  PartyModel,
+  makeParty,
+  getParty,
+  getAllParties,
+  clearParties,
+} from "../models/party.js";
 
 const router = express.Router();
 
-router.get("/parties", async (req, res) => {
-  const parties = await manager.getParties();
+// leaving these here for testing ease purposes
+// get rid of them someday
+router.get("/party", async (req, res) => {
+  const parties = await getAllParties();
   res.status(200).send(parties);
 });
+router.get("/clear-parties", async (req, res) => {
+  await clearParties();
+  res.status(200).send("parties cleared.");
+});
 
-router.post("/parties", async (req, res) => {
+router.post("/party", async (req, res) => {
   const { hostName = "player1", settings = {} } = req.body || {};
-  const party = await manager.createParty(hostName, settings);
-  console.log(party);
+  const party = await makeParty({ host: hostName, settings });
   res.status(200).send(party);
 });
 
-router.post("/parties/players", (req, res) => {
-  const { playerName = "newplayer", partyId = "0000" } = req.body || {};
-  manager.addPlayerToParty(playerName, partyId);
-  res.status(200).send(partyId);
+router.put("/party", async (req, res) => {
+  const { slug = null, playerName = null } = req.body || {};
+
+  if (slug == null || playerName == null) {
+    res.status(400).send("must pass a player name and a slug to join a party");
+    return;
+  }
+  // TODO this does not currently actually join the party
+  // add something like this when ready: await joinParty(slug, playerName);
+  const party = await getParty(slug);
+  res.status(200).send(party);
 });
 
-router.get("/parties/:id", (req, res) => {
-  // get one party
-});
-
-router.post("/parties/:id/clues", (req, res) => {
-  // a new clues to the party
-});
-
-router.post("/parties/:id/startGame", (req, res) => {
-  // create a new game for the party
-});
-
-router.post("/parties/:id/startRound", (req, res) => {
-  // start a new round for the party's active game
-});
-
-router.post("/parties/:id/endRound", (req, res) => {
-  // a clue was guessed correctly, end the round and update the score
-});
-
-router.post("/parties/:id/signalPlayer/:player", (req, res) => {
-  // signal that the guesser is pointing to a player
-});
+// TODO add more routes here see documentation/RestAPI.md
 
 export default router;
