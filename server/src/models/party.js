@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import _shuffle from "lodash/shuffle";
 
 // This is just the beginning of the schema laid out in the README
 const Party = new mongoose.Schema(
@@ -28,20 +29,7 @@ const Party = new mongoose.Schema(
         teams: [
           {
             teamName: { type: String, required: true },
-            teamPlayers: {
-              type: [String],
-              validate: {
-                // NOTE: We are not sure if this validator will work in the future
-                // if somebody leaves or joins the party
-                validator: function (teamPlayers) {
-                  return teamPlayers.every((teamPlayer) => {
-                    return this.players.includes(teamPlayer);
-                  });
-                },
-                message:
-                  "players inside teamPlayers must also be in the party's players",
-              },
-            },
+            teamPlayers: [String],
             playerIndex: { type: Number, default: 0 },
             score: { type: Number, default: 0 },
           },
@@ -84,11 +72,20 @@ const Party = new mongoose.Schema(
 
 export const PartyModel = mongoose.model("Party", Party);
 
+// helpers
 const computeTotalTurns = (party) => {
   let maxTeamSize = Math.ceil(party.players.length / party.settings.teamsCount);
   return maxTeamSize * party.settings.rotations * party.settings.teamsCount;
 };
 
+const isGameInProgress = (party) =>
+  party.games.length && !party.games[party.games.length - 1].endTime;
+
+const generateRandomTeamName = () => "team_" + Date.now();
+
+// TODO Create functions that create in progress games.
+
+// make party
 export const makeParty = ({ host, settings } = {}) => {
   const slug = `slug${Date.now()}`;
   const players = [host];
@@ -101,13 +98,49 @@ export const makeParty = ({ host, settings } = {}) => {
   return instance.save();
 };
 
-export const createGame = async (slug) => {
-  let party = await getParty(slug);
+// join party
+export const joinParty = async ({ slug, username }) => {
+  const party = await getParty(slug);
+  party.players.push(username);
+
+  if (isGameInProgress(party)) {
+    const { teams } = party.games[party.games.length - 1];
+
+    const teamToAddPlayerTo = teams
+      .map((team) => team.teamPlayers.length)
+      .findIndex((el, _, arr) => el === Math.min(...arr));
+
+    teams[teamToAddPlayerTo].teamPlayers.push(username);
+  }
+
+  return party.save();
+};
+
+// create game
+export const createGame = async ({ slug }) => {
+  const party = await getParty(slug);
+
+  const teams = [...new Array(party.settings.teamsCount)].map(() => {
+    return {
+      teamName: generateRandomTeamName(),
+      teamPlayers: [],
+    };
+  });
+
+  const shuffledPlayers = _shuffle(party.players);
+
+  const teamsWithPlayers = shuffledPlayers.reduce((teams, player, index) => {
+    teams[index % party.settings.teamsCount].teamPlayers.push(player);
+
+    return teams;
+  }, teams);
+
   party.games.push({
-    teams: [], // TODO: actually assign teams
+    teams: teamsWithPlayers,
     totalTurns: computeTotalTurns(party),
     turns: [],
   });
+
   return party.save();
 };
 
