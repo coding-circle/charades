@@ -79,10 +79,13 @@ const computeTotalTurns = (party) => {
 };
 
 const isGameInProgress = (party) =>
-  party.games.length && !party.games[games.length].endTime;
+  party.games.length && !party.games[party.games.length - 1].endTime;
 
 const generateRandomTeamName = () => "team_" + Date.now();
 
+// TODO Create functions that create in progress games.
+
+// make party
 export const makeParty = ({ host, settings } = {}) => {
   const slug = `slug${Date.now()}`;
   const players = [host];
@@ -95,30 +98,25 @@ export const makeParty = ({ host, settings } = {}) => {
   return instance.save();
 };
 
+// join party
 export const joinParty = async ({ slug, username }) => {
   const party = await getParty(slug);
   party.players.push(username);
 
   if (isGameInProgress(party)) {
-    const { teams } = party.games[games.length];
+    const { teams } = party.games[party.games.length - 1];
 
-    let largestTeamPlayersAmount = 0;
-    let teamToAddIntoIndex = 0;
+    const teamToAddPlayerTo = teams
+      .map((team) => team.teamPlayers.length)
+      .findIndex((el, _, arr) => el === Math.min(...arr));
 
-    for (let i = 0; i < teams.length; i++) {
-      const team = teams[i];
-      if (team.teamPlayers.length > largestTeamPlayersAmount) {
-        largestTeamPlayersAmount = team.teamPlayers.length;
-        teamToAddIntoIndex = i;
-      }
-    }
-
-    party.games[games.length].teams[teamToAddIntoIndex].push(username);
+    teams[teamToAddPlayerTo].teamPlayers.push(username);
   }
 
   return party.save();
 };
 
+// create game
 export const createGame = async ({ slug }) => {
   const party = await getParty(slug);
 

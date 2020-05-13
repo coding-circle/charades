@@ -1,9 +1,8 @@
 import express from "express";
 
 import {
-  PartyModel,
   makeParty,
-  getParty,
+  joinParty,
   getAllParties,
   clearParties,
 } from "../models/party.js";
@@ -21,22 +20,23 @@ router.get("/clear-parties", async (req, res) => {
   res.status(200).send("parties cleared.");
 });
 
+// create party
 router.post("/party", async (req, res) => {
   const { hostName = "player1", settings = {} } = req.body || {};
   const party = await makeParty({ host: hostName, settings });
   res.status(200).send(party);
 });
 
-router.put("/party", async (req, res) => {
-  const { slug = null, playerName = null } = req.body || {};
+// join party
+router.put("/party/:slug", async (req, res) => {
+  const { slug } = req.params;
+  const { username = null } = req.body || {};
 
-  if (slug == null || playerName == null) {
+  if (slug === null || username === null) {
     res.status(400).send("must pass a player name and a slug to join a party");
     return;
   }
-  // TODO this does not currently actually join the party
-  // add something like this when ready: await joinParty(slug, playerName);
-  const party = await getParty(slug);
+  const party = await joinParty({ slug, username });
   res.status(200).send(party);
 });
 
