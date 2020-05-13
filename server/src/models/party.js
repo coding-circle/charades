@@ -86,14 +86,12 @@ const generateRandomTeamName = () => "team_" + Date.now();
 export const makeParty = ({ host, settings } = {}) => {
   const slug = `slug${Date.now()}`;
   const players = [host];
-
   const instance = new PartyModel({
     host,
     settings,
     slug,
     players,
   });
-
   return instance.save();
 };
 
@@ -150,6 +148,10 @@ export const createGame = async ({ slug }) => {
 
 export const getParty = (slug) => {
   return PartyModel.findOne({ slug });
+};
+
+export const getAllParties = () => {
+  return PartyModel.find();
 };
 
 export const deleteParty = (slug) => {

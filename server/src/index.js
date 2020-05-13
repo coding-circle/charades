@@ -7,6 +7,7 @@ import SocketService from "./services/socket.js";
 import DbService from "./services/db.js";
 import AppManager from "./AppManager.js";
 import router from "./routes/api.js";
+import bodyParser from "body-parser";
 
 if (process.env.NODE_ENV !== "production") {
   dotenv.config();
@@ -25,6 +26,7 @@ const manager = new AppManager(socket, db);
 //  - add `{ body: {} }` to post that don't have a body
 //  - at some point we'll want some security middleware
 app.use(cors());
+app.use(bodyParser());
 
 // routes
 // TODO: create separate routes and controllers files
