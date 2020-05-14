@@ -1,7 +1,7 @@
 import express from "express";
 
 import {
-  makeParty,
+  createParty,
   joinParty,
   getAllParties,
   clearParties,
@@ -23,7 +23,7 @@ router.get("/clear-parties", async (req, res) => {
 // create party
 router.post("/party", async (req, res) => {
   const { hostName = "player1", settings = {} } = req.body || {};
-  const party = await makeParty({ host: hostName, settings });
+  const party = await createParty({ host: hostName, settings });
   res.status(200).send(party);
 });
 

@@ -105,11 +105,10 @@ All RestAPI endpoints prefixed with: `/api/`
 
 **Response:** Party Object
 
-**Notes:** Moves from lobby to prompt-writing phase.
+**Notes:**
 
 **Server Actions:**
 
-- Generates new game object with generated teams.
 - emits 'update' to other clients via socket
 
 ---

@@ -39,10 +39,12 @@ function App() {
   });
 
   const joinParty = useCallback(async () => {
-    const res = await axios.put("http://localhost:4001/api/party", {
-      playerName: "Andy",
-      slug: slugToJoin,
-    });
+    const res = await axios.put(
+      `http://localhost:4001/api/party/${slugToJoin}`,
+      {
+        username: "Andy",
+      }
+    );
 
     console.log(res);
     const { data = {} } = res;
@@ -58,7 +60,7 @@ function App() {
       {partyId ? (
         `${host ? "Created" : "Joined"} party ${partyId}`
       ) : (
-        <frag>
+        <div>
           <button onClick={createParty}>Create Party</button>
           <button onClick={joinParty}>Join Party</button>{" "}
           <input
@@ -67,7 +69,7 @@ function App() {
               setSlugToJoin(evt.target.value);
             }}
           />
-        </frag>
+        </div>
       )}
       <br />
     </div>

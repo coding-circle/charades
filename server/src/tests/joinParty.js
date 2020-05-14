@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 import {
-  makeParty,
+  createParty,
   joinParty,
   clearParties,
   createGame,
@@ -21,7 +21,7 @@ export const joinPartyTests = () => {
   });
 
   it("it should add a player to the players array", async () => {
-    const { slug } = await makeParty({
+    const { slug } = await createParty({
       host: "jacten",
     });
 
@@ -31,7 +31,7 @@ export const joinPartyTests = () => {
   });
 
   it("it should add a player to the team with fewest members when teams are uneven", async () => {
-    const { slug } = await makeParty({ host: "bobanya" });
+    const { slug } = await createParty({ host: "bobanya" });
 
     await joinParty({ username: "paul", slug });
     await joinParty({ username: "ringo", slug });

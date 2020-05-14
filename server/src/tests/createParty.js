@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 
 import {
-  makeParty,
+  createParty,
   deleteParty,
   getParty,
   clearParties,
   Party,
 } from "../models/party";
 
-export const makePartyTests = () => {
+export const createPartyTests = () => {
   beforeAll(async () => {
     const mongoUri = process.env.MONGO_URI;
     await mongoose.connect(mongoUri, {
@@ -22,7 +22,7 @@ export const makePartyTests = () => {
   });
 
   it("should create party when provided host", async () => {
-    const party = await makeParty({
+    const party = await createParty({
       host: "jacten",
     });
 
@@ -34,7 +34,7 @@ export const makePartyTests = () => {
   it("should throw error when host is not provided", async () => {
     expect.assertions(1);
     try {
-      await makeParty();
+      await createParty();
     } catch (error) {
       expect(error.message).toBe(
         "Party validation failed: host: Path `host` is required."
@@ -50,7 +50,7 @@ export const makePartyTests = () => {
       autoStart: true,
     };
 
-    const party = await makeParty({
+    const party = await createParty({
       host: "jacten",
       settings,
     });
@@ -59,7 +59,7 @@ export const makePartyTests = () => {
   });
 
   it("should persist party object in db", async () => {
-    const createdParty = await makeParty({
+    const createdParty = await createParty({
       host: "jacten",
     });
 
