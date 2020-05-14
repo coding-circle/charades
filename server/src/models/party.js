@@ -86,7 +86,7 @@ const generateRandomTeamName = () => "team_" + Date.now();
 // TODO Create functions that create in progress games.
 
 // make party
-export const makeParty = ({ host, settings } = {}) => {
+export const createParty = ({ host, settings } = {}) => {
   const slug = `slug${Date.now()}`;
   const players = [host];
   const instance = new PartyModel({
@@ -140,6 +140,15 @@ export const createGame = async ({ slug }) => {
     totalTurns: computeTotalTurns(party),
     turns: [],
   });
+
+  return party.save();
+};
+
+// add prompt
+export const addPrompt = async ({ slug, prompt, author }) => {
+  const party = await getParty(slug);
+
+  party.prompts.push({ author, prompt });
 
   return party.save();
 };

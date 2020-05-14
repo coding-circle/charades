@@ -1,4 +1,4 @@
-import { PartyModel, makeParty } from "./models/party.js";
+import { PartyModel, createParty } from "./models/party.js";
 
 export default class AppManager {
   constructor(socketService, dbService) {
@@ -6,7 +6,7 @@ export default class AppManager {
   }
 
   async createParty(hostName, settings) {
-    const party = await makeParty(settings);
+    const party = await createParty(settings);
     this.addPlayerToParty(hostName, party.slug);
     const socket = this.socketService.create(party.slug);
 
