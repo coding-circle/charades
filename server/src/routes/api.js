@@ -5,6 +5,7 @@ import {
   joinParty,
   getAllParties,
   clearParties,
+  addPrompt,
 } from "../models/party.js";
 
 const router = express.Router();
@@ -37,6 +38,20 @@ router.put("/party/:slug", async (req, res) => {
     return;
   }
   const party = await joinParty({ slug, username });
+  res.status(200).send(party);
+});
+
+// add prompt
+router.post("/party/:slug/prompt", async (req, res) => {
+  const { slug } = req.params;
+  const { author, prompt } = req.body;
+
+  const party = await addPrompt({
+    prompt,
+    author,
+    slug,
+  });
+
   res.status(200).send(party);
 });
 
