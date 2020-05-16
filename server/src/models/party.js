@@ -190,7 +190,7 @@ export const startGame = async ({ slug }) => {
   );
 
   // remove a random prompt from list
-  const [randomPrompt] = prompts.slice(1, randomPromptIndex);
+  const [randomPrompt] = prompts.splice(1, randomPromptIndex);
 
   const firstTurn = {
     teamIndex: 0,
@@ -254,7 +254,7 @@ export const endTurn = async ({ slug, success }) => {
   );
 
   // remove prompt from prompts list
-  const [randomPrompt] = party.prompts.slice(1, randomPromptIndex);
+  const [randomPrompt] = party.prompts.splice(1, randomPromptIndex);
 
   const nextTurn = {
     teamIndex: nextTeamIndex,
