@@ -195,7 +195,7 @@ This project aims to solve these problems and build a tool that can be used over
       ],
     },
   ],
-  prompts: [
+ prompts: [
     {
       author: "chedgo"
       prompt: "Tuna Salad",
