@@ -83,7 +83,9 @@ const isGameInProgress = (party) =>
 
 const generateRandomTeamName = () => "team_" + Date.now();
 
-// TODO Create functions that create in progress games.
+const createInProgressGame = () => {
+  const instance = new PartyModel();
+};
 
 // make party
 export const makeParty = ({ host, settings } = {}) => {
