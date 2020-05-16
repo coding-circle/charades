@@ -159,15 +159,7 @@ export const midGamePhase = {
     prompts: [
         {
             author: "bobanya",
-            prompt: "car jacking"
-        },
-        {
-            author: "bobanya",
             prompt: "lip light"
-        },
-        {
-            author: "genji",
-            prompt: "snail eating a cucumber"
         },
         {
             author: "genji",
@@ -175,23 +167,11 @@ export const midGamePhase = {
         },
         {
             author: "millie",
-            prompt: "i'm a lil bitch"
-        },
-        {
-            author: "millie",
             prompt: "plush baby legs"
         },
         {
             author: "jilly",
-            prompt: "aquaphor"
-        },
-        {
-            author: "jilly",
             prompt: "smoking is cool kids"
-        },
-        {
-            author: "rosa",
-            prompt: "five star wings"
         },
         {
             author: "rosa",
