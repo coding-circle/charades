@@ -93,7 +93,7 @@ export const midGamePhase = {
                         "heinrich",
                     ],
                     playerIndex: 0,
-                    score: 2,
+                    score: 3,
                 },
                 {
                   teamName: "Silver Tiger Claw",
@@ -102,8 +102,8 @@ export const midGamePhase = {
                       "genji",
                       "millie",
                   ],
-                  playerIndex: 0,
-                  score: 1
+                  playerIndex: 2,
+                  score: 1,
               },
             ],
             totalTurns: 12,
@@ -120,30 +120,39 @@ export const midGamePhase = {
                 {
                     startTime: 1588555102804,
                     endTime: 1588556102804,
-                    author: "jilly",
-                    prompt: "snail bitch",
-                    teamIndex: 0,
+                    teamIndex: 1,
                     player: "bobanya",
+                    author: "jilly",
+                    prompt: "aquaphor",
                     success: true,
                 },
                 {
                     startTime: 1588557102804,
                     endTime: 1588558102804,
-                    author: "genji",
-                    prompt: "snail bitch",
                     teamIndex: 0,
                     player: "rosa",
+                    author: "genji",
+                    prompt: "snail eating a cucumber",
                     success: true,
                 },
                 {
                     startTime: 1588558102804,
                     endTime: 1588559102804,
-                    author: "rosa",
-                    prompt: "five star wings"
-                    teamIndex: 0,
+                    teamIndex: 1,
                     player: "genji",
+                    author: "rosa",
+                    prompt: "five star wings",
                     success: false,
                 },
+                {
+                    startTime: 1588558102804,
+                    endTime: 1588559102804,
+                    teamIndex: 0,
+                    player: "heinrich",
+                    author: "millie",
+                    prompt: "i'm a lil bitch",
+                    success: true,
+                }
             ]
         }
     ],
@@ -158,7 +167,7 @@ export const midGamePhase = {
         },
         {
             author: "genji",
-            prompt: "snail bitch"
+            prompt: "snail eating a cucumber"
         },
         {
             author: "genji",
