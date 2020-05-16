@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 import {
-  makeParty,
+  createParty,
   joinParty,
   createGame,
   clearParties,
@@ -22,14 +22,14 @@ export const createGameTests = () => {
   });
 
   it("it should create a game when provided a slug", async () => {
-    const party = await makeParty({ host: "bobanya " });
+    const party = await createParty({ host: "bobanya " });
     const updatedParty = await createGame({ slug: party.slug });
 
     expect(updatedParty.games.length).toEqual(1);
   });
 
   it("it should compute the total turns based on number of players", async () => {
-    const { slug } = await makeParty({
+    const { slug } = await createParty({
       host: "bobanya",
       settings: {
         rotations: 5,
@@ -47,7 +47,7 @@ export const createGameTests = () => {
   });
 
   it("it should evenly distribute players across teams", async () => {
-    const { slug } = await makeParty({ host: "bobanya" });
+    const { slug } = await createParty({ host: "bobanya" });
 
     await joinParty({ username: "paul", slug });
     await joinParty({ username: "ringo", slug });

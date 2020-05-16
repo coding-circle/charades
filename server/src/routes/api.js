@@ -1,10 +1,11 @@
 import express from "express";
 
 import {
-  makeParty,
+  createParty,
   joinParty,
   getAllParties,
   clearParties,
+  addPrompt,
 } from "../models/party.js";
 
 const router = express.Router();
@@ -23,7 +24,7 @@ router.get("/clear-parties", async (req, res) => {
 // create party
 router.post("/party", async (req, res) => {
   const { hostName = "player1", settings = {} } = req.body || {};
-  const party = await makeParty({ host: hostName, settings });
+  const party = await createParty({ host: hostName, settings });
   res.status(200).send(party);
 });
 
@@ -37,6 +38,20 @@ router.put("/party/:slug", async (req, res) => {
     return;
   }
   const party = await joinParty({ slug, username });
+  res.status(200).send(party);
+});
+
+// add prompt
+router.post("/party/:slug/prompt", async (req, res) => {
+  const { slug } = req.params;
+  const { author, prompt } = req.body;
+
+  const party = await addPrompt({
+    prompt,
+    author,
+    slug,
+  });
+
   res.status(200).send(party);
 });
 

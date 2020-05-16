@@ -6,9 +6,11 @@ import io from "socket.io-client";
 const BASE_URL = "http://localhost:4001";
 
 function App() {
-  const [partyId, setPartyId] = useState(null);
-  const [host, setHost] = useState(null);
+  const [partySlug, setPartySlug] = useState(null);
   const [slugToJoin, setSlugToJoin] = useState(null);
+
+  const [host, setHost] = useState(null);
+  const [prompt, setPrompt] = useState("");
 
   useEffect(() => {
     const connect = async () => {
@@ -19,46 +21,68 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (partyId) {
-      const socket = io(`${BASE_URL}/${partyId}`);
+    if (partySlug) {
+      const socket = io(`${BASE_URL}/${partySlug}`);
       socket.on("connect", () => {
         console.log("** socket connected");
       });
       socket.on("update", console.log);
     }
-  }, [partyId]);
+  }, [partySlug]);
 
   const createParty = useCallback(async () => {
     const res = await axios.post("http://localhost:4001/api/party");
-    console.log(res);
 
     const { data = {} } = res;
     const { slug } = data;
     setHost(true);
-    setPartyId(slug);
+    setPartySlug(slug);
   });
 
   const joinParty = useCallback(async () => {
-    const res = await axios.put("http://localhost:4001/api/party", {
-      playerName: "Andy",
-      slug: slugToJoin,
-    });
+    const res = await axios.put(
+      `http://localhost:4001/api/party/${slugToJoin}`,
+      {
+        username: "Andy",
+      }
+    );
 
     console.log(res);
     const { data = {} } = res;
     const { slug } = data;
     setHost(false);
-    setPartyId(slug);
+    setPartySlug(slug);
   });
+
+  const addPrompt = async () => {
+    const res = await axios.post(
+      `http://localhost:4001/api/party/${partySlug}/prompt`,
+      {
+        author: "Andy",
+        prompt,
+      }
+    );
+
+    console.log("response after adding prompt: ", res);
+  };
 
   return (
     <div className="App">
       <h1 style={{ margin: "20px" }}>Charades</h1>
       <h4 style={{ margin: "20px" }}>This is a charades app!</h4>
-      {partyId ? (
-        `${host ? "Created" : "Joined"} party ${partyId}`
+      {partySlug ? (
+        <div>
+          `${host ? "Created" : "Joined"} party ${partySlug}`
+          <button onClick={addPrompt}>Add Prompt</button>
+          <input
+            type="text"
+            onChange={(evt) => {
+              setPrompt(evt.target.value);
+            }}
+          />
+        </div>
       ) : (
-        <frag>
+        <div>
           <button onClick={createParty}>Create Party</button>
           <button onClick={joinParty}>Join Party</button>{" "}
           <input
@@ -67,7 +91,7 @@ function App() {
               setSlugToJoin(evt.target.value);
             }}
           />
-        </frag>
+        </div>
       )}
       <br />
     </div>
