@@ -44,10 +44,49 @@ export const promptPhase = {
     teamsCount: 2,
     autoStart: false,
   },
-  games: [],
+  games: [
+    {
+      startTime: 1588553102804,
+      endTime: 1588553102804,
+      teams: [
+        {
+          teamName: "Team A",
+          players: ["jacten", "chedgo", "andy", "anya"],
+          playerIndex: 1,
+          score: 1,
+        },
+        {
+          teamName: "Team B",
+          players: ["james", "Big Daddy Ders", "bro-sauce"],
+          playerIndex: 1,
+          score: 0,
+        },
+      ],
+      totalTurns: 16,
+      turns: [
+        {
+          startTime: 1588553102804,
+          endTime: 1588553102804,
+          teamIndex: 0,
+          player: "jacten",
+          author: "Big Daddy Ders",
+          prompt: "Jackie Brown",
+          success: true,
+        },
+        {
+          startTime: 1588553103804,
+          endTime: 1588553104804,
+          teamIndex: 1,
+          player: "james",
+          author: "jacten",
+          prompt: "Pulp Fiction",
+          success: false,
+        },
+      ],
+    },
+  ],
   prompts: [
     { author: "jacten", prompt: "Taming of the Shrew" },
-    { author: "jacten", prompt: "Pulp Fiction" },
     { author: "chedgo", prompt: "Othello" },
     { author: "chedgo", prompt: "Star Wars" },
     { author: "andy", prompt: "Once Upon a Time in Hollywood" },
@@ -56,7 +95,6 @@ export const promptPhase = {
     { author: "anya", prompt: "Kill Bill" },
     { author: "james", prompt: "Inglorious Basterds" },
     { author: "james", prompt: "Do the Right Thing" },
-    { author: "Big Daddy Ders", prompt: "Jackie Brown" },
     { author: "Big Daddy Ders", prompt: "Resevoir Dogs" },
   ],
 };
