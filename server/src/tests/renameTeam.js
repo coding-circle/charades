@@ -21,7 +21,6 @@ export const renameTeamTests = () => {
 
   it("should rename team at any point during the game", async () => {
     const party = await createInProgressGame("midGame");
-
     const updatedParty = await renameTeam({
       slug: party.slug,
       teamIndex: 0,
@@ -45,3 +44,5 @@ export const renameTeamTests = () => {
     expect(updatedPartyTeamName).toEqual(party.games[0].teams[0].teamName);
   });
 };
+  
+
