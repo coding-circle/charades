@@ -24,14 +24,14 @@ export const updateSettingsTests = () => {
   it("it should not allow updating if game is in progress", async () => {
     const party = await createInProgressGame("midGame");
 
-    const { settings } = await updateSettings({
+    const { settings: newSettings } = await updateSettings({
       slug: party.slug,
       settings: {
         rotations: 1000,
       },
     });
 
-    expect(settings.rotations).toEqual(party.settings.rotations);
+    expect(newSettings.rotations).toEqual(party.settings.rotations);
   });
 
   it("it should update settings when not in a game", async () => {
