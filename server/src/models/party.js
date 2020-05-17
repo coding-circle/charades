@@ -287,8 +287,12 @@ export const endTurn = async ({ slug, success }) => {
 // rename team
 export const renameTeam = async ({ slug, teamIndex, teamName }) => {
   const party = await getParty(slug);
-  const currentGame = party.games[party.games.length - 1];
 
+  if (!isGameInProgress(party)) {
+    return party;
+  }
+
+  const currentGame = party.games[party.games.length - 1];
   currentGame.teams[teamIndex].teamName = teamName;
 
   return party.save();
