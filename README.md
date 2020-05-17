@@ -172,7 +172,7 @@ This project aims to solve these problems and build a tool that can be used over
           score: 0,
         },
       ],
-      totalTurns: 8,
+      totalTurns: 16,
       turns: [
         {
           startTime: 1588553102804,

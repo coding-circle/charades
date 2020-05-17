@@ -1,5 +1,12 @@
 import mongoose from "mongoose";
 import _shuffle from "lodash/shuffle";
+import {
+  lobbyPhase,
+  promptPhase,
+  midGamePhase,
+  endGamePhase,
+  postGamePhase,
+} from "../tests/testData";
 
 // This is just the beginning of the schema laid out in the README
 const Party = new mongoose.Schema(
@@ -83,8 +90,18 @@ const isGameInProgress = (party) =>
 
 const generateRandomTeamName = () => "team_" + Date.now();
 
-const createInProgressGame = () => {
-  const instance = new PartyModel();
+export const createInProgressGame = (gamePhase) => {
+  const phaseMapper = {
+    lobby: lobbyPhase,
+    prompt: promptPhase,
+    midGame: midGamePhase,
+    endGame: endGamePhase,
+    postGame: postGamePhase,
+  };
+
+  const instance = new PartyModel(phaseMapper[gamePhase]);
+
+  return instance.save();
 };
 
 const getRandomPromptIndex = (currentTeamPlayers, prompts) => {
@@ -111,7 +128,7 @@ export const getParty = (slug) => {
   return PartyModel.findOne({ slug });
 };
 
-// make party
+// create party
 export const createParty = ({ host, settings } = {}) => {
   const slug = `slug${Date.now()}`;
   const players = [host];
@@ -280,6 +297,11 @@ export const renameTeam = async ({ slug, teamIndex, teamName }) => {
 // update settings
 export const updateSettings = async ({ slug, settings }) => {
   const party = await getParty(slug);
+
+  if (isGameInProgress(party)) {
+    // note this will cause updateSttings to fail silently.
+    return party;
+  }
 
   party.settings = {
     ...party.settings,
