@@ -111,7 +111,7 @@ export const getParty = (slug) => {
   return PartyModel.findOne({ slug });
 };
 
-// make party
+// create party
 export const createParty = ({ host, settings } = {}) => {
   const slug = `slug${Date.now()}`;
   const players = [host];
