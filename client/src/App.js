@@ -70,7 +70,7 @@ function App() {
   return (
     <div id="app">
       <header className="app__header">
-        <h1 className="text__h1 app__title">Charades</h1>
+        <h1 className="text__heading app__title">Charades</h1>
       </header>
       {partySlug ? (
         <main className="app__main app__main--home">
