@@ -9,9 +9,11 @@ import { joinPartyTests } from "./joinParty";
 import { createGameTests } from "./createGame";
 import { addPromptTests } from "./addPrompt";
 import { updateSettingsTests } from "./updateSettings";
+import { renameTeamTests } from "./renameTeam";
 
 describe("Create Party", createPartyTests);
 describe("Join Party", joinPartyTests);
 describe("Create Game", createGameTests);
 describe("Add Prompt Tests", addPromptTests);
 describe("Update Settings Tests", updateSettingsTests);
+describe("Rename Team Name", renameTeamTests);

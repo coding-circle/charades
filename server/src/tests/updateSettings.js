@@ -24,6 +24,19 @@ export const updateSettingsTests = () => {
   it("it should not allow updating if game is in progress", async () => {
     const party = await createInProgressGame("midGame");
 
+    const { settings: newSettings } = await updateSettings({
+      slug: party.slug,
+      settings: {
+        rotations: 1000,
+      },
+    });
+
+    expect(newSettings.rotations).toEqual(party.settings.rotations);
+  });
+
+  it("it should update settings when not in a game", async () => {
+    const party = await createInProgressGame("lobby");
+
     const { settings } = await updateSettings({
       slug: party.slug,
       settings: {
@@ -31,8 +44,19 @@ export const updateSettingsTests = () => {
       },
     });
 
-    expect(settings.rotations).toEqual(party.settings.rotations);
+    expect(settings.rotations).toEqual(1000);
   });
+  
+  it("it should update settings in post game lobby", async () => {
+    const party = await createInProgressGame("postGame");
 
-  it("it should update settings when not in a game", async () => {});
+    const { settings } = await updateSettings({
+      slug: party.slug,
+      settings: {
+        rotations: 1000,
+      },
+    });
+
+    expect(settings.rotations).toEqual(1000);
+  });
 };
