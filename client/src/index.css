@@ -101,11 +101,6 @@ ul, ol, li {
 
 /* /APP */
 /* FORM ELEMENTS */
-.button,
-.text-input {
-  max-width: 24rem;
-}
-
 button,
 input {
   border-width: 2px;
@@ -156,6 +151,11 @@ input {
 
 /* /TYPOGRAPHY */
 /* COMPONENTS */
+.button,
+.text-input {
+  max-width: 24rem;
+}
+
 .button-primary {
   width: 100%;
   height: 48px;
