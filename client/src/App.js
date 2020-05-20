@@ -95,12 +95,13 @@ function App() {
           <TextInput
             name="player-name"
             label="Player Name"
+            style={{marginTop: "20px"}}
           ></TextInput>
           <Button
             onClick={joinParty}
             type="primary"
             disabled={false}
-            style={{marginTop: "32px"}}
+            style={{marginTop: "24px"}}
           >Join Game</Button>
         </main>
       )}
