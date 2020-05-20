@@ -103,6 +103,7 @@ ul, ol, li {
 /* FORM ELEMENTS */
 button,
 input {
+  max-width: 24rem;
   border-width: 2px;
   border-style: solid;
   border-radius: 4px;
@@ -117,6 +118,7 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 32px;
   font-weight: var(--font-weight__medium) 
 }
 
