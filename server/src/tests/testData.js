@@ -119,14 +119,14 @@ export const midGamePhase = {
       teams: [
         {
           teamName: "Booty Shakers",
-          players: ["jilly", "rosa", "heinrich"],
-          playerIndex: 0,
-          score: 3,
+          teamPlayers: ["jilly", "rosa", "heinrich"],
+          playerIndex: 2,
+          score: 2,
         },
         {
           teamName: "Silver Tiger Claw",
-          players: ["bobanya", "genji", "millie"],
-          playerIndex: 2,
+          teamPlayers: ["bobanya", "genji", "millie"],
+          playerIndex: 1,
           score: 1,
         },
       ],
@@ -170,12 +170,11 @@ export const midGamePhase = {
         },
         {
           startTime: 1588558102804,
-          endTime: 1588559102804,
+          endTime: null,
           teamIndex: 0,
           player: "heinrich",
           author: "millie",
           prompt: "i'm a lil bitch",
-          success: true,
         },
       ],
     },
@@ -202,8 +201,8 @@ export const midGamePhase = {
       prompt: "smoothie hoochie",
     },
     {
-      author: "heinrich",
-      prompt: "gloop gloop gloop",
+        author: "heinrich",
+        prompt: "gloop gloop gloop",
     },
     {
       author: "heinrich",

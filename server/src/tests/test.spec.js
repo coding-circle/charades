@@ -10,10 +10,12 @@ import { createGameTests } from "./createGame";
 import { addPromptTests } from "./addPrompt";
 import { updateSettingsTests } from "./updateSettings";
 import { renameTeamTests } from "./renameTeam";
+import { endTurnTests } from "./endTurn";
 
-describe("Create Party", createPartyTests);
-describe("Join Party", joinPartyTests);
-describe("Create Game", createGameTests);
-describe("Add Prompt Tests", addPromptTests);
-describe("Update Settings Tests", updateSettingsTests);
-describe("Rename Team Name", renameTeamTests);
+// describe("Create Party", createPartyTests);
+// describe("Join Party", joinPartyTests);
+// describe("Create Game", createGameTests);
+// describe("Add Prompt Tests", addPromptTests);
+// describe("Update Settings Tests", updateSettingsTests);
+// describe("Rename Team Name", renameTeamTests);
+describe("End Turn", endTurnTests);
