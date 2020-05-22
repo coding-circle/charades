@@ -17,7 +17,6 @@ export const lobbyPhase = {
     rotations: 2,
     turnDurationSeconds: 90,
     teamsCount: 2,
-    autoStart: false,
   },
   games: [],
   prompts: [],
@@ -42,7 +41,6 @@ export const promptPhase = {
     rotations: 2,
     turnDurationSeconds: 90,
     teamsCount: 2,
-    autoStart: false,
   },
   games: [
     {
@@ -110,7 +108,6 @@ export const midGamePhase = {
     rotations: 2,
     turnDurationSeconds: 90,
     teamsCount: 2,
-    autoStart: false,
   },
   games: [
     {
@@ -201,8 +198,8 @@ export const midGamePhase = {
       prompt: "smoothie hoochie",
     },
     {
-        author: "heinrich",
-        prompt: "gloop gloop gloop",
+      author: "heinrich",
+      prompt: "gloop gloop gloop",
     },
     {
       author: "heinrich",
@@ -230,7 +227,6 @@ export const endGamePhase = {
     rotations: 2,
     turnDurationSeconds: 90,
     teamsCount: 2,
-    autoStart: true,
   },
   games: [
     {
@@ -399,7 +395,6 @@ export const postGamePhase = {
     rotations: 2,
     turnDurationSeconds: 90,
     teamsCount: 2,
-    autoStart: true,
   },
   games: [
     {
@@ -550,7 +545,5 @@ export const postGamePhase = {
       ],
     },
   ],
-  prompts: [
-    
-  ],
+  prompts: [],
 };
