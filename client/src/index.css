@@ -22,7 +22,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
-  font-weight: 500;
+  font-weight: 600;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -101,44 +101,32 @@ ul, ol, li {
 
 /* /APP */
 /* FORM ELEMENTS */
-.button {
+button,
+input {
+  max-width: 24rem;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 4px;
+}
+
+button:focus,
+input:focus {
+  border-color: var(--color__primary);
+}
+
+button {
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 32px;
   font-weight: var(--font-weight__medium) 
 }
 
-.button-primary {
-  width: 100%;
+input {
   height: 48px;
-  color: var(--color__foreground);
-  background: var(--color__primary);
-  border: 2px solid var(--color__primary);
-  border-radius: 4px;
-}
-
-.button-primary.button-disabled {
-  background: transparent;
-  border-color: var(--color__default);
-}
-
-.button-secondary {
-  height: 40px;
+  width: 100%;
   padding: 0 12px;
-  background: var(--color__background);
-  border: 2px solid var(--color__foreground);
-  border-radius: 4px;
-  color: var(--color__foreground);
-  font-size: var(--font-size__default);
-}
-
-.button-secondary--min-width {
-  min-width: 198px;
-}
-
-.button-secondary__icon {
-  margin-right: 10px;
-  transform: translateY(-1px);
+  text-align: center;
 }
 
 /* /FORM ELEMENTS */
@@ -165,17 +153,61 @@ ul, ol, li {
 
 /* /TYPOGRAPHY */
 /* COMPONENTS */
+.button,
 .text-input {
-  
+  max-width: 24rem;
+}
+
+.button-primary {
+  width: 100%;
+  height: 48px;
+  color: var(--color__foreground);
+  background: var(--color__primary);
+  border-color: var(--color__primary);
+}
+
+.button-primary.button-disabled {
+  background: transparent;
+  border-color: var(--color__default);
+}
+
+.button-secondary {
+  height: 40px;
+  padding: 0 12px;
+  background: var(--color__background);
+  border-color: var(--color__foreground);
+  color: var(--color__foreground);
+  font-size: var(--font-size__default);
+}
+
+.button-secondary--min-width {
+  min-width: 198px;
+}
+
+.button-secondary__icon {
+  margin-right: 10px;
+  transform: translateY(-1px);
+}
+
+.text-input {
+  display: grid;
+  grid-template-columns: min-content auto;
+  align-items: center;
+  width: 100%;
 }
 
 .text-input__label {
-  
+  margin-right: 12px;
+  min-width: 120px;
+}
+
+.text-input__label--with-sublabel {
+  min-width: 150px;
 }
 
 .text-input__sub-label {
-  
+  display: inline-block;
+  color: var(--color__default);
 }
-
 
 /* /COMPONENTS */
