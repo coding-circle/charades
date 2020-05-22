@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
 
-import { devMethods } from "../db/methods";
+import { gameMethods, helpers, devMethods } from "../db/methods";
 
+const { endTurn } = gameMethods;
+const { createInProgressGame } = helpers;
 const { clearParties } = devMethods;
 
 export const endTurnTests = () => {
@@ -27,7 +29,6 @@ export const endTurnTests = () => {
     
     const currentTurn = nextTurnParty.games[0].turns.length-2;
     expect(nextTurnParty.games[0].turns[currentTurn].success).toBeTruthy();
-   
   });
 
   it("should add endTime and creates new turn", async () => {
@@ -44,8 +45,6 @@ export const endTurnTests = () => {
     const currentTurn = nextTurnParty.games[0].turns.length-2;
   
     expect(nextTurnParty.games[0].turns[currentTurn].endTime);
-
-    // console.log(nextTurnParty.games[0].turns[currentTurn].endTime);
   });
 
   it("should choose the next player from the next team", async () => {
@@ -59,8 +58,6 @@ export const endTurnTests = () => {
 
     const newCurrentTurn = nextTurnParty.games[0].turns.length-1;
     expect(nextTurnParty.games[0].turns[newCurrentTurn].player);
-    console.log(nextTurnParty.games[0].turns[newCurrentTurn]);
-
 });
 
 // it("should provide the player with a prompt authored by a player from a different team", async () => {
