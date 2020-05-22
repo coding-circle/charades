@@ -19,7 +19,7 @@ const server = http.createServer(app);
 
 const db = new DbService(process.env.MONGO_URI);
 const socket = new SocketService(server);
-const manager = new AppManager(socket, db);
+// const manager = new AppManager(socket, db);
 
 // middleware
 // TODO: break out into separate file, add more middleware:
