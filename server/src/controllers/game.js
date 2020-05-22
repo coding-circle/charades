@@ -14,4 +14,30 @@ const addPrompt = async (req, res) => {
   res.status(200).send(party);
 };
 
-export default { addPrompt };
+// create game
+const createGame = async (req, res) => {};
+
+// start game
+const startGame = async (req, res) => {};
+
+// start turn
+const startTurn = async (req, res) => {};
+
+// end turn
+const endTurn = async (req, res) => {};
+
+// skip turn
+const skipTurn = async (req, res) => {};
+
+// rename team
+const renameTeam = async (req, res) => {};
+
+export default {
+  addPrompt,
+  createGame,
+  startGame,
+  startTurn,
+  endTurn,
+  skipTurn,
+  renameTeam,
+};
