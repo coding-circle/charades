@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 
-import { createParty, clearParties, addPrompt } from "../models/party";
+import { devMethods } from "../db/methods";
+
+const { clearParties } = devMethods;
 
 export const endTurnTests = () => {
   beforeAll(async () => {

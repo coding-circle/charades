@@ -1,12 +1,10 @@
 import mongoose from "mongoose";
 
-import {
-  createParty,
-  joinParty,
-  createGame,
-  clearParties,
-  getParty,
-} from "../models/party";
+import { partyMethods, gameMethods, devMethods } from "../db/methods";
+
+const { joinParty, createParty } = partyMethods;
+const { clearParties } = devMethods;
+const { createGame } = gameMethods;
 
 export const createGameTests = () => {
   beforeAll(async () => {
