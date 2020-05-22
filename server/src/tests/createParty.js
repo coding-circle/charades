@@ -44,7 +44,6 @@ export const createPartyTests = () => {
       rotations: 3,
       teamsCount: 4,
       turnDurationSeconds: 300,
-      autoStart: true,
     };
 
     const party = await createParty({
