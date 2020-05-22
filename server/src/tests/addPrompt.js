@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
-import { createParty, clearParties, addPrompt } from "../models/party";
+import { partyMethods, gameMethods, devMethods } from "../db/methods";
+
+const { clearParties } = devMethods;
+const { createParty } = partyMethods;
+const { addPrompt } = gameMethods;
 
 export const addPromptTests = () => {
   beforeAll(async () => {
