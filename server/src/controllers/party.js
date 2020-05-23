@@ -29,6 +29,8 @@ const joinParty = async (req, res) => {
     username,
   });
 
+  // TODO: Check for unique username
+
   req.socket.broadcastParty(slug, party);
 
   res.status(200);
