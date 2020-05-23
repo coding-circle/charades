@@ -24,7 +24,7 @@ app.use(cors());
 app.use(bodyParser());
 
 app.use((req, res, next) => {
-  req.body === req.body || {};
+  req.body = req.body || {};
   next();
 });
 
