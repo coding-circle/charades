@@ -5,7 +5,6 @@ import cors from "cors";
 
 import SocketService from "./services/socket.js";
 import DbService from "./services/db.js";
-import AppManager from "./AppManager.js";
 import router from "./routes/api.js";
 import bodyParser from "body-parser";
 
@@ -19,19 +18,22 @@ const server = http.createServer(app);
 
 const db = new DbService(process.env.MONGO_URI);
 const socket = new SocketService(server);
-// const manager = new AppManager(socket, db);
 
 // middleware
-// TODO: break out into separate file, add more middleware:
-//  - add `{ body: {} }` to post that don't have a body
-//  - at some point we'll want some security middleware
 app.use(cors());
 app.use(bodyParser());
 
-// routes
-// TODO: create separate routes and controllers files
-app.get("/", (req, res) => res.send("everyone is good enough"));
+app.use((req, res, next) => {
+  req.body = req.body || {};
+  next();
+});
 
+app.use((req, res, next) => {
+  req.socket = socket;
+  next();
+});
+
+// routes
 app.use("/api/", router);
 
 // listen
