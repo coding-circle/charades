@@ -10,16 +10,35 @@ const getParty = (slug) => {
 };
 
 // create party
-const createParty = ({ host, settings } = {}) => {
-  const slug = `slug${Date.now()}`;
-  const players = [host];
-  const instance = new PartyModel({
-    host,
-    settings,
-    slug,
-    players,
-  });
-  return instance.save();
+const createParty = async ({ host, settings } = {}) => {
+  const tryCreate = () => {
+    const slug = helpers.generateSlug();
+    const players = [host];
+    const instance = new PartyModel({
+      host,
+      settings,
+      slug,
+      players,
+    });
+    return instance.save();
+  };
+
+  // It's possible that creating a party wont work because
+  // we generate a slug that's already in the db. Check for
+  // this error and in that case try to create the party again
+  while (true) {
+    try {
+      return await tryCreate();
+    } catch (e) {
+      // This specific error code is for breaking the unique constraint.
+      // If we catch this error, try again.
+      if (e.code == 11000 && e.name == "MongoError") {
+        console.log("Created a duplicate slug. Trying again...");
+      } else {
+        throw e;
+      }
+    }
+  }
 };
 
 // join party
