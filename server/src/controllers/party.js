@@ -2,9 +2,7 @@ import { partyMethods } from "../db/methods";
 
 // create party
 const createParty = async (req, res) => {
-  // const { host, settings } = req.body;
-  const host = "Andy";
-  const settings = {};
+  const { host, settings } = req.body;
 
   const party = await partyMethods.createParty({
     host,
