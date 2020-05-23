@@ -64,7 +64,9 @@ All RestAPI endpoints prefixed with: `/api/`
 
 **Response:** Party Object
 
-**Notes:** This is called by every client as a response to socket update listener.
+**Notes:** ~~This is called by every client as a response to socket update listener.~~ We decided to just send the party with the socket emit.
+
+Possibly deprecated. But perhaps this will be called on refresh?
 
 ---
 
