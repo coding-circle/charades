@@ -6,27 +6,44 @@ export default class SocketService {
     this.sockets = {};
   }
 
-  create(socketId) {
-    if (!this.sockets[socketId]) {
-      const socket = this.io.of(`/${socketId}`);
-      this.sockets[socketId] = socket;
+  create(partySlug) {
+    if (!this.sockets[partySlug]) {
+      const socket = this.io.of(`/${partySlug}`);
+      this.sockets[partySlug] = socket;
+
+      this.listeners(partySlug);
+
       return socket;
     }
-    console.warn(`attempted to create socket ${socketId} but it already exists`);
+    console.warn(
+      `attempted to create socket ${partySlug} but it already exists`
+    );
   }
 
-  getSocket(socketId) {
-    if (this.sockets[socketId]) {
-      return this.sockets[socketId];
+  getSocket(partySlug) {
+    if (this.sockets[partySlug]) {
+      return this.sockets[partySlug];
     }
-    console.warn(`unable to get socket ${socketId}`);
+
+    console.warn(`unable to get socket ${partySlug}`);
   }
 
   destroySocket() {
-    if (this.sockets[socketId]) {
-      delete this.sockets[socketId];
+    if (this.sockets[partySlug]) {
+      delete this.sockets[partySlug];
       return true;
     }
-    console.warn(`attempted to destroy socket ${socketId} but it did not exists`);
+
+    console.warn(
+      `attempted to destroy socket ${partySlug} but it did not exists`
+    );
+  }
+
+  listeners(partySlug) {
+    this.sockets[partySlug].on("connection", (socket) => {});
+  }
+
+  broadcastParty(partySlug, party) {
+    this.sockets[partySlug].emit({ party });
   }
 }
