@@ -25,6 +25,9 @@ const createParty = ({ host, settings } = {}) => {
 // join party
 const joinParty = async ({ slug, username }) => {
   const party = await getParty(slug);
+
+  if (!party) return { error: "Party does not exist" };
+
   party.players.push(username);
 
   if (helpers.isGameInProgress(party)) {
