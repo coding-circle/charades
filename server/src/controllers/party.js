@@ -11,15 +11,13 @@ const createParty = async (req, res) => {
 
   req.socket.create(party.slug);
 
-  await res.status(200);
+  res.status(200).send(party.slug);
 };
 
 // join party
 const joinParty = async (req, res) => {
   const { slug } = req.params;
   const { username } = req.body;
-
-  console.log(slug, username);
 
   if (!slug || !username) {
     return res.status(400).send("Missing Info");
@@ -34,16 +32,16 @@ const joinParty = async (req, res) => {
     return res.status(500).send(party.error);
   }
 
-  req.socket.broadcastParty(slug, party);
+  // req.socket.broadcastParty(slug, party);
 
-  res.status(200);
+  res.status(200).send("joined party");
 };
 
 // get party
 const getParty = async (req, res) => {
   const { slug } = req.params;
 
-  const party = await partyMethods.getParty({ slug });
+  const party = await partyMethods.getParty(slug);
 
   res.status(200).send(party);
 };

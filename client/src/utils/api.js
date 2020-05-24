@@ -2,14 +2,28 @@ import axios from "axios";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
+// get party
+const getParty = async ({ slug }) => {
+  try {
+    const res = await axios.get(`${API_URL}party/${slug}`);
+
+    console.log(res);
+
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 // create party
-const createParty = async ({ host }) => {
+const createParty = async ({ host, settings }) => {
   try {
     const res = await axios.post(`${API_URL}party`, {
       host,
+      settings,
     });
 
-    return res.data;
+    return res;
   } catch (error) {
     console.error(error);
   }
@@ -41,6 +55,7 @@ const addPrompt = async ({ slug, author, prompt }) => {
 };
 
 export default {
+  getParty,
   createParty,
   joinParty,
   addPrompt,
