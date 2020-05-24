@@ -5,7 +5,7 @@ import PartyModel from "../model";
 import helpers from "./helpers";
 
 // get party
-const getParty = (slug) => {
+const getParty = ({ slug }) => {
   return PartyModel.findOne({ slug });
 };
 
@@ -43,7 +43,7 @@ const createParty = async ({ host, settings } = {}) => {
 
 // join party
 const joinParty = async ({ slug, username }) => {
-  const party = await getParty(slug);
+  const party = await getParty({ slug });
 
   if (!party) return { error: "Party does not exist" };
 
@@ -64,7 +64,7 @@ const joinParty = async ({ slug, username }) => {
 
 // update settings
 const updateSettings = async ({ slug, settings }) => {
-  const party = await getParty(slug);
+  const party = await getParty({ slug });
 
   if (helpers.isGameInProgress(party)) {
     // note this will cause updateSttings to fail silently.
@@ -81,7 +81,7 @@ const updateSettings = async ({ slug, settings }) => {
 
 // leave party
 const leaveParty = async ({ slug, username }) => {
-  const party = await getParty(slug);
+  const party = await getParty({ slug });
 
   party.players = party.players.filter((player) => player !== username);
 

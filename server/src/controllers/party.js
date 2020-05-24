@@ -9,7 +9,7 @@ const createParty = async (req, res) => {
     settings,
   });
 
-  req.socket.create(party.slug);
+  req.socket.create(party.slug, party);
 
   res.status(200).send(party.slug);
 };
@@ -32,7 +32,7 @@ const joinParty = async (req, res) => {
     return res.status(500).send(party.error);
   }
 
-  // req.socket.broadcastParty(slug, party);
+  req.socket.broadcastParty(slug, party);
 
   res.status(200).send("joined party");
 };
@@ -41,7 +41,7 @@ const joinParty = async (req, res) => {
 const getParty = async (req, res) => {
   const { slug } = req.params;
 
-  const party = await partyMethods.getParty(slug);
+  const party = await partyMethods.getParty({ slug });
 
   res.status(200).send(party);
 };

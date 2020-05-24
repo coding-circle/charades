@@ -2,18 +2,20 @@ import React, { useState, useEffect } from "react";
 import { useLocalStorage } from "@rehooks/local-storage";
 
 import Home from "./views/Home/Home";
-import Game from "./views/Game";
+import Party from "./views/Party";
+import LoadingIndicator from "./components/LoadingIndicator";
 import api from "./utils/api";
 
 function App() {
-  const [currentView, setCurrentView] = useState("home");
+  const [currentView, setCurrentView] = useState("loading");
+  const [party, setParty] = useState({});
   const [localStorage, setLocalStorage] = useLocalStorage("charades", {
     username: "",
     slug: "",
   });
 
   const setCurrentViewToHome = () => setCurrentView("home");
-  const setCurrentViewToGame = () => setCurrentView("game");
+  const setCurrentViewToParty = () => setCurrentView("party");
 
   useEffect(() => {
     const loadSlug = async () => {
@@ -26,11 +28,15 @@ function App() {
             slug: "",
           });
         } else {
-          const party = await api.getParty({ slug: localStorage.slug });
+          const remoteParty = await api.getParty({ slug: localStorage.slug });
 
-          if (party && party.players.includes(localStorage.username)) {
+          if (
+            remoteParty &&
+            remoteParty.players.includes(localStorage.username)
+          ) {
             window.location.pathname = localStorage.slug;
-            setCurrentView("game");
+            setParty(remoteParty);
+            setCurrentView("party");
             return;
           }
 
@@ -41,10 +47,14 @@ function App() {
         }
       } else {
         if (UrlSlug === localStorage.slug) {
-          const party = await api.getParty({ slug: localStorage.slug });
+          const remoteParty = await api.getParty({ slug: localStorage.slug });
 
-          if (party && party.players.includes(localStorage.username)) {
-            setCurrentView("game");
+          if (
+            remoteParty &&
+            remoteParty.players.includes(localStorage.username)
+          ) {
+            setParty(remoteParty);
+            setCurrentView("party");
             return;
           }
         } else {
@@ -56,7 +66,9 @@ function App() {
       }
       setCurrentView("home");
     };
-    loadSlug();
+
+    setTimeout(loadSlug, 1500);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const views = {
@@ -64,13 +76,21 @@ function App() {
       <Home
         slug={localStorage.slug}
         username={localStorage.username}
-        setCurrentViewToGame={setCurrentViewToGame}
+        setCurrentViewToParty={setCurrentViewToParty}
       />
     ),
-    game: <Game slug={localStorage.slug} username={localStorage.username} />,
+    party: (
+      <Party
+        slug={localStorage.slug}
+        username={localStorage.username}
+        party={party}
+        setCurrentViewToHome={setCurrentViewToHome}
+      />
+    ),
+    loading: <LoadingIndicator />,
   };
 
-  return views[currentView];
+  return <div id="app">{views[currentView]}</div>;
 }
 
 export default App;

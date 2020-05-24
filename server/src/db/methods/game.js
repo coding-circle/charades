@@ -6,7 +6,7 @@ import helpers from "./helpers";
 
 // create game
 const createGame = async ({ slug }) => {
-  const party = await partyMethods.getParty(slug);
+  const party = await partyMethods.getParty({ slug });
 
   const teams = [...new Array(party.settings.teamsCount)].map(() => {
     return {
@@ -34,7 +34,7 @@ const createGame = async ({ slug }) => {
 
 // add prompt
 const addPrompt = async ({ slug, prompt, author }) => {
-  const party = await partyMethods.getParty(slug);
+  const party = await partyMethods.getParty({ slug });
 
   party.prompts.push({ author, prompt });
 
@@ -43,7 +43,7 @@ const addPrompt = async ({ slug, prompt, author }) => {
 
 // start game
 const startGame = async ({ slug }) => {
-  const party = await partyMethods.getParty(slug);
+  const party = await partyMethods.getParty({ slug });
   const currentGame = party.games[party.games.length - 1];
 
   const randomPromptIndex = getRandomPromptIndex(
@@ -68,7 +68,7 @@ const startGame = async ({ slug }) => {
 
 // start turn
 const startTurn = async ({ slug }) => {
-  const party = await partyMethods.getParty(slug);
+  const party = await partyMethods.getParty({ slug });
   const currentGame = party.games[party.games.length - 1];
 
   currentGame.turns[currentGame.turns.length - 1].startTime = Date.now() + 5000;
@@ -78,7 +78,7 @@ const startTurn = async ({ slug }) => {
 
 // end turn
 export const endTurn = async ({ slug, success }) => {
-  const party = await partyMethods.getParty(slug);
+  const party = await partyMethods.getParty({ slug });
 
   const currentGame = party.games[party.games.length - 1];
 
@@ -133,7 +133,7 @@ export const endTurn = async ({ slug, success }) => {
 
 // rename team
 const renameTeam = async ({ slug, teamIndex, teamName }) => {
-  const party = await partyMethods.getParty(slug);
+  const party = await partyMethods.getParty({ slug });
 
   if (!helpers.isGameInProgress(party)) {
     return party;

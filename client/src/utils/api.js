@@ -52,6 +52,8 @@ const addPrompt = async ({ slug, author, prompt }) => {
     author,
     prompt,
   });
+
+  return res;
 };
 
 export default {
