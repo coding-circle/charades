@@ -7,8 +7,6 @@ const getParty = async ({ slug }) => {
   try {
     const res = await axios.get(`${API_URL}party/${slug}`);
 
-    console.log(res);
-
     return res.data;
   } catch (error) {
     console.error(error);

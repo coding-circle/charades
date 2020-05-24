@@ -23,8 +23,6 @@ function CreateGame({ username, setUsername, hideCreateGameView }) {
       },
     });
 
-    console.log(data);
-
     if (data) {
       setLocalStorage({
         slug: data,

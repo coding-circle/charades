@@ -2,7 +2,6 @@ import React from "react";
 import { Button } from "../../components";
 
 function WaitingRoom({ party }) {
-  console.log(party);
   return (
     <>
       <header className="app__header app__header--with-rule">
@@ -11,7 +10,7 @@ function WaitingRoom({ party }) {
       <main className="app__main app__main--home">
         <ul>
           {party.players.map((player) => (
-            <li>
+            <li key={player}>
               <p className="text__all-caps text__bold">{player}</p>
             </li>
           ))}
