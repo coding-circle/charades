@@ -19,9 +19,10 @@ const joinParty = async (req, res) => {
   const { slug } = req.params;
   const { username } = req.body;
 
-  if (!!slug || !!username) {
-    res.status(400).send("must pass a player name and a slug to join a party");
-    return;
+  console.log(slug, username);
+
+  if (!slug || !username) {
+    return res.status(400).send("Missing Info");
   }
 
   const party = await partyMethods.joinParty({
@@ -29,7 +30,9 @@ const joinParty = async (req, res) => {
     username,
   });
 
-  // TODO: Check for unique username
+  if (party.error) {
+    return res.status(500).send(party.error);
+  }
 
   req.socket.broadcastParty(slug, party);
 

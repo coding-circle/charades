@@ -36,6 +36,8 @@ app.use((req, res, next) => {
 // routes
 app.use("/api/", router);
 
+app.use("/", (req, res) => res.status(200));
+
 // listen
 const port = process.env.PORT || 4001;
 
