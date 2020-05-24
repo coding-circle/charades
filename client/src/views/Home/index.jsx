@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import CreateGame from "./CreateGame";
-import JoinGame from "./JoinGame";
+import CreateGame from "./CreateParty";
+import JoinGame from "./JoinParty";
 
 function Home({ username: storageUsername, slug, setCurrentViewToParty }) {
   const [createGameOpen, setCreateGameOpen] = useState(false);

@@ -39,14 +39,14 @@ export default class SocketService {
     );
   }
 
-  listeners(partySlug, party) {
+  listeners(partySlug) {
     this.sockets[partySlug].on("connection", (socket) => {
-      console.log("connected");
-      socket.emit("update", { party });
+      console.log(this.sockets.length);
     });
   }
 
   broadcastParty(partySlug, party) {
+    console.log(this.sockets.length);
     this.sockets[partySlug].emit("update", { party });
   }
 }
