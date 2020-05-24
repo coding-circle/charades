@@ -1,12 +1,13 @@
-import React, { useState, useCallback, useEffect } from "react";
+/*eslint no-unused-vars: "ignore" */
+import React, { useState, useEffect } from "react";
 import { useLocalStorage } from "@rehooks/local-storage";
 
 import api from "../../utils/api";
 import { TextInput, Button } from "../../components";
 
-function JoinGame({ slug, playerName, setPlayerName, showCreateGameView }) {
+function JoinGame({ slug, username, setUsername, showCreateGameView }) {
   const [roomCode, setRoomCode] = useState(slug);
-  const [localStorage, setLocalStorage] = useLocalStorage("charades");
+  const [_, setLocalStorage] = useLocalStorage("charades");
 
   useEffect(() => {
     setRoomCode(slug);
@@ -15,7 +16,7 @@ function JoinGame({ slug, playerName, setPlayerName, showCreateGameView }) {
   const joinParty = async () => {
     const { error } = await api.joinParty({
       slug: roomCode,
-      username: playerName,
+      username: username,
     });
 
     if (error) {
@@ -24,7 +25,7 @@ function JoinGame({ slug, playerName, setPlayerName, showCreateGameView }) {
 
     setLocalStorage({
       slug: roomCode,
-      username: playerName,
+      username: username,
     });
 
     window.location.pathname = slug;
@@ -47,17 +48,16 @@ function JoinGame({ slug, playerName, setPlayerName, showCreateGameView }) {
           name="player-name"
           label="Player Name"
           style={{ marginTop: "20px" }}
-          value={playerName}
+          value={username}
           onChange={(evt) => {
-            setPlayerName(evt.target.value);
+            setUsername(evt.target.value);
           }}
         />
         <Button
           onClick={joinParty}
           type="primary"
-          disabled={false}
           style={{ marginTop: "24px" }}
-          disabled={!roomCode.length || !playerName.length}
+          disabled={!roomCode.length || !username.length}
         >
           Join Game
         </Button>

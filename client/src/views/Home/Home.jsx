@@ -1,11 +1,11 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState } from "react";
 
 import CreateGame from "./CreateGame";
 import JoinGame from "./JoinGame";
 
-function Home({ username, slug, setCurrentViewToGame }) {
+function Home({ username: storageUsername, slug, setCurrentViewToParty }) {
   const [createGameOpen, setCreateGameOpen] = useState(false);
-  const [playerName, setPlayerName] = useState(username);
+  const [username, setUsername] = useState(storageUsername);
 
   const showCreateGameView = () => setCreateGameOpen(true);
   const hideCreateGameView = () => setCreateGameOpen(false);
@@ -14,18 +14,18 @@ function Home({ username, slug, setCurrentViewToGame }) {
     <div id="app">
       {createGameOpen ? (
         <CreateGame
-          playerName={playerName}
-          setPlayerName={setPlayerName}
+          username={username}
+          setUsername={setUsername}
           hideCreateGameView={hideCreateGameView}
-          setCurrentViewToGame={setCurrentViewToGame}
+          setCurrentViewToParty={setCurrentViewToParty}
         />
       ) : (
         <JoinGame
           slug={slug}
-          playerName={playerName}
-          setPlayerName={setPlayerName}
+          username={username}
+          setUsername={setUsername}
           showCreateGameView={showCreateGameView}
-          setCurrentViewToGame={setCurrentViewToGame}
+          setCurrentViewToParty={setCurrentViewToParty}
         />
       )}
     </div>

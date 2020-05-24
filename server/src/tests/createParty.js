@@ -60,7 +60,7 @@ export const createPartyTests = () => {
       host: "jacten",
     });
 
-    const retreivedParty = await getParty(createdParty.slug);
+    const retreivedParty = await getParty({ slug: createdParty.slug });
 
     expect(retreivedParty.slug).toEqual(createdParty.slug);
     expect(retreivedParty.host).toEqual(createdParty.host);

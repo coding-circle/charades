@@ -6,12 +6,12 @@ export default class SocketService {
     this.sockets = {};
   }
 
-  create(partySlug) {
+  create(partySlug, party) {
     if (!this.sockets[partySlug]) {
       const socket = this.io.of(`/${partySlug}`);
       this.sockets[partySlug] = socket;
 
-      this.listeners(partySlug);
+      this.listeners(partySlug, party);
 
       return socket;
     }
@@ -39,11 +39,14 @@ export default class SocketService {
     );
   }
 
-  listeners(partySlug) {
-    this.sockets[partySlug].on("connection", (socket) => {});
+  listeners(partySlug, party) {
+    this.sockets[partySlug].on("connection", (socket) => {
+      console.log("connected");
+      socket.emit("update", { party });
+    });
   }
 
   broadcastParty(partySlug, party) {
-    this.sockets[partySlug].emit({ party });
+    this.sockets[partySlug].emit("update", { party });
   }
 }
