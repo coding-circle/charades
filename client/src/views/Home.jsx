@@ -19,6 +19,10 @@ function Home(props) {
   };
 
   const joinParty = async () => {
+    if (!roomCode || !playerName) {
+      return alert("Room Code and Player Name must be filled out!");
+    }
+
     const { error } = await api.joinParty({
       slug: roomCode,
       username: playerName,

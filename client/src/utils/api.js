@@ -24,7 +24,12 @@ const joinParty = async ({ slug, username }) => {
 
     return res;
   } catch (error) {
-    return { error: error.response.data };
+    const errorMessage =
+      error.response && error.response.data
+        ? error.response.data
+        : error.message;
+
+    return { error: errorMessage };
   }
 };
 
