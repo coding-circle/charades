@@ -3,6 +3,8 @@ import _shuffle from "lodash/shuffle";
 
 import PartyModel from "../model";
 
+import { nouns, adjectives } from "./slugWords";
+
 import {
   lobbyPhase,
   promptPhase,
@@ -44,10 +46,19 @@ const getRandomPromptIndex = (currentTeamPlayers, prompts) => {
   return Math.floor(Math.random() * filteredPrompts.length);
 };
 
+const generateSlug = () => {
+  const number = String(Math.floor(Math.random() * 1000));
+  const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+  const noun = nouns[Math.floor(Math.random() * nouns.length)];
+
+  return `${number}-${adjective}-${noun}`;
+};
+
 export default {
   computeTotalTurns,
   isGameInProgress,
   generateRandomTeamName,
   createInProgressGame,
   getRandomPromptIndex,
+  generateSlug,
 };

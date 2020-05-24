@@ -1,6 +1,6 @@
 // lobby with players
 export const lobbyPhase = {
-  slug: "xdgasd",
+  slug: "TEST-SLUG-lobbyPhase",
   host: "jacten",
   createdAt: 1588553102804,
   updateAt: 1588553102804,
@@ -24,7 +24,7 @@ export const lobbyPhase = {
 
 // prompt writing phase w/ prompts
 export const promptPhase = {
-  slug: "xdgasd",
+  slug: "TEST-SLUG-promptPhase",
   host: "jacten",
   createdAt: 1588553102804,
   updateAt: 1588553102804,
@@ -99,7 +99,7 @@ export const promptPhase = {
 
 // mid game
 export const midGamePhase = {
-  slug: "trouble-maker",
+  slug: "TEST-SLUG-midGamePhase",
   host: "bobanya",
   createdAt: 1588553102804,
   updatedAt: 1588553102804,
@@ -210,7 +210,7 @@ export const midGamePhase = {
 
 // one turn left in game
 export const endGamePhase = {
-  slug: "YU12BAD",
+  slug: "TEST-SLUG-endGamePhase",
   host: "catchi",
   createdAt: 1588553102804,
   updatedAt: 1588553102804,
@@ -378,7 +378,7 @@ export const endGamePhase = {
 
 // post-game lobby
 export const postGamePhase = {
-  slug: "YU12BAD",
+  slug: "TEST-SLUG-postGamePhase",
   host: "catchi",
   createdAt: 1588553102804,
   updatedAt: 1588553102804,
