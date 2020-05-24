@@ -1,34 +1,29 @@
-import React, { Component } from 'react';
+import React from "react";
 
-class TextInput extends Component {
-  render() {
-    const classes = `text-input__label
-    ${this.props.subLabel ? 'text-input__label--with-sublabel' : ''}`;
+const TextInput = (props) => {
+  const classes = `text-input__label
+    ${props.subLabel ? "text-input__label--with-sublabel" : ""}`;
 
-    return (
-      <div
-        className="text-input"
-        style={this.props.style}
-      >
-        <label
-          htmlFor={this.props.name}
-          className={classes}
-        >
-          {this.props.label}
-          {this.props.subLabel && (
-            <span className="text-input__sub-label text__small"><br/>{this.props.subLabel}</span>
-          )}
-        </label>
-        <input
-          name={this.props.name}
-          type="text"
-          value={this.props.value}
-          onChange={this.props.onChange}
-          className="text__all-caps text__bold text__heading"
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="text-input" style={props.style}>
+      <label htmlFor={props.name} className={classes}>
+        {props.label}
+        {props.subLabel && (
+          <span className="text-input__sub-label text__small">
+            <br />
+            {props.subLabel}
+          </span>
+        )}
+      </label>
+      <input
+        name={props.name}
+        type="text"
+        value={props.value}
+        onChange={props.onChange}
+        className="text__all-caps text__bold text__heading"
+      />
+    </div>
+  );
+};
 
 export default TextInput;
