@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const Party = new mongoose.Schema(
   {
-    slug: String,
+    slug: { type: String, unique: true, index: true },
     host: {
       type: String,
       validate: {

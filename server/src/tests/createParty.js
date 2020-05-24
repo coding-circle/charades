@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import { partyMethods, devMethods } from "../db/methods";
+import { partyMethods, devMethods, helpers } from "../db/methods";
 
 const { clearParties } = devMethods;
 const { createParty, getParty } = partyMethods;
@@ -11,6 +11,7 @@ export const createPartyTests = () => {
     await mongoose.connect(mongoUri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useCreateIndex: true,
     });
   });
 
@@ -69,5 +70,18 @@ export const createPartyTests = () => {
     expect(retreivedParty.players).toEqual(
       expect.arrayContaining(createdParty.players)
     );
+  });
+
+  it("should generate lots of random party slugs in the right format", async () => {
+    const count = 100;
+    const duplicatesAllowed = 10;
+    const slugSet = new Set();
+    for (let i = 0; i < count; i++) {
+      const slug = helpers.generateSlug();
+      expect(slug.split(" ").length).toBe(1);
+      expect(slug.split("-").length).toBe(3);
+      slugSet.add(slug);
+    }
+    expect(slugSet.size).toBeGreaterThan(count - duplicatesAllowed);
   });
 };

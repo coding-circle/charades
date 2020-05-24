@@ -6,6 +6,7 @@ export default class DbService {
       mongoose.connect(URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        useCreateIndex: true,
       });
     } else {
       console.error("MONGO_URI environment variable not found!!");

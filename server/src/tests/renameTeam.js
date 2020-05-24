@@ -12,6 +12,7 @@ export const renameTeamTests = () => {
     await mongoose.connect(mongoUri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useCreateIndex: true,
     });
   });
 
@@ -44,5 +45,3 @@ export const renameTeamTests = () => {
     expect(updatedPartyTeamName).toEqual(party.games[0].teams[0].teamName);
   });
 };
-  
-

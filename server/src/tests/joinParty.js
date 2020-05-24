@@ -12,6 +12,7 @@ export const joinPartyTests = () => {
     await mongoose.connect(mongoUri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useCreateIndex: true,
     });
   });
 
