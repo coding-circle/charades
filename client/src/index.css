@@ -2,15 +2,16 @@
 :root {
   --color__background: #333333;
   --color__foreground: white;
-  --color__default: #BDBDBD;
-  --color__primary: #2D9CDB;
+  --color__default: #bdbdbd;
+  --color__primary: #2d9cdb;
   --font-size__default: 16px;
   --font-weight__medium: 500;
   --font-weight__heavy: 900;
 }
 /* /VARIABLES */
 /* RESET */
-body, body * {
+body,
+body * {
   box-sizing: border-box;
 }
 
@@ -27,12 +28,22 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6, p, ul, ol {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol {
   margin: 0;
   padding: 0;
 }
 
-ul, ol, li {
+ul,
+ol,
+li {
   list-style: none;
 }
 
@@ -76,10 +87,17 @@ ul, ol, li {
   padding: 20px;
 }
 
+.app__header--with-rule {
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .app__header--with-rule:after,
 .app__footer--with-rule:before {
-  content: '';
-  position:absolute;
+  content: "";
+  position: absolute;
   display: block;
   width: calc(100% - (20px * 2));
   height: 2px;
@@ -119,7 +137,7 @@ button {
   justify-content: center;
   align-items: center;
   min-height: 32px;
-  font-weight: var(--font-weight__medium) 
+  font-weight: var(--font-weight__medium);
 }
 
 input {
@@ -187,6 +205,23 @@ input {
 .button-secondary__icon {
   margin-right: 10px;
   transform: translateY(-1px);
+}
+
+.close-button {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  width: 40px;
+}
+
+.close-button.button-secondary {
+  padding: 0;
+}
+
+.close-button svg {
+  width: 32px;
+  height: 32px;
 }
 
 .text-input {

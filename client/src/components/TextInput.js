@@ -1,25 +1,25 @@
 import React from "react";
 
-const TextInput = (props) => {
+const TextInput = ({ style, label, subLabel, name, value, onChange }) => {
   const classes = `text-input__label
-    ${props.subLabel ? "text-input__label--with-sublabel" : ""}`;
+    ${subLabel ? "text-input__label--with-sublabel" : ""}`;
 
   return (
-    <div className="text-input" style={props.style}>
-      <label htmlFor={props.name} className={classes}>
-        {props.label}
-        {props.subLabel && (
+    <div className="text-input" style={style}>
+      <label htmlFor={name} className={classes}>
+        {label}
+        {subLabel && (
           <span className="text-input__sub-label text__small">
             <br />
-            {props.subLabel}
+            {subLabel}
           </span>
         )}
       </label>
       <input
-        name={props.name}
+        name={name}
         type="text"
-        value={props.value}
-        onChange={props.onChange}
+        value={value}
+        onChange={onChange}
         className="text__all-caps text__bold text__heading"
       />
     </div>
