@@ -1,24 +1,21 @@
-import React, { useState, useCallback, useEffect } from "react";
+/*eslint no-unused-vars: "ignore" */
+
+import React, { useState } from "react";
 import { useLocalStorage } from "@rehooks/local-storage";
 
 import api from "../../utils/api";
 import { TextInput, CloseButton, Button } from "../../components";
 
-function CreateGame({
-  playerName,
-  setPlayerName,
-  hideCreateGameView,
-  setCurrentViewToGame,
-}) {
+function CreateGame({ username, setUsername, hideCreateGameView }) {
   const [teams, setTeams] = useState(2);
   const [rotations, setRotations] = useState(1);
   const [turnDuration, setTurnDuration] = useState(90);
 
-  const [localStorage, setLocalStorage] = useLocalStorage("charades");
+  const [_, setLocalStorage] = useLocalStorage("charades");
 
   const createParty = async () => {
     const { data } = await api.createParty({
-      host: playerName,
+      host: username,
       settings: {
         teams,
         rotations,
@@ -31,11 +28,11 @@ function CreateGame({
     if (data) {
       setLocalStorage({
         slug: data,
-        username: playerName,
+        username: username,
       });
 
       window.location.pathname = data;
-      setCurrentViewToGame();
+      // setCurrentViewToParty();
     }
   };
 
@@ -80,9 +77,9 @@ function CreateGame({
           label="Player Name"
           subLabel=" "
           style={{ marginTop: "20px" }}
-          value={playerName}
+          value={username}
           onChange={(evt) => {
-            setPlayerName(evt.target.value);
+            setUsername(evt.target.value);
           }}
         />
         <Button
