@@ -19,7 +19,7 @@ const clearAllParties = async (req, res) => {
   }
 
   await devMethods.clearParties();
-  res.status(200).send("parties cleared.");
+  res.status(200).send("clearAllParties success");
 };
 
 export default { getAllParties, clearAllParties };

@@ -1,7 +1,13 @@
 import React from "react";
-import { Button } from "../../components";
 
-function WaitingRoom({ party }) {
+import { Button } from "../../components";
+import api from "../../utils/api";
+
+function WaitingRoom({ party, isHost }) {
+  const startGame = async () => {
+    await api.createGame({ slug: party.slug });
+  };
+
   return (
     <>
       <header className="app__header app__header--with-rule">
@@ -18,9 +24,15 @@ function WaitingRoom({ party }) {
         <p style={{ marginTop: "20px" }}>Waiting for all players to join...</p>
       </main>
       <footer className="app__footer">
-        <Button type="primary" className="button-secondary--min-width">
-          Everyone's Here!
-        </Button>
+        {isHost && (
+          <Button
+            type="primary"
+            className="button-secondary--min-width"
+            onClick={startGame}
+          >
+            Everyone's Here!
+          </Button>
+        )}
       </footer>
     </>
   );

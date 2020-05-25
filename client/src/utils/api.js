@@ -45,6 +45,14 @@ const joinParty = async ({ slug, username }) => {
   }
 };
 
+// create game
+const createGame = async ({ slug }) => {
+  const res = await axios.post(`${API_URL}party/${slug}/game/create`);
+
+  return res;
+};
+
+// add prompt
 const addPrompt = async ({ slug, author, prompt }) => {
   const res = await axios.post(`${API_URL}party/${slug}/prompt`, {
     author,
@@ -54,9 +62,18 @@ const addPrompt = async ({ slug, author, prompt }) => {
   return res;
 };
 
+// start game
+const startGame = async ({ slug }) => {
+  const res = await axios.put(`${API_URL}party/${slug}/game/start`);
+
+  return res;
+};
+
 export default {
   getParty,
   createParty,
   joinParty,
   addPrompt,
+  createGame,
+  startGame,
 };

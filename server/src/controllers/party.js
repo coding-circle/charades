@@ -34,7 +34,7 @@ const joinParty = async (req, res) => {
 
   req.socket.broadcastParty(slug, party);
 
-  res.status(200).send("joined party");
+  res.status(200).send("joinParty success");
 };
 
 // get party
@@ -58,7 +58,7 @@ const updateSettings = async (req, res) => {
 
   req.socket.broadcastParty(slug, party);
 
-  res.status(200);
+  res.status(200).send("updateSettings success");
 };
 
 // leave party
@@ -70,7 +70,7 @@ const leaveParty = async (req, res) => {
 
   req.socket.broadcastParty(slug, party);
 
-  res.status(200);
+  res.status(200).send("leaveParty success");
 };
 
 export default {
