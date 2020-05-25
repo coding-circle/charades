@@ -1,6 +1,6 @@
 // lobby with players
 export const lobbyPhase = {
-  slug: "xdgasd",
+  slug: "TEST-SLUG-lobbyPhase",
   host: "jacten",
   createdAt: 1588553102804,
   updateAt: 1588553102804,
@@ -17,7 +17,6 @@ export const lobbyPhase = {
     rotations: 2,
     turnDurationSeconds: 90,
     teamsCount: 2,
-    autoStart: false,
   },
   games: [],
   prompts: [],
@@ -25,7 +24,7 @@ export const lobbyPhase = {
 
 // prompt writing phase w/ prompts
 export const promptPhase = {
-  slug: "xdgasd",
+  slug: "TEST-SLUG-promptPhase",
   host: "jacten",
   createdAt: 1588553102804,
   updateAt: 1588553102804,
@@ -39,10 +38,9 @@ export const promptPhase = {
     "bro-sauce",
   ],
   settings: {
-    rotations: 2,
+    rotations: 1,
     turnDurationSeconds: 90,
     teamsCount: 2,
-    autoStart: false,
   },
   games: [
     {
@@ -51,42 +49,24 @@ export const promptPhase = {
       teams: [
         {
           teamName: "Team A",
-          players: ["jacten", "chedgo", "andy", "anya"],
-          playerIndex: 1,
-          score: 1,
+          teamPlayers: ["jacten", "chedgo", "andy", "anya"],
+          playerIndex: 0,
+          score: 0,
         },
         {
           teamName: "Team B",
-          players: ["james", "Big Daddy Ders", "bro-sauce"],
-          playerIndex: 1,
+          teamPlayers: ["james", "Big Daddy Ders", "bro-sauce"],
+          playerIndex: 0,
           score: 0,
         },
       ],
       totalTurns: 16,
-      turns: [
-        {
-          startTime: 1588553102804,
-          endTime: 1588553102804,
-          teamIndex: 0,
-          player: "jacten",
-          author: "Big Daddy Ders",
-          prompt: "Jackie Brown",
-          success: true,
-        },
-        {
-          startTime: 1588553103804,
-          endTime: 1588553104804,
-          teamIndex: 1,
-          player: "james",
-          author: "jacten",
-          prompt: "Pulp Fiction",
-          success: false,
-        },
-      ],
+      turns: [],
     },
   ],
   prompts: [
     { author: "jacten", prompt: "Taming of the Shrew" },
+    { author: "jacten", prompt: "Turn" },
     { author: "chedgo", prompt: "Othello" },
     { author: "chedgo", prompt: "Star Wars" },
     { author: "andy", prompt: "Once Upon a Time in Hollywood" },
@@ -96,12 +76,13 @@ export const promptPhase = {
     { author: "james", prompt: "Inglorious Basterds" },
     { author: "james", prompt: "Do the Right Thing" },
     { author: "Big Daddy Ders", prompt: "Resevoir Dogs" },
+    { author: "Big Daddy Ders", prompt: "Resevoir Dogs 2" },
   ],
 };
 
 // mid game
 export const midGamePhase = {
-  slug: "trouble-maker",
+  slug: "TEST-SLUG-midGamePhase",
   host: "bobanya",
   createdAt: 1588553102804,
   updatedAt: 1588553102804,
@@ -110,7 +91,6 @@ export const midGamePhase = {
     rotations: 2,
     turnDurationSeconds: 90,
     teamsCount: 2,
-    autoStart: false,
   },
   games: [
     {
@@ -119,14 +99,14 @@ export const midGamePhase = {
       teams: [
         {
           teamName: "Booty Shakers",
-          players: ["jilly", "rosa", "heinrich"],
-          playerIndex: 0,
-          score: 3,
+          teamPlayers: ["jilly", "rosa", "heinrich"],
+          playerIndex: 2,
+          score: 2,
         },
         {
           teamName: "Silver Tiger Claw",
-          players: ["bobanya", "genji", "millie"],
-          playerIndex: 2,
+          teamPlayers: ["bobanya", "genji", "millie"],
+          playerIndex: 1,
           score: 1,
         },
       ],
@@ -170,12 +150,11 @@ export const midGamePhase = {
         },
         {
           startTime: 1588558102804,
-          endTime: 1588559102804,
+          endTime: null,
           teamIndex: 0,
           player: "heinrich",
           author: "millie",
           prompt: "i'm a lil bitch",
-          success: true,
         },
       ],
     },
@@ -214,7 +193,7 @@ export const midGamePhase = {
 
 // one turn left in game
 export const endGamePhase = {
-  slug: "YU12BAD",
+  slug: "TEST-SLUG-endGamePhase",
   host: "catchi",
   createdAt: 1588553102804,
   updatedAt: 1588553102804,
@@ -231,7 +210,6 @@ export const endGamePhase = {
     rotations: 2,
     turnDurationSeconds: 90,
     teamsCount: 2,
-    autoStart: true,
   },
   games: [
     {
@@ -383,7 +361,7 @@ export const endGamePhase = {
 
 // post-game lobby
 export const postGamePhase = {
-  slug: "YU12BAD",
+  slug: "TEST-SLUG-postGamePhase",
   host: "catchi",
   createdAt: 1588553102804,
   updatedAt: 1588553102804,
@@ -400,7 +378,6 @@ export const postGamePhase = {
     rotations: 2,
     turnDurationSeconds: 90,
     teamsCount: 2,
-    autoStart: true,
   },
   games: [
     {
@@ -551,7 +528,5 @@ export const postGamePhase = {
       ],
     },
   ],
-  prompts: [
-    
-  ],
+  prompts: [],
 };

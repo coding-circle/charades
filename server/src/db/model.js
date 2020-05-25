@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const Party = new mongoose.Schema(
   {
-    slug: String,
+    slug: { type: String, unique: true, index: true },
     host: {
       type: String,
       validate: {
@@ -18,7 +18,6 @@ const Party = new mongoose.Schema(
       rotations: { type: Number, default: 1 },
       turnDurationSeconds: { type: Number, default: 120 },
       teamsCount: { type: Number, default: 2 },
-      autoStart: { type: Boolean, default: false },
     },
     games: [
       {

@@ -17,7 +17,6 @@ All RestAPI endpoints prefixed with: `/api/`
     rotations?: number,
     turnDuration?: number,
     teamsCount?: number,
-    autoStart?: boolean,
   }
 }
 ```
@@ -65,7 +64,9 @@ All RestAPI endpoints prefixed with: `/api/`
 
 **Response:** Party Object
 
-**Notes:** This is called by every client as a response to socket update listener.
+**Notes:** ~~This is called by every client as a response to socket update listener.~~ We decided to just send the party with the socket emit.
+
+Possibly deprecated. But perhaps this will be called on refresh?
 
 ---
 
@@ -224,7 +225,6 @@ All RestAPI endpoints prefixed with: `/api/`
   rotations?: number,
   turnDuration?: number,
   teamsCount?: number,
-  autoStart?: boolean,
 }
 ```
 
@@ -255,11 +255,31 @@ All RestAPI endpoints prefixed with: `/api/`
 
 **Response:** Party Object
 
-**Notes:** Perhaps this is unnecessary and will just be handled via socket. Otherwise we have to build UI for leaving game.
+**Notes:** Can be called for a current user or by host for other users.
 
 **Server Actions:**
 
 - removes username from players / team array
 - if host
   - randomly reassign host
+- emits 'update' to other clients via socket
+
+---
+
+### Skip Turn
+
+**URL:** `/party/:slug/turn/skip`
+
+**Method:** `PUT`
+
+**Data Params:**
+
+**Response:** Party Object
+
+**Notes:** Can be called only by host.
+
+**Server Actions:**
+
+- changes player of current turn to next player on team.
+- updates playerIndex on team
 - emits 'update' to other clients via socket

@@ -12,6 +12,7 @@ export const renameTeamTests = () => {
     await mongoose.connect(mongoUri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useCreateIndex: true,
     });
   });
 
@@ -21,7 +22,6 @@ export const renameTeamTests = () => {
 
   it("should rename team at any point during the game", async () => {
     const party = await createInProgressGame("midGame");
-
     const updatedParty = await renameTeam({
       slug: party.slug,
       teamIndex: 0,

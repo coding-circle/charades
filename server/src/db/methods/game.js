@@ -6,7 +6,7 @@ import helpers from "./helpers";
 
 // create game
 const createGame = async ({ slug }) => {
-  const party = await partyMethods.getParty(slug);
+  const party = await partyMethods.getParty({ slug });
 
   const teams = [...new Array(party.settings.teamsCount)].map(() => {
     return {
@@ -34,7 +34,7 @@ const createGame = async ({ slug }) => {
 
 // add prompt
 const addPrompt = async ({ slug, prompt, author }) => {
-  const party = await partyMethods.getParty(slug);
+  const party = await partyMethods.getParty({ slug });
 
   party.prompts.push({ author, prompt });
 
@@ -43,21 +43,22 @@ const addPrompt = async ({ slug, prompt, author }) => {
 
 // start game
 const startGame = async ({ slug }) => {
-  const party = await partyMethods.getParty(slug);
+  const party = await partyMethods.getParty({ slug });
   const currentGame = party.games[party.games.length - 1];
 
-  const randomPromptIndex = getRandomPromptIndex(
-    currentGame.team[0].teamPlayers,
+  const randomPromptIndex = helpers.getRandomPromptIndex(
+    currentGame.teams[0].teamPlayers,
     party.prompts
   );
 
   // remove a random prompt from list
-  const [randomPrompt] = prompts.splice(1, randomPromptIndex);
+  const [randomPrompt] = party.prompts.splice(randomPromptIndex, 1);
 
   const firstTurn = {
     teamIndex: 0,
-    player: currentGame.team[0].teamPlayers[0],
-    ...randomPrompt,
+    player: currentGame.teams[0].teamPlayers[0],
+    author: randomPrompt.author,
+    prompt: randomPrompt.prompt,
   };
 
   currentGame.startTime = Date.now();
@@ -68,7 +69,7 @@ const startGame = async ({ slug }) => {
 
 // start turn
 const startTurn = async ({ slug }) => {
-  const party = await partyMethods.getParty(slug);
+  const party = await partyMethods.getParty({ slug });
   const currentGame = party.games[party.games.length - 1];
 
   currentGame.turns[currentGame.turns.length - 1].startTime = Date.now() + 5000;
@@ -77,11 +78,12 @@ const startTurn = async ({ slug }) => {
 };
 
 // end turn
-const endTurn = async ({ slug, success }) => {
-  const party = await partyMethods.getParty(slug);
+export const endTurn = async ({ slug, success }) => {
+  const party = await partyMethods.getParty({ slug });
+
   const currentGame = party.games[party.games.length - 1];
 
-  const teamIndex = currentGame.turns[currentGame.turns.length - 1];
+  const { teamIndex } = currentGame.turns[currentGame.turns.length - 1];
 
   const {
     playerIndex: currentPlayerIndex,
@@ -93,7 +95,7 @@ const endTurn = async ({ slug, success }) => {
   currentGame.turns[currentGame.turns.length - 1].success = success;
 
   // if last turn, end game
-  if (currentGames.totalTurns === currentParty.turns.length) {
+  if (currentGame.totalTurns === currentGame.turns.length) {
     currentGame.endTime === Date.now();
 
     return party.save();
@@ -108,20 +110,21 @@ const endTurn = async ({ slug, success }) => {
   const {
     playerIndex: nextPlayerIndex,
     teamPlayers: nextTeamPlayers,
-  } = currentGame.teams[teamIndex];
+  } = currentGame.teams[nextTeamIndex];
 
-  const randomPromptIndex = getRandomPromptIndex(
+  const randomPromptIndex = helpers.getRandomPromptIndex(
     nextTeamPlayers,
     party.prompts
   );
 
   // remove prompt from prompts list
-  const [randomPrompt] = party.prompts.splice(1, randomPromptIndex);
+  const [randomPrompt] = party.prompts.splice(randomPromptIndex, 1);
 
   const nextTurn = {
     teamIndex: nextTeamIndex,
     player: nextTeamPlayers[nextPlayerIndex],
-    ...randomPrompt,
+    author: randomPrompt.author,
+    prompt: randomPrompt.prompt,
   };
 
   // add next turn
@@ -131,7 +134,7 @@ const endTurn = async ({ slug, success }) => {
 
 // rename team
 const renameTeam = async ({ slug, teamIndex, teamName }) => {
-  const party = await partyMethods.getParty(slug);
+  const party = await partyMethods.getParty({ slug });
 
   if (!helpers.isGameInProgress(party)) {
     return party;

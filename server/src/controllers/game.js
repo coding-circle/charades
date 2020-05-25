@@ -11,7 +11,85 @@ const addPrompt = async (req, res) => {
     slug,
   });
 
-  res.status(200).send(party);
+  req.socket.broadcastParty(slug, party);
+
+  res.status(200).send("addPrompt success");
 };
 
-export default { addPrompt };
+// create game
+const createGame = async (req, res) => {
+  const { slug } = req.params;
+
+  const party = await gameMethods.createGame({ slug });
+
+  req.socket.broadcastParty(slug, party);
+
+  res.status(200).send("createGame success");
+};
+
+// start game
+const startGame = async (req, res) => {
+  const { slug } = req.params;
+
+  const party = await gameMethods.startGame({ slug });
+
+  req.socket.broadcastParty(slug, party);
+
+  res.status(200).send("startGame Success");
+};
+
+// start turn
+const startTurn = async (req, res) => {
+  const { slug } = req.params;
+
+  const party = await gameMethods.startTurn({ slug });
+
+  req.socket.broadcastParty(slug, party);
+
+  res.status(200).send("startTurn success");
+};
+
+// end turn
+const endTurn = async (req, res) => {
+  const { slug } = req.params;
+  const { success } = req.body;
+
+  const party = await gameMethods.endTurn({ slug, success });
+
+  req.socket.broadcastParty(slug, party);
+
+  res.status(200).send("endTurn success");
+};
+
+// skip turn
+const skipTurn = async (req, res) => {
+  const { slug } = req.params;
+
+  const party = await gameMethods.skipTurn({ slug });
+
+  req.socket.broadcastParty(slug, party);
+
+  res.status(200).send("skipTurn success");
+};
+
+// rename team
+const renameTeam = async (req, res) => {
+  const { slug } = req.params;
+  const { teamIndex, teamName } = req.body;
+
+  const party = await gameMethods.renameTeam({ slug, teamIndex, teamName });
+
+  req.socket.broadcastParty(slug, party);
+
+  res.status(200).send("renameTeam success");
+};
+
+export default {
+  addPrompt,
+  createGame,
+  startGame,
+  startTurn,
+  endTurn,
+  skipTurn,
+  renameTeam,
+};

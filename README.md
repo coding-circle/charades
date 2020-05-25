@@ -84,7 +84,6 @@ This project aims to solve these problems and build a tool that can be used over
     rotations: number,
     turnDurationSeconds: number,
     teamsCount: number,
-    autoStart: boolean,
   },
   games: [
     {
@@ -143,7 +142,6 @@ This project aims to solve these problems and build a tool that can be used over
     rotations: 2,
     turnDurationSeconds: 90,
     teamsCount: 2, // defaults to 2, number of teams.
-    autoStart: true, // if true automatically starts a turn after preivous (with countdown). Otherwise the actor has a button to click when ready.
   },
   games: [
     {
