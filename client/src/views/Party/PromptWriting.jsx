@@ -6,8 +6,6 @@ import api from "../../utils/api";
 function PromptWriting({ party, username }) {
   const [prompt, setPrompt] = useState("");
 
-  console.log(party);
-
   const getUserPromptsCount = useCallback(
     (username) => {
       return party.prompts.filter((prompt) => {
