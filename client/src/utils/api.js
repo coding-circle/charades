@@ -45,6 +45,24 @@ const joinParty = async ({ slug, username }) => {
   }
 };
 
+// update settings
+const updateSettings = async ({ slug, settings }) => {
+  const res = await axios.put(`${API_URL}party/${slug}/settings`, {
+    settings,
+  });
+
+  return res;
+};
+
+// leave party
+const leaveParty = async ({ slug, username }) => {
+  const res = await axios.put(`${API_URL}party/${slug}/settings`, {
+    username,
+  });
+
+  return res;
+};
+
 // create game
 const createGame = async ({ slug }) => {
   const res = await axios.post(`${API_URL}party/${slug}/game/create`);
@@ -69,11 +87,51 @@ const startGame = async ({ slug }) => {
   return res;
 };
 
+// start turn
+const startTurn = async ({ slug }) => {
+  const res = await axios.put(`${API_URL}party/${slug}/turn/start`);
+
+  return res;
+};
+
+// end turn
+const endTurn = async ({ slug, success }) => {
+  const res = await axios.put(`${API_URL}party/${slug}/turn/end`);
+
+  return res;
+};
+
+// skip turn
+const skipTurn = async ({ slug }) => {
+  const res = await axios.put(`${API_URL}party/${slug}/turn/skip`);
+
+  return res;
+};
+
+// rename team
+const renameTeam = async ({ slug, teamIndex, teamName }) => {
+  const res = await axios.put(`${API_URL}party/${slug}/rename`, {
+    teamIndex,
+    teamName,
+  });
+
+  return res;
+};
+
 export default {
+  // party
   getParty,
   createParty,
   joinParty,
+  updateSettings,
+  leaveParty,
+
+  // game
   addPrompt,
   createGame,
   startGame,
+  startTurn,
+  endTurn,
+  skipTurn,
+  renameTeam,
 };

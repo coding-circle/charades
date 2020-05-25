@@ -75,8 +75,6 @@ function PromptWriting({ party, username }) {
       slug: party.slug,
     });
 
-    console.log(res);
-
     return res;
   };
 
