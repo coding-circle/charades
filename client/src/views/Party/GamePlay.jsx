@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Button } from "../../components";
+import { Button, TimerWidget } from "../../components";
 
 function GamePlay({ party, username, isHost, game, onPoint, pointedAt }) {
   const [turn, setTurn] = useState({});
@@ -29,12 +29,7 @@ function GamePlay({ party, username, isHost, game, onPoint, pointedAt }) {
 
   return (
     <div className="app__main app__main--home">
-      <p>
-        {pointedAt.pointee &&
-          `${pointedAt.pointer} pointed at ${pointedAt.pointee}`}
-      </p>
-      <br />
-      <Button onClick={() => onPoint(party.players[1])}>Point At</Button>
+      <TimerWidget />
     </div>
   );
 }

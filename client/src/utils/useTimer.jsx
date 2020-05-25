@@ -12,17 +12,16 @@ export const useTimer = ({ startTime, turnDurationSeconds }) => {
     }
 
     const currentTime = Date.now();
+    startTime = currentTime + 8319;
 
     // sync interval
-
-    // if () {
-
-    // }
+    const difference = (currentTime - startTime) / 1000;
+    console.log(difference);
   }, [startTime, turnDurationSeconds]);
 
   const cancel = useCallback(() => {
     setTime(null);
   });
 
-  return { time, cancel };
+  return [time, cancel];
 };
