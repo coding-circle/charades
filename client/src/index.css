@@ -171,6 +171,7 @@ input {
 
 /* /TYPOGRAPHY */
 /* COMPONENTS */
+/* BUTTON */
 .button,
 .text-input {
   max-width: 24rem;
@@ -207,6 +208,8 @@ input {
   transform: translateY(-1px);
 }
 
+/* /BUTTON */
+/* CLOSE BUTTON */
 .close-button {
   position: absolute;
   top: 50%;
@@ -224,6 +227,8 @@ input {
   height: 32px;
 }
 
+/* /CLOSE BUTTON */
+/* TEXT INPUT */
 .text-input {
   display: grid;
   grid-template-columns: min-content auto;
@@ -245,6 +250,146 @@ input {
   color: var(--color__default);
 }
 
+/* /TEXT INPUT */
+/* TEAM BOX */
+/* TeamBox */
+.team-box {
+  color: var(--color__background);
+  margin-bottom: 32px;
+}
+
+.team-box__team-label,
+.team-box__body {
+  background: var(--color__default);
+  border-radius: 4px;
+  color: var(--color__background);
+}
+
+.team-box__team-label,
+.team-box__player-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
+}
+
+.team-box__header {
+  display: flex;
+}
+
+.team-box__team-label {
+  line-height: 24px;
+  padding: 6px 12px;
+}
+
+.team-box__rename-button {
+  margin-left: 4px;
+}
+
+.team-box__body {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  padding: 6px 6px 12px;
+  margin-top: -5px;
+}
+
+/* PlayerList */
+.team-box__player-list {
+  flex: 1 1 auto;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* PlayerListItem */
+.team-box__player {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 32px;
+  margin-bottom: 6px;
+  padding: 0 6px;
+  background: var(--color__background);
+  border-radius: 2px;
+}
+
+.team-box__player-name {
+  margin-right: 6px;
+  color: var(--color__default);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
+}
+
+.team-box__badge {
+  flex-shrink: 0;
+  background: var(--color__foreground);
+  color: var(--color__background);
+}
+
+.team-box__badge--host {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+  border-radius: 100%;
+}
+
+.team-box__badge--host:after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  content: "H";
+}
+
+.team-box__badge--status {
+  display: flex;
+  align-items: center;
+  height: 20px;
+  line-height: 20px;
+  margin-left: auto;
+  padding: 0 6px;
+  border-radius: 2px;
+}
+
+.team-box__badge--status-actor-up:after {
+  content: 'Actor Up';
+}
+
+.team-box__badge--status-on-deck {
+  background: var(--color__default);
+}
+
+.team-box__badge--status-on-deck:after {
+  content: 'On Deck';
+}
+
+/* TeamScore */
+.team-box__score {
+  padding: 0 6px 0 12px;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.team-box__score * {
+  color: var(--color__background);
+}
+
+.team-box__score-label {
+  display: inline-block;
+  width: 100%;
+  line-height: 32px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.team-box__score-number {
+  font-size: 2.8125em;
+  line-height: 38px;
+}
+
+/* /TEAM BOX */
 /* /COMPONENTS */
 /* LOADING INDICATOR */
 
