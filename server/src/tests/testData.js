@@ -106,7 +106,7 @@ export const midGamePhase = {
         {
           teamName: "Silver Tiger Claw",
           teamPlayers: ["bobanya", "genji", "millie"],
-          playerIndex: 1,
+          playerIndex: 2,
           score: 1,
         },
       ],
@@ -149,7 +149,7 @@ export const midGamePhase = {
           success: false,
         },
         {
-          startTime: null,
+          startTime: 1588558102804,
           endTime: null,
           teamIndex: 0,
           player: "heinrich",
