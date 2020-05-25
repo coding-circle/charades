@@ -12,6 +12,7 @@ import { updateSettingsTests } from "./updateSettings";
 import { renameTeamTests } from "./renameTeam";
 import { endTurnTests } from "./endTurn";
 import { startGameTests } from "./startGame";
+import { skipPlayerTests } from "./skipPlayer";
 
 describe("Create Party", createPartyTests);
 describe("Join Party", joinPartyTests);
@@ -21,3 +22,4 @@ describe("Update Settings", updateSettingsTests);
 describe("Rename Team Name", renameTeamTests);
 describe("End Turn", endTurnTests);
 describe("Start Game", startGameTests);
+describe("Skip Player", skipPlayerTests);
