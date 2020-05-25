@@ -7,33 +7,35 @@ import api from "../../utils/api";
 import { TextInput, CloseButton, Button } from "../../components";
 
 function CreateGame({ username, setUsername, hideCreateGameView }) {
-  const [teams, setTeams] = useState(2);
+  const [teamsCount, setTeamsCount] = useState(2);
   const [rotations, setRotations] = useState(1);
   const [turnDuration, setTurnDuration] = useState(90);
 
   const [_, setLocalStorage] = useLocalStorage("charades");
 
   const createParty = async () => {
-    const { data } = await api.createParty({
+    const res = await api.createParty({
       host: username,
       settings: {
-        teams,
+        teamsCount,
         rotations,
         turnDuration,
       },
     });
 
-    console.log(data);
-
-    if (data) {
-      setLocalStorage({
-        slug: data,
-        username: username,
-      });
-
-      window.location.pathname = data;
-      // setCurrentViewToParty();
+    if (!res || !res.data) {
+      alert("Server Error");
+      return;
     }
+
+    const slug = res.data;
+
+    setLocalStorage({
+      slug,
+      username,
+    });
+
+    window.location.pathname = slug;
   };
 
   return (
@@ -44,12 +46,12 @@ function CreateGame({ username, setUsername, hideCreateGameView }) {
       </header>
       <main className="app__main app__main--home">
         <TextInput
-          name="teams"
+          name="teams-count"
           label="Teams"
           subLabel="The number of teams playing"
-          value={teams}
+          value={teamsCount}
           onChange={(evt) => {
-            setTeams(evt.target.value);
+            setTeamsCount(evt.target.value);
           }}
         />
         <TextInput

@@ -13,7 +13,7 @@ const addPrompt = async (req, res) => {
 
   req.socket.broadcastParty(slug, party);
 
-  res.status(200);
+  res.status(200).send("addPrompt success");
 };
 
 // create game
@@ -24,7 +24,7 @@ const createGame = async (req, res) => {
 
   req.socket.broadcastParty(slug, party);
 
-  res.status(200);
+  res.status(200).send("createGame success");
 };
 
 // start game
@@ -35,7 +35,7 @@ const startGame = async (req, res) => {
 
   req.socket.broadcastParty(slug, party);
 
-  res.status(200);
+  res.status(200).send("startGame Success");
 };
 
 // start turn
@@ -46,7 +46,7 @@ const startTurn = async (req, res) => {
 
   req.socket.broadcastParty(slug, party);
 
-  res.status(200);
+  res.status(200).send("startTurn success");
 };
 
 // end turn
@@ -58,7 +58,7 @@ const endTurn = async (req, res) => {
 
   req.socket.broadcastParty(slug, party);
 
-  res.status(200);
+  res.status(200).send("endTurn success");
 };
 
 // skip turn
@@ -69,7 +69,7 @@ const skipTurn = async (req, res) => {
 
   req.socket.broadcastParty(slug, party);
 
-  res.status(200);
+  res.status(200).send("skipTurn success");
 };
 
 // rename team
@@ -81,7 +81,7 @@ const renameTeam = async (req, res) => {
 
   req.socket.broadcastParty(slug, party);
 
-  res.status(200);
+  res.status(200).send("renameTeam success");
 };
 
 export default {

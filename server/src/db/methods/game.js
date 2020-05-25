@@ -46,18 +46,19 @@ const startGame = async ({ slug }) => {
   const party = await partyMethods.getParty({ slug });
   const currentGame = party.games[party.games.length - 1];
 
-  const randomPromptIndex = getRandomPromptIndex(
-    currentGame.team[0].teamPlayers,
+  const randomPromptIndex = helpers.getRandomPromptIndex(
+    currentGame.teams[0].teamPlayers,
     party.prompts
   );
 
   // remove a random prompt from list
-  const [randomPrompt] = prompts.splice(1, randomPromptIndex);
+  const [randomPrompt] = party.prompts.splice(randomPromptIndex, 1);
 
   const firstTurn = {
     teamIndex: 0,
-    player: currentGame.team[0].teamPlayers[0],
-    ...randomPrompt,
+    player: currentGame.teams[0].teamPlayers[0],
+    author: randomPrompt.author,
+    prompt: randomPrompt.prompt,
   };
 
   currentGame.startTime = Date.now();

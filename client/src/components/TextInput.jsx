@@ -1,7 +1,7 @@
 import React from "react";
 
 const TextInput = ({ style, label, subLabel, name, value, onChange }) => {
-  const classes = `text-input__label
+  const classes = `${label && "text-input__label"}
     ${subLabel ? "text-input__label--with-sublabel" : ""}`;
 
   return (

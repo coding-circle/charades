@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocalStorage } from "@rehooks/local-storage";
 
-import Home from "./views/Home/Home";
+import Home from "./views/Home";
 import Party from "./views/Party";
 import LoadingIndicator from "./components/LoadingIndicator";
 import api from "./utils/api";
