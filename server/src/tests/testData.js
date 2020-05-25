@@ -149,7 +149,7 @@ export const midGamePhase = {
           success: false,
         },
         {
-          startTime: 1588558102804,
+          startTime: null,
           endTime: null,
           teamIndex: 0,
           player: "heinrich",
