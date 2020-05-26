@@ -37,7 +37,7 @@ export const useTimer = ({ startTime, turnDurationSeconds }) => {
         }, difference);
       }
     }
-  }, [startTime, turnDurationSeconds]);
+  }, [startTime, turnDurationSeconds, countdownTime, time]);
 
   useEffect(() => {
     let intervalId;
@@ -72,7 +72,7 @@ export const useTimer = ({ startTime, turnDurationSeconds }) => {
         clearInterval(intervalId);
       }
     };
-  }, [time, countdownTime]);
+  }, [time, countdownTime, endTime, turnDurationSeconds]);
 
   const countdownTimeToShow = countdownTime <= 3 ? countdownTime : null;
 

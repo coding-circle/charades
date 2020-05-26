@@ -36,7 +36,7 @@ const Wrapper = (PartyComponent) =>
 
         debouncedClearPointedAt();
       });
-    }, [props]);
+    }, [props, cancel, debouncedClearPointedAt, socket]);
 
     const handlePoint = (pointee) => {
       socket.emit("point-at", {
