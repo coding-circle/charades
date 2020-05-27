@@ -39,17 +39,17 @@ const createInProgressGame = (gamePhase) => {
 };
 
 const getRandomPromptIndex = (currentTeamPlayers, prompts) => {
-  const filteredPrompts = prompts.map( (prompt, promptIndex) => {
-    return {
-      author: prompt.author,
-      promptIndex,
-    }
-  })
-  .filter(
-    (prompt) => !currentTeamPlayers.includes(prompt.author)
-  );
+  const filteredPrompts = prompts
+    .map((prompt, promptIndex) => {
+      return {
+        author: prompt.author,
+        promptIndex,
+      };
+    })
+    .filter((prompt) => !currentTeamPlayers.includes(prompt.author));
 
-  return filteredPrompts[Math.floor(Math.random() * filteredPrompts.length)].promptIndex;
+  return filteredPrompts[Math.floor(Math.random() * filteredPrompts.length)]
+    .promptIndex;
 };
 
 const generateSlug = () => {
