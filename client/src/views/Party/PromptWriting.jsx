@@ -16,7 +16,8 @@ function PromptWriting({ party, username }) {
   );
 
   const currentUserPromptsCount = useMemo(() => getUserPromptsCount(username), [
-    party,
+    getUserPromptsCount,
+    username,
   ]);
 
   const requiredPromptsCount = useMemo(() => {
@@ -30,7 +31,7 @@ function PromptWriting({ party, username }) {
     return party.players.filter((player) => {
       return getUserPromptsCount(player) < requiredPromptsCount;
     });
-  }, [party]);
+  }, [party, getUserPromptsCount, requiredPromptsCount]);
 
   const remainingPlayersText = useMemo(() => {
     const remainingPlayersCount = remainingPlayers.length;
@@ -49,7 +50,7 @@ function PromptWriting({ party, username }) {
     }
 
     return "Everyone finished their clues! 🥳🥳🥳";
-  });
+  }, [remainingPlayers]);
 
   const handleAddPrompt = async () => {
     if (!prompt.length) return;
@@ -74,8 +75,6 @@ function PromptWriting({ party, username }) {
     const res = await api.startGame({
       slug: party.slug,
     });
-
-    console.log(res);
 
     return res;
   };

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useLocalStorage } from "@rehooks/local-storage";
 
-import Home from "./views/Home";
-import Party from "./views/Party";
+import Home from "./views/Home/Home";
+import Party from "./views/Party/Party";
+import Sandbox from "./views/Sandbox";
 import LoadingIndicator from "./components/LoadingIndicator";
 import api from "./utils/api";
+
+const isDevelopment = process.env.NODE_ENV === "development";
 
 function App() {
   const [currentView, setCurrentView] = useState("loading");
@@ -19,9 +22,9 @@ function App() {
 
   useEffect(() => {
     const loadSlug = async () => {
-      const UrlSlug = document.location.pathname.slice(1);
+      const urlSlug = document.location.pathname.slice(1);
 
-      if (!UrlSlug) {
+      if (!urlSlug) {
         if (!localStorage.slug) {
           setLocalStorage({
             ...localStorage,
@@ -46,7 +49,13 @@ function App() {
           });
         }
       } else {
-        if (UrlSlug === localStorage.slug) {
+        // if development and sandbox
+        if (isDevelopment && urlSlug.toLowerCase() === "sandbox") {
+          setCurrentView("sandbox");
+          return;
+        }
+
+        if (urlSlug === localStorage.slug) {
           const remoteParty = await api.getParty({ slug: localStorage.slug });
 
           if (
@@ -60,7 +69,7 @@ function App() {
         } else {
           setLocalStorage({
             ...localStorage,
-            slug: UrlSlug,
+            slug: urlSlug,
           });
         }
       }
@@ -88,6 +97,7 @@ function App() {
       />
     ),
     loading: <LoadingIndicator />,
+    sandbox: <Sandbox />,
   };
 
   return <div id="app">{views[currentView]}</div>;

@@ -106,7 +106,7 @@ export const midGamePhase = {
         {
           teamName: "Silver Tiger Claw",
           teamPlayers: ["bobanya", "genji", "millie"],
-          playerIndex: 1,
+          playerIndex: 2,
           score: 1,
         },
       ],

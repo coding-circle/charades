@@ -3,46 +3,56 @@ import SocketHOC from "../../utils/SocketHOC";
 
 import WaitingRoom from "./WaitingRoom";
 import PromptWriting from "./PromptWriting";
+import GamePlay from "./GamePlay";
 
 // Logic for which game view and what what props are passed down is handled here.
-function Party({ slug, username, party }) {
+function Party({ slug, username, party, pointedAt, onPoint }) {
   const [activeView, setActiveView] = useState("pre-game");
   const [isHost, setIsHost] = useState(false);
+  const [game, setGame] = useState({});
+
   useEffect(() => {
-    const { games } = party;
+    const currentGame = party.games[party.games.length - 1];
+    setGame(currentGame);
 
     // **pre-game lobby:**
-    if (games.length === 0) {
+    if (party.games.length === 0) {
       setActiveView("pre-game");
     }
 
     // **prompt-writing:**
-    else if (games[games.length - 1].startTime === null) {
+    else if (currentGame.startTime === null) {
       setActiveView("prompt-writing");
     }
 
     // **game-play:**
-    else if (
-      games[games.length - 1].startTime &&
-      games[games.length - 1].endTime === null
-    ) {
+    else if (currentGame.startTime && currentGame.endTime === null) {
       setActiveView("game-play");
     }
 
     // **post-game lobby**
-    else if (games[games.length - 1].endTime !== null) {
+    else if (currentGame.endTime !== null) {
       setActiveView("post-game");
     }
 
     if (party.host === username) {
       setIsHost(true);
     }
-  }, [party]);
+  }, [party, username]);
+
+  const props = {
+    party,
+    username,
+    game,
+    isHost,
+    pointedAt,
+    onPoint,
+  };
 
   const views = {
-    "pre-game": <WaitingRoom party={party} isHost={isHost} />,
-    "prompt-writing": <PromptWriting party={party} username={username} />,
-    // "game-play": <GamePlay party={party} />,
+    "pre-game": <WaitingRoom {...props} />,
+    "prompt-writing": <PromptWriting {...props} />,
+    "game-play": <GamePlay {...props} />,
   };
 
   return <>{views[activeView]}</>;
