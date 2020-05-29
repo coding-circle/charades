@@ -1,0 +1,42 @@
+.team-box {
+  width: 100%;
+  margin-bottom: 32px;
+  color: var(--color__background);
+}
+
+.team-box__team-label,
+.team-box__body {
+  background: var(--color__default);
+  border-radius: 4px;
+  color: var(--color__background);
+}
+
+.team-box__team-label,
+.team-box__player-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
+}
+
+.team-box__header {
+  display: flex;
+}
+
+.team-box__team-label {
+  line-height: 24px;
+  padding: 6px 12px;
+}
+
+.team-box__rename-button {
+  margin-left: 4px;
+}
+
+.team-box__body {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  padding: 6px 6px 12px;
+  margin-top: -5px;
+}
+
+

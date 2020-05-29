@@ -1,4 +1,5 @@
 import React from "react";
+import "./TextInput.css";
 
 const TextInput = ({ style, label, subLabel, name, value, onChange }) => {
   const classes = `${label && "text-input__label"}

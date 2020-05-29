@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "./Button";
+import "./CloseButton.css";
 
 function CloseButton({ onClick }) {
   return (

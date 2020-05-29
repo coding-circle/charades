@@ -1,5 +1,6 @@
 // reference: https://github.com/tobiasahlin/SpinKit
 import React from "react";
+import "./LoadingIndicator.css";
 
 function LoadingIndicator() {
   return (
