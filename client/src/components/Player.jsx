@@ -10,7 +10,6 @@ const Player = ({ className, playerName, host, actorUp, onDeck, color }) => {
   ${actorUp && 'player__badge--status-actor-up'} 
   ${onDeck && 'player__badge--status-on-deck'}`;
 
-
   return (
     <li className={itemClasses}>
       {host && (
