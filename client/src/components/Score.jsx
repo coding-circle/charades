@@ -8,9 +8,9 @@ const Score = (props) => {
   const score = props.score || 0;
 
   return (
-    <div class="score">
-      <span class="score__label text__all-caps text__bold">Score</span>
-      <span class="score__number text__all-caps text__all-caps--large text__bold">{score}</span>
+    <div className="score">
+      <span className="score__label text__all-caps text__bold">Score</span>
+      <span className="score__number text__all-caps text__all-caps--large text__bold">{score}</span>
     </div>
   );
 };

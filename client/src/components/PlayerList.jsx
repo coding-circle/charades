@@ -7,7 +7,7 @@ const PlayerList = ({ className, host, players, actorUp, onDeck, color }) => {
   ${className || ""}`;
 
   return (
-    <ul class={classes}>
+    <ul className={classes}>
       {players.map((playerName, index) => (
         <Player
           playerName={playerName}
