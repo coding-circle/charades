@@ -16,8 +16,8 @@ function Sandbox() {
           onDeck={'Pristina'}
           color={'aquamarine'}
           />
-          <Score score={48} />
-        </TeamBox>
+        <Score score={48} />
+      </TeamBox>
     </div>
   );
 }

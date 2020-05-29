@@ -1,24 +1,24 @@
 import React from "react";
 import "./Button.css";
 
-const Button = (props) => {
+const Button = ({ className, type, disabled, onClick, style, icon, children}) => {
   const classes = `button
-  ${props.className ? props.className : ""}
-  ${props.type === "primary" && "button-primary text__heading"}
-  ${props.type === "secondary" && "button-secondary"}
-  ${props.disabled && "button-disabled"}`;
+  ${className || ""}
+  ${type === "primary" && "button-primary text__heading"}
+  ${type === "secondary" && "button-secondary"}
+  ${disabled && "button-disabled"}`;
 
   return (
     <button
       className={classes}
-      onClick={props.onClick}
-      style={props.style}
-      disabled={props.disabled}
+      onClick={onClick}
+      style={style}
+      disabled={disabled}
     >
-      {props.icon && (
-        <span className="button-secondary__icon">{props.icon}</span>
+      {icon && (
+        <span className="button-secondary__icon">{icon}</span>
       )}
-      {props.children}
+      {children}
     </button>
   );
 };

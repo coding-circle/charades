@@ -1,11 +1,9 @@
 import React from "react";
 import "./Score.css";
 
-const Score = (props) => {
+const Score = ({ className, score = 0 }) => {
   const classes = `score
-  ${props.className ? props.className : ""}`;
-
-  const score = props.score || 0;
+  ${className || ""}`;
 
   return (
     <div className="score">
