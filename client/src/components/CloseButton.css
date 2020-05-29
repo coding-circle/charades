@@ -1,0 +1,17 @@
+.close-button {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  width: 40px;
+}
+
+.close-button.button-secondary {
+  padding: 0;
+}
+
+.close-button svg {
+  width: 32px;
+  height: 32px;
+}
+
