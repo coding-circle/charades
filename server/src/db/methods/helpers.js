@@ -22,7 +22,14 @@ const computeTotalTurns = (party) => {
 const isGameInProgress = (party) =>
   party.games.length && !party.games[party.games.length - 1].endTime;
 
-const generateRandomTeamName = () => "team_" + Date.now();
+const generateRandomTeamName = () => {
+  const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+  const noun = nouns[Math.floor(Math.random() * nouns.length)];
+
+  const teamName = `${adjective}${noun}`;
+  if (teamName.length > 10) return teamName.substring(0, 10);
+  return teamName;
+};
 
 const createInProgressGame = (gamePhase) => {
   const phaseMapper = {
@@ -53,11 +60,18 @@ const getRandomPromptIndex = (currentTeamPlayers, prompts) => {
 };
 
 const generateSlug = () => {
-  const number = String(Math.floor(Math.random() * 1000));
-  const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
-  const noun = nouns[Math.floor(Math.random() * nouns.length)];
+  const letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const number = "0123456789";
 
-  return `${number}-${adjective}-${noun}`;
+  const random = (chars) => {
+    return chars[Math.floor(Math.random() * chars.length)];
+  };
+
+  let slug = "";
+  for (let i = 0; i < 3; i++) slug = slug + random(letter);
+  for (let i = 0; i < 3; i++) slug = slug + random(number);
+
+  return slug;
 };
 
 export default {
