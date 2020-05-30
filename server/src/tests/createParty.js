@@ -78,10 +78,21 @@ export const createPartyTests = () => {
     const slugSet = new Set();
     for (let i = 0; i < count; i++) {
       const slug = helpers.generateSlug();
-      expect(slug.split(" ").length).toBe(1);
-      expect(slug.split("-").length).toBe(3);
+      expect(slug.length).toBe(6);
       slugSet.add(slug);
     }
     expect(slugSet.size).toBeGreaterThan(count - duplicatesAllowed);
+  });
+
+  it("should generate reasonably random team names in the right format", async () => {
+    const count = 100;
+    const duplicatesAllowed = 10;
+    const teamNamesSet = new Set();
+    for (let i = 0; i < count; i++) {
+      const teamName = helpers.generateRandomTeamName();
+      expect(teamName.length).toBeLessThanOrEqual(10);
+      teamNamesSet.add(teamName);
+    }
+    expect(teamNamesSet.size).toBeGreaterThan(count - duplicatesAllowed);
   });
 };
