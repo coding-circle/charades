@@ -1,14 +1,22 @@
 import React from "react";
 import "./Player.css";
 
-const Player = ({ className, playerName, host, actorUp, onDeck, color }) => {
+const Player = ({
+  className,
+  playerName,
+  host,
+  actorUp,
+  onDeck,
+  color,
+  username,
+}) => {
   const itemClasses = `player
   ${className || ""}`;
 
   const badgeClasses = `player__badge player__badge--status text__all-caps 
   text__small text__bold 
-  ${actorUp && 'player__badge--status-actor-up'} 
-  ${onDeck && 'player__badge--status-on-deck'}`;
+  ${actorUp && "player__badge--status-actor-up"} 
+  ${onDeck && "player__badge--status-on-deck"}`;
 
   return (
     <li className={itemClasses}>
@@ -18,11 +26,13 @@ const Player = ({ className, playerName, host, actorUp, onDeck, color }) => {
       <div
         className="player__name text__all-caps text__heading text__bold"
         style={{ color: color }}
-      >{playerName}</div>
+      >
+        {playerName}
+      </div>
       {(actorUp || onDeck) && (
         <div
           className={badgeClasses}
-          style={{ background: onDeck ? color : 'var(--color__foreground)' }}
+          style={{ background: onDeck ? color : "var(--color__foreground)" }}
         ></div>
       )}
     </li>
@@ -30,5 +40,3 @@ const Player = ({ className, playerName, host, actorUp, onDeck, color }) => {
 };
 
 export default Player;
-
-

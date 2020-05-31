@@ -7,4 +7,13 @@ import Player from "./Player";
 import Score from "./Score";
 import TimerWidget from "./TimerWidget";
 
-export { TextInput, Button, CloseButton, TeamBox, PlayerList, Player, Score, TimerWidget };
+export {
+  TextInput,
+  Button,
+  CloseButton,
+  TeamBox,
+  PlayerList,
+  Player,
+  Score,
+  TimerWidget,
+};

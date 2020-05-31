@@ -1,36 +1,50 @@
-import React, { useState, useEffect } from "react";
+import React, { useMemo } from "react";
 
-import { Button, TimerWidget } from "../../components";
+import { Button, TimerWidget, TeamBox, PlayerList } from "../../components";
+import "./GamePlay.css";
 
 function GamePlay({ party, username, isHost, game, onPoint, pointedAt }) {
-  const [turn, setTurn] = useState({});
-  const [actorUp, setActorUp] = useState("");
-  const [onDeck, setOnDeck] = useState("");
-
-  useEffect(() => {
-    const currentTurn = game.turns[game.turns.length - 1];
-    setTurn(currentTurn);
-
-    const actorUp = currentTurn.player;
-
-    let onDeck = "";
-
+  const turn = useMemo(() => game.turns[game.turns.length - 1], [game]);
+  const actorUp = turn.player;
+  const onDeck = useMemo(() => {
     if (game.totalTurns > game.turns.length) {
-      const nextTeamIndex =
-        (currentTurn.teamIndex + 1) % party.settings.teamsCount;
-      const nextTeam = game.teams[nextTeamIndex];
+      const nextTeam =
+        game.teams[(turn.teamIndex + 1) % party.settings.teamsCount];
 
-      onDeck = nextTeam.teamPlayers[nextTeam.playerIndex];
+      return nextTeam.teamPlayers[nextTeam.playerIndex];
     }
+    return "";
+  }, [game]);
 
-    setActorUp(actorUp);
-    setOnDeck(onDeck);
-  }, [party, game.teams, game.totalTurns, game.turns]);
+  const teams = useMemo(() => {
+    return game.teams.reduce((acc, cur) => {
+      return cur.teamPlayers.includes(username) ? [cur, ...acc] : [...acc, cur];
+    }, []);
+  }, [game]);
 
   return (
-    <div className="app__main app__main--home">
-      <TimerWidget />
-    </div>
+    <>
+      <header className="app__header app__header--with-rule">
+        <h1 className="text__heading app__title">Teams</h1>
+      </header>
+      <main className="app__main">
+        {teams.map((team, index) => (
+          <TeamBox
+            key={team.teamName}
+            myTeam={index === 0}
+            color={index ? "#F2994A" : "#BB6BD9"}
+            teamName={team.teamName}
+          >
+            <PlayerList
+              color={index ? "#F2994A" : "#BB6BD9"}
+              players={team.teamPlayers}
+              actorUp={actorUp}
+              onDeck={onDeck}
+            />
+          </TeamBox>
+        ))}
+      </main>
+    </>
   );
 }
 
