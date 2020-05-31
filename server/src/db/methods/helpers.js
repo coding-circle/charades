@@ -24,6 +24,16 @@ const isGameInProgress = (party) =>
 
 const generateRandomTeamName = () => "team_" + Date.now();
 
+function generateTeamColor (teamsCount, startingHue = Math.floor(Math.random() * 360)) {
+    return new Array(teamsCount)
+      .fill('')
+      .map((_, index) => {
+        var hue = (startingHue + (Math.floor(360 / teamsCount) * index)) % 360;
+        return `hsl(${hue}, 100%, 75%)`
+      });
+  }
+
+
 const createInProgressGame = (gamePhase) => {
   const phaseMapper = {
     lobby: lobbyPhase,
@@ -64,6 +74,7 @@ export default {
   computeTotalTurns,
   isGameInProgress,
   generateRandomTeamName,
+  generateTeamColor,
   createInProgressGame,
   getRandomPromptIndex,
   generateSlug,

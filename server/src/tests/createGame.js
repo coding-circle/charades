@@ -66,4 +66,21 @@ export const createGameTests = () => {
   it("it should evenly distribute players across teamsCount number of teams", async () => {});
 
   it("it should randomly distribute players across teams", async () => {});
+
+  it("it should create a color for the team", async () => {
+    const { slug } = await createParty({
+      host: "james",
+    });
+
+    await joinParty({ username: "paul", slug });
+    await joinParty({ username: "ringo", slug });
+    await joinParty({ username: "john", slug });
+    await joinParty({ username: "george", slug });
+
+    const party = await createGame({ slug });
+
+    expect('hsl').toEqual(party.games[0].teams[0].teamColor.substring(0,3));
+    expect('hsl').toEqual(party.games[0].teams[1].teamColor.substring(0,3));
+    
+  });
 };
