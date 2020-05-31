@@ -8,10 +8,11 @@ import helpers from "./helpers";
 const createGame = async ({ slug }) => {
   const party = await partyMethods.getParty({ slug });
 
-  const teams = [...new Array(party.settings.teamsCount)].map(() => {
+  const teams = helpers.generateTeamColor(party.settings.teamsCount).map((teamColor) => {
     return {
       teamName: helpers.generateRandomTeamName(),
       teamPlayers: [],
+      teamColor,
     };
   });
 
