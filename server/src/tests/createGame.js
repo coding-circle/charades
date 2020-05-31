@@ -79,8 +79,7 @@ export const createGameTests = () => {
 
     const party = await createGame({ slug });
 
-    expect('hsl').toEqual(party.games[0].teams[0].teamColor.substring(0,3));
-    expect('hsl').toEqual(party.games[0].teams[1].teamColor.substring(0,3));
-    
+    expect("hsl").toEqual(party.games[0].teams[0].teamColor.substring(0, 3));
+    expect("hsl").toEqual(party.games[0].teams[1].teamColor.substring(0, 3));
   });
 };
