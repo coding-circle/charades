@@ -1,5 +1,6 @@
 import React from "react";
 import "./TeamBox.css";
+import Button from "./Button";
 
 const TeamBox = ({ className, teamName, children, myTeam, color }) => {
   const classes = `team-box
@@ -13,7 +14,7 @@ const TeamBox = ({ className, teamName, children, myTeam, color }) => {
           style={{ background: color }}
         >{teamName}</div>
         {myTeam && (
-          <button className="team-box__rename-button button-secondary">Rename?</button>
+          <Button type="secondary" className="team-box__rename-button">Rename?</Button>
         )}
       </div>
       <div
