@@ -8,13 +8,15 @@ import helpers from "./helpers";
 const createGame = async ({ slug }) => {
   const party = await partyMethods.getParty({ slug });
 
-  const teams = helpers.generateTeamColor(party.settings.teamsCount).map((teamColor) => {
-    return {
-      teamName: helpers.generateRandomTeamName(),
-      teamPlayers: [],
-      teamColor,
-    };
-  });
+  const teams = helpers
+    .generateTeamColor(party.settings.teamsCount)
+    .map((teamColor) => {
+      return {
+        teamName: helpers.generateRandomTeamName(),
+        teamPlayers: [],
+        teamColor,
+      };
+    });
 
   const shuffledPlayers = _shuffle(party.players);
 
@@ -133,28 +135,27 @@ export const endTurn = async ({ slug, success }) => {
   return party.save();
 };
 
-  // skip player
-  const skipPlayer = async ({ slug }) => {
-    const party = await partyMethods.getParty({ slug });
+// skip player
+const skipPlayer = async ({ slug }) => {
+  const party = await partyMethods.getParty({ slug });
 
-    const currentGame = party.games[party.games.length - 1];
-    const currentTurn = currentGame.turns[currentGame.turns.length - 1];
-    const { teamIndex } = currentGame.turns[currentGame.turns.length - 1];
+  const currentGame = party.games[party.games.length - 1];
+  const currentTurn = currentGame.turns[currentGame.turns.length - 1];
+  const { teamIndex } = currentGame.turns[currentGame.turns.length - 1];
 
-    const {
-      playerIndex: currentPlayerIndex,
-      teamPlayers: currentTeamPlayers,
-    } = currentGame.teams[teamIndex];
+  const {
+    playerIndex: currentPlayerIndex,
+    teamPlayers: currentTeamPlayers,
+  } = currentGame.teams[teamIndex];
 
-    const newPlayerIndex = (currentPlayerIndex + 1) % currentTeamPlayers.length;
-    const newPlayer = currentGame.teams[teamIndex].teamPlayers[newPlayerIndex];
+  const newPlayerIndex = (currentPlayerIndex + 1) % currentTeamPlayers.length;
+  const newPlayer = currentGame.teams[teamIndex].teamPlayers[newPlayerIndex];
 
-    currentGame.teams[teamIndex].playerIndex = newPlayerIndex;
-    currentTurn.player = newPlayer;
-    
-    return party.save();
-  };
- 
+  currentGame.teams[teamIndex].playerIndex = newPlayerIndex;
+  currentTurn.player = newPlayer;
+
+  return party.save();
+};
 
 // rename team
 const renameTeam = async ({ slug, teamIndex, teamName }) => {

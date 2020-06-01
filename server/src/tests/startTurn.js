@@ -22,5 +22,5 @@ export const startTurnTests = () => {
     await clearParties();
   });
 
-  it("should add a start time", async);
+  it("should add a start time", async () => {});
 };
