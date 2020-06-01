@@ -1,7 +1,7 @@
 import React from "react";
 import "./Button.css";
 
-const Button = ({ className, type, variant, disabled, onClick, style, icon, children}) => {
+const Button = ({ className, type, variant, disabled, onClick, style, icon, children }) => {
   const classes = `${className || ""}
   ${type && type === "primary" ? "button-primary text__heading" : ""}
   ${type && type === "secondary" ? "button-secondary" : ""}

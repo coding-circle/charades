@@ -92,7 +92,8 @@ This project aims to solve these problems and build a tool that can be used over
       teams: [
         {
           teamName: string,
-          players: string[],
+          teamColor: string,
+          teamPlayers: string[],
           playerIndex: number,
           score: number,
         },
@@ -166,6 +167,7 @@ This project aims to solve these problems and build a tool that can be used over
             "jacten",
             "chedgo",
           ],
+          teamColor: "hsl(${hue}, 100%, 75%)"
           playerIndex: 0,
           score: 0,
         },
