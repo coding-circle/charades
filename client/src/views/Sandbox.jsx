@@ -24,6 +24,8 @@ function Sandbox() {
       <Modal
         title="I Wish U Would?"
         isActive={active}
+        onClickClose={() => setActive(false)}
+        onClickSubmit={() => console.log('submit')}
         type="alert"
         submitButtonText="Wow ok!"
       >

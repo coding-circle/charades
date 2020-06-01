@@ -2,32 +2,26 @@ import React, { useState, useEffect } from "react";
 import "./Modal.css";
 import { Button, CloseButton } from "./";
 
-const Modal = ({ className, type, isActive, isOpaque, children, title, body, submitButtonText, noClose, onClickYes, onClickNo, onClickSubmit }) => {
-  const [active, setActive] = useState(null);
-
-  useEffect(() => {
-    setActive(isActive);
-  }, [isActive]);
-
-  const open = () => setActive(true);
-
-  const close = () => setActive(false);
+const Modal = ({ className, type, isActive, isOpaque, children, title, body, submitButtonText, noCancel, onClickClose, onClickYes, onClickNo, onClickSubmit }) => {
 
   const classes = `modal__screen
   ${className ? className : ""}
-  ${active ? "modal__screen--active" : ""}
+  ${isActive ? "modal__screen--active" : ""}
   ${isOpaque ? "modal__screen--opaque" : ""}`
 
   return (
     <div
       className={classes}
-      onClick={close}
+      onClick={onClickClose}
     >
-      <div className="modal__panel">
+      <div
+        className="modal__panel"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="modal__header">
           <p className="modal__header-text text__heading">{title}</p>
-          {!noClose && (
-            <CloseButton onClick={close} />
+          {!noCancel && (
+            <CloseButton onClick={onClickClose} />
           )}
         </div>
         <div className="modal__body text__body">{body || children}</div>
@@ -37,7 +31,7 @@ const Modal = ({ className, type, isActive, isOpaque, children, title, body, sub
               <Button
                 type="primary"
                 variant="no"
-                onClick={onClickYes}
+                onClick={onClickNo}
               >Nope...</Button>
               <Button
                 type="primary"
