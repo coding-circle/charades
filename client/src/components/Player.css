@@ -1,12 +1,22 @@
 .player {
   display: flex;
+  flex: 1;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  margin-bottom: 6px;
+  border-radius: 2px;
+}
+
+.player__item {
+  display: flex;
   align-items: center;
   justify-content: flex-start;
   height: 32px;
-  margin-bottom: 6px;
-  padding: 0 6px;
-  background: var(--color__background);
+  width: 100%;
   border-radius: 2px;
+  background: var(--color__background);
+  padding: 0 6px;
 }
 
 .player__name {
@@ -50,7 +60,7 @@
 }
 
 .player__badge--status-actor-up:after {
-  content: 'Actor Up';
+  content: "Actor Up";
 }
 
 .player__badge--status-on-deck {
@@ -58,6 +68,5 @@
 }
 
 .player__badge--status-on-deck:after {
-  content: 'On Deck';
+  content: "On Deck";
 }
-

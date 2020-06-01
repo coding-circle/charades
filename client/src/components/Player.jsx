@@ -1,14 +1,17 @@
 import React from "react";
+
 import "./Player.css";
+import YoureUp from "./YoureUp";
 
 const Player = ({
   className,
+  youreUp,
+  party,
   playerName,
   host,
   actorUp,
   onDeck,
   color,
-  username,
 }) => {
   const itemClasses = `player
   ${className || ""}`;
@@ -20,21 +23,24 @@ const Player = ({
 
   return (
     <li className={itemClasses}>
-      {host && (
-        <div className="player__badge player__badge--host text__all-caps text__small text__bold"></div>
-      )}
-      <div
-        className="player__name text__all-caps text__heading text__bold"
-        style={{ color: color }}
-      >
-        {playerName}
-      </div>
-      {(actorUp || onDeck) && (
+      <div className="player__item">
+        {host && (
+          <div className="player__badge player__badge--host text__all-caps text__small text__bold"></div>
+        )}
         <div
-          className={badgeClasses}
-          style={{ background: onDeck ? color : "var(--color__foreground)" }}
-        ></div>
-      )}
+          className="player__name text__all-caps text__heading text__bold"
+          style={{ color: color }}
+        >
+          {playerName}
+        </div>
+        {(actorUp || onDeck) && (
+          <div
+            className={badgeClasses}
+            style={{ background: onDeck ? color : "var(--color__foreground)" }}
+          ></div>
+        )}
+      </div>
+      {youreUp && <YoureUp party={party} />}
     </li>
   );
 };

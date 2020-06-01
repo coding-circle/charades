@@ -2,7 +2,16 @@ import React from "react";
 import Player from "./Player";
 import "./PlayerList.css";
 
-const PlayerList = ({ className, host, players, actorUp, onDeck, color }) => {
+const PlayerList = ({
+  className,
+  username,
+  party,
+  host,
+  players,
+  actorUp,
+  onDeck,
+  color,
+}) => {
   const classes = `player-list
   ${className || ""}`;
 
@@ -10,10 +19,13 @@ const PlayerList = ({ className, host, players, actorUp, onDeck, color }) => {
     <ul className={classes}>
       {players.map((playerName, index) => (
         <Player
+          party={party}
+          username={username}
           playerName={playerName}
           host={host === playerName}
           actorUp={actorUp === playerName}
           onDeck={onDeck === playerName}
+          youreUp={actorUp === username && actorUp === playerName}
           color={color}
           key={playerName + index}
         />
@@ -23,5 +35,3 @@ const PlayerList = ({ className, host, players, actorUp, onDeck, color }) => {
 };
 
 export default PlayerList;
-
-

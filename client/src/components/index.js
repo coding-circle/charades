@@ -6,6 +6,7 @@ import PlayerList from "./PlayerList";
 import Player from "./Player";
 import Score from "./Score";
 import TimerWidget from "./TimerWidget";
+import Turn from "./Turn";
 
 export {
   TextInput,
@@ -16,4 +17,5 @@ export {
   Player,
   Score,
   TimerWidget,
+  Turn,
 };

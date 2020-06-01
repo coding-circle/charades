@@ -1,9 +1,17 @@
 import React from "react";
 import "./TeamBox.css";
 
-const TeamBox = ({ className, teamName, children, myTeam, color }) => {
+const TeamBox = ({
+  className,
+  teamName,
+  children,
+  myTeam,
+  color,
+  fullHeight,
+}) => {
   const classes = `team-box
-  ${className || ""}`;
+  ${className || ""} 
+  ${fullHeight ? "team-box--full-height" : ""}`;
 
   const handleRenameClick = () => {
     console.log("rename");

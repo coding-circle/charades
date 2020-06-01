@@ -1,0 +1,9 @@
+.turn {
+  display: flex;
+  flex-grow: 1;
+  background: var(--color__background);
+  color: var(--color__foreground);
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
