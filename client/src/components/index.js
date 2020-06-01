@@ -6,5 +6,6 @@ import PlayerList from "./PlayerList";
 import Player from "./Player";
 import Score from "./Score";
 import TimerWidget from "./TimerWidget";
+import Modal from "./Modal";
 
-export { TextInput, Button, CloseButton, TeamBox, PlayerList, Player, Score, TimerWidget };
+export { TextInput, Button, CloseButton, TeamBox, PlayerList, Player, Score, TimerWidget, Modal };
