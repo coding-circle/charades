@@ -1,7 +1,15 @@
 import React from "react";
 import "./TextInput.css";
 
-const TextInput = ({ style, label, subLabel, name, value, onChange }) => {
+const TextInput = ({
+  style,
+  label,
+  subLabel,
+  name,
+  value,
+  onChange,
+  maxLength,
+}) => {
   const classes = `${label && "text-input__label"}
     ${subLabel ? "text-input__label--with-sublabel" : ""}`;
 
@@ -21,6 +29,7 @@ const TextInput = ({ style, label, subLabel, name, value, onChange }) => {
         type="text"
         value={value}
         onChange={onChange}
+        maxLength={maxLength}
         className="text__all-caps text__bold text__heading"
       />
     </div>

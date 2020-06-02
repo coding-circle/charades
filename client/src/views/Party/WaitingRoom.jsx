@@ -17,14 +17,14 @@ function WaitingRoom({ party, isHost }) {
       <header className="app__header app__header--with-rule ">
         <div className="waiting-room__header">
           <span className="waiting-room__header-left">
-            <h1 className="text__heading app__title">WebCharades</h1>
+            <h1 className="text__heading">WebCharades</h1>
           </span>
           <span className="waiting-room__header-divider"></span>
           <span className="waiting-room__header-right">
             <p className="waiting-room__header-subtext">Room:</p>
             <h1
               onClick={handleRoomCodeClick}
-              className="text__heading app__title text__all-caps"
+              className="text__heading text__all-caps"
               style={{ cursor: "pointer" }}
             >
               {party.slug}

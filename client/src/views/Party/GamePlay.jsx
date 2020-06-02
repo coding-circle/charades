@@ -1,44 +1,91 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 
 import {
-  Button,
-  TimerWidget,
   TeamBox,
   PlayerList,
   Score,
   Turn,
+  Modal,
+  TextInput,
 } from "../../components";
 import "./GamePlay.css";
+import api from "../../utils/api";
+import { useGameState } from "../../utils/useGameState";
 
-function GamePlay({ party, username, isHost, game, onPoint, pointedAt }) {
-  const turn = useMemo(() => game.turns[game.turns.length - 1], [game]);
-  const actorUp = turn.player;
+function GamePlay({ party, username, isHost, onPoint, pointedAt }) {
+  const {
+    teams,
+    scoreboardTeams,
+    game,
+    turn,
+    inTurn,
+    actorUp,
+    onDeck,
+    userTeamIndex,
+    userTeamName,
+  } = useGameState({ party, username });
 
-  const onDeck = useMemo(() => {
-    if (game.totalTurns > game.turns.length) {
-      const nextTeam =
-        game.teams[(turn.teamIndex + 1) % party.settings.teamsCount];
+  const [renameTeamInput, setRenameTeamInput] = useState(userTeamName);
 
-      return nextTeam.teamPlayers[nextTeam.playerIndex];
-    }
-    return "";
-  }, [game]);
-
-  const inTurn = useMemo(
-    () =>
-      game.turns[game.turns.length - 1].startTime &&
-      !game.turns[game.turns.length - 1].endTime
+  const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
+  const [isLeaveGameModalOpen, setIsLeaveGameModalOpen] = useState(false);
+  const [isTimesUpModalOpen, setIsTimesUpModalOpen] = useState(false);
+  const [isManagePlayersModalOpen, setIsManagePlayersModalOpen] = useState(
+    false
   );
 
-  const teams = useMemo(() => {
-    if (inTurn) {
-      return game.teams.filter((team) => team.teamPlayers.includes(actorUp));
+  const handleRenameClick = () => setIsRenameModalOpen(true);
+  const handleRenameModalClose = () => setIsRenameModalOpen(false);
+
+  const handleLeaveGameClick = () => setIsLeaveGameModalOpen(true);
+  const handleLeaveGameModalClose = () => setIsLeaveGameModalOpen(false);
+
+  const handleTimesUpClick = () => setIsTimesUpModalOpen(true);
+  const handleTimesUpModalClose = () => setIsTimesUpModalOpen(false);
+
+  const handleManagePlayersClick = () => setIsManagePlayersModalOpen(true);
+  const handleManagePlayersModalClose = () =>
+    setIsManagePlayersModalOpen(false);
+
+  const handleRenameSubmit = async () => {
+    try {
+      await api.renameTeam({
+        slug: party.slug,
+        teamName: renameTeamInput,
+        teamIndex: userTeamIndex,
+      });
+
+      handleRenameModalClose();
+    } catch (error) {
+      console.error(error);
     }
-    // makes the users team the first team
-    return game.teams.reduce((acc, cur) => {
-      return cur.teamPlayers.includes(username) ? [cur, ...acc] : [...acc, cur];
-    }, []);
-  }, [game]);
+  };
+
+  const handleLeaveGameSubmit = async () => {
+    try {
+      await api.leaveParty({
+        slug: party.slug,
+        username,
+      });
+
+      handleLeaveGameModalClose();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleTimesUpSubmit = async (success) => {
+    try {
+      await api.endTurn({
+        slug: party.slug,
+        success,
+      });
+
+      handleTimesUpModalClose();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -55,6 +102,7 @@ function GamePlay({ party, username, isHost, game, onPoint, pointedAt }) {
             color={team.teamColor}
             teamName={team.teamName}
             fullHeight={inTurn}
+            onRenameClick={handleRenameClick}
           >
             {inTurn ? (
               <Turn
@@ -79,6 +127,62 @@ function GamePlay({ party, username, isHost, game, onPoint, pointedAt }) {
           </TeamBox>
         ))}
       </main>
+
+      {/* Rename Modal */}
+      <Modal
+        isActive={isRenameModalOpen}
+        onClickClose={handleRenameModalClose}
+        title="Rename Team?"
+        submitButtonText="Rename Team"
+        onClickSubmit={handleRenameSubmit}
+        type="alert"
+      >
+        <p style={{ marginBottom: "12px" }}>Enter a new team name</p>
+        <TextInput
+          onChange={(e) => setRenameTeamInput(e.target.value)}
+          value={renameTeamInput}
+          maxLength={10}
+        />
+      </Modal>
+
+      {/* Leave Game Modal */}
+      <Modal
+        isActive={isLeaveGameModalOpen}
+        onClickClose={handleLeaveGameModalClose}
+        title="Leave Game?"
+        submitButtonText="Leave Game"
+        onClickSubmit={handleLeaveGameSubmit}
+        type="alert"
+        body={<p style={{ marginBottom: "12px" }}>Leave this game now</p>}
+      />
+
+      {/* Time's Up Modal */}
+      <Modal
+        isOpaque
+        isActive={isTimesUpModalOpen}
+        onClickClose={handleTimesUpModalClose}
+        title="Time's Up! Did You Get It?"
+        onClickYes={() => handleTimesUpSubmit(true)}
+        onClickNo={() => handleTimesUpSubmit(true)}
+        type="confirm"
+        body={
+          <p style={{ marginBottom: "12px" }}>Did your team guess correctly?</p>
+        }
+      />
+
+      {/* Manage Players */}
+      <Modal
+        isOpaque
+        isActive={isManagePlayersModalOpen}
+        onClickClose={handleManagePlayersModalClose}
+        title="Time's Up! Did You Get It?"
+        submitButtonText="I'm Done"
+        onClickSubmit={handleManagePlayersModalClose}
+        type="alert"
+      >
+        {/* TODO: Add skip turn feature here! */}
+        {/* TODO: Add team box with players to remove */}
+      </Modal>
     </>
   );
 }

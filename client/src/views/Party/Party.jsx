@@ -6,7 +6,7 @@ import PromptWriting from "./PromptWriting";
 import GamePlay from "./GamePlay";
 
 // Logic for which game view and what what props are passed down is handled here.
-function Party({ slug, username, party, pointedAt, onPoint }) {
+function Party({ username, party, pointedAt, onPoint }) {
   const [activeView, setActiveView] = useState("pre-game");
   const [isHost, setIsHost] = useState(false);
   const [game, setGame] = useState({});
