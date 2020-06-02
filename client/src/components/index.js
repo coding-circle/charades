@@ -6,6 +6,7 @@ import PlayerList from "./PlayerList";
 import Player from "./Player";
 import Score from "./Score";
 import TimerWidget from "./TimerWidget";
+import Modal from "./Modal";
 import Turn from "./Turn";
 
 export {
@@ -17,5 +18,6 @@ export {
   Player,
   Score,
   TimerWidget,
+  Modal,
   Turn,
 };

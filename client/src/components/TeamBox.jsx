@@ -1,5 +1,6 @@
 import React from "react";
 import "./TeamBox.css";
+import Button from "./Button";
 
 const TeamBox = ({
   className,
@@ -27,12 +28,9 @@ const TeamBox = ({
           {teamName}
         </div>
         {myTeam && (
-          <button
-            onClick={handleRenameClick}
-            className="team-box__rename-button button-secondary"
-          >
+          <Button type="secondary" className="team-box__rename-button">
             Rename?
-          </button>
+          </Button>
         )}
       </div>
       <div className="team-box__body" style={{ background: color }}>

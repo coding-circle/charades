@@ -1,13 +1,19 @@
-.button {
-  max-width: 24rem;
-}
-
 .button-primary {
   width: 100%;
   height: 48px;
   color: var(--color__foreground);
   background: var(--color__primary);
   border-color: var(--color__primary);
+}
+
+.button-primary.button-yes {
+  background: var(--color__yes);
+  border-color: var(--color__yes);
+}
+
+.button-primary.button-no {
+  background: var(--color__no);
+  border-color: var(--color__no);
 }
 
 .button-primary.button-disabled {

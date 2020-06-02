@@ -4,17 +4,19 @@ import "./Button.css";
 const Button = ({
   className,
   type,
+  variant,
   disabled,
   onClick,
   style,
   icon,
   children,
 }) => {
-  const classes = `button
-  ${className || ""}
-  ${type === "primary" && "button-primary text__heading"}
-  ${type === "secondary" && "button-secondary"}
-  ${disabled && "button-disabled"}`;
+  const classes = `${className || ""}
+  ${type && type === "primary" ? "button-primary text__heading" : ""}
+  ${type && type === "secondary" ? "button-secondary" : ""}
+  ${variant && variant === "yes" ? "button-yes" : ""}
+  ${variant && variant === "no" ? "button-no" : ""}
+  ${!!disabled ? "button-disabled" : ""}`;
 
   return (
     <button

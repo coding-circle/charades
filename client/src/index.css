@@ -4,6 +4,8 @@
   --color__foreground: white;
   --color__default: #bdbdbd;
   --color__primary: #2d9cdb;
+  --color__yes: #6FCF97;
+  --color__no: #EB5757;
   --font-size__default: 16px;
   --font-weight__medium: 500;
   --font-weight__heavy: 900;
@@ -13,6 +15,10 @@
 body,
 body * {
   box-sizing: border-box;
+}
+
+body *:not(input):not(textarea) {
+  user-select: none;
 }
 
 body {
@@ -57,14 +63,23 @@ li {
   transform: translateX(-50%);
   width: 100%;
   height: 100%;
-  max-width: 800px;
   overflow: hidden;
 }
 
+.app__main {
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+}
+
 .app__header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: sticky;
   top: 0;
   padding: 20px;
+  box-sizing: content-box;
 }
 
 .app__main {
@@ -88,7 +103,6 @@ li {
 }
 
 .app__header--with-rule {
-  min-height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -115,6 +129,8 @@ li {
 
 .app__title {
   text-align: center;
+  margin: 0 auto;
+  line-height: 40px;
 }
 
 /* /APP */
@@ -138,6 +154,10 @@ button {
   align-items: center;
   min-height: 32px;
   font-weight: var(--font-weight__medium);
+  cursor: pointer;
+  max-width: 24rem;
+  background: var(--color__default);
+  border-color: var(--color__default);
 }
 
 input {
