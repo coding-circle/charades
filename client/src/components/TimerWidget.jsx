@@ -4,9 +4,11 @@ import { useTimer } from "../utils/useTimer";
 
 function TimerWidget({ startTime, turnDurationSeconds }) {
   const [time, countdownTime] = useTimer({
-    startTime: (startTime = Date.now() + 5200),
-    turnDurationSeconds: 120,
+    startTime: new Date(startTime).getTime(),
+    turnDurationSeconds,
   });
+
+  console.log(startTime, turnDurationSeconds);
 
   return (
     <>

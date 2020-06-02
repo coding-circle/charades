@@ -39,4 +39,15 @@
   margin-top: -5px;
 }
 
+.team-box--full-height {
+  display: flex;
+  flex-grow: 1;
+  height: 100%;
+  flex-direction: column;
+  margin: 0;
+}
 
+.team-box--full-height .team-box__body {
+  height: 100%;
+  overflow: hidden;
+}

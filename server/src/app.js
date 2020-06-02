@@ -21,7 +21,12 @@ const socket = new SocketService(server);
 
 // middleware
 app.use(cors());
-app.use(bodyParser());
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 
 app.use((req, res, next) => {
   req.body = req.body || {};
