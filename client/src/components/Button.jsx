@@ -1,13 +1,22 @@
 import React from "react";
 import "./Button.css";
 
-const Button = ({ className, type, variant, disabled, onClick, style, icon, children }) => {
+const Button = ({
+  className,
+  type,
+  variant,
+  disabled,
+  onClick,
+  style,
+  icon,
+  children,
+}) => {
   const classes = `${className || ""}
   ${type && type === "primary" ? "button-primary text__heading" : ""}
   ${type && type === "secondary" ? "button-secondary" : ""}
   ${variant && variant === "yes" ? "button-yes" : ""}
   ${variant && variant === "no" ? "button-no" : ""}
-  ${!!disabled ? "button-disabled" : "" }`;
+  ${!!disabled ? "button-disabled" : ""}`;
 
   return (
     <button
@@ -16,9 +25,7 @@ const Button = ({ className, type, variant, disabled, onClick, style, icon, chil
       style={style}
       disabled={disabled}
     >
-      {icon && (
-        <span className="button-secondary__icon">{icon}</span>
-      )}
+      {icon && <span className="button-secondary__icon">{icon}</span>}
       {children}
     </button>
   );

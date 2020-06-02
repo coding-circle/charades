@@ -74,7 +74,7 @@ export const useTimer = ({ startTime, turnDurationSeconds }) => {
     };
   }, [time, countdownTime, endTime, turnDurationSeconds]);
 
-  const countdownTimeToShow = countdownTime <= 3 ? countdownTime : null;
+  const countdownText = ["Go!", "Set!", "Ready!"][countdownTime] || null;
 
-  return [time, countdownTimeToShow];
+  return [time, countdownText];
 };

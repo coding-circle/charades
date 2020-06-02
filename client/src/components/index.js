@@ -7,5 +7,17 @@ import Player from "./Player";
 import Score from "./Score";
 import TimerWidget from "./TimerWidget";
 import Modal from "./Modal";
+import Turn from "./Turn";
 
-export { TextInput, Button, CloseButton, TeamBox, PlayerList, Player, Score, TimerWidget, Modal };
+export {
+  TextInput,
+  Button,
+  CloseButton,
+  TeamBox,
+  PlayerList,
+  Player,
+  Score,
+  TimerWidget,
+  Modal,
+  Turn,
+};
