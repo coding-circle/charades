@@ -10,22 +10,24 @@
   background: rgba(51, 51, 51, 0.8);
   opacity: 0;
   overflow: hidden;
-  transition: top 0.3s cubic-bezier(.6,-0.28,.74,.05), opacity 0.08s linear;
+  transition: top 0.3s cubic-bezier(0.6, -0.28, 0.74, 0.05),
+    opacity 0.08s linear;
 }
 
 .modal__screen--opaque {
-  background: rgba(51, 51, 51, 1.0);
+  background: rgba(51, 51, 51, 1);
 }
 
 .modal__screen--active {
   top: 0;
   opacity: 1;
-  transition: opacity 0.2s 0.1s linear, top 0.2s cubic-bezier(.17,.84,.44,1);
+  transition: opacity 0.2s 0.1s linear,
+    top 0.2s cubic-bezier(0.17, 0.84, 0.44, 1);
 }
 
 .modal__panel {
   width: 100%;
-  max-width: 736px;
+  max-width: 400px;
   margin: 32px;
   padding: 12px;
   border-radius: 4px;
