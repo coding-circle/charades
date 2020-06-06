@@ -107,9 +107,11 @@ function GamePlay({ party, username, isHost, onPoint, pointedAt }) {
             {inTurn ? (
               <Turn
                 party={party}
-                game={game}
-                turn={game.turns[game.turns.length - 1]}
                 username={username}
+                turn={turn}
+                actorUp={actorUp}
+                color={team.teamColor}
+                players={team.teamPlayers}
               />
             ) : (
               <>

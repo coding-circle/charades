@@ -4,47 +4,16 @@ import SocketHOC from "../../utils/SocketHOC";
 import WaitingRoom from "./WaitingRoom";
 import PromptWriting from "./PromptWriting";
 import GamePlay from "./GamePlay";
+import { useGamePhase } from "../../utils/useGamePhase";
 
 // Logic for which game view and what what props are passed down is handled here.
 function Party({ username, party, pointedAt, onPoint }) {
-  const [activeView, setActiveView] = useState("pre-game");
-  const [isHost, setIsHost] = useState(false);
-  const [game, setGame] = useState({});
-
-  useEffect(() => {
-    const currentGame = party.games[party.games.length - 1];
-    setGame(currentGame);
-
-    // **pre-game lobby:**
-    if (party.games.length === 0) {
-      setActiveView("pre-game");
-    }
-
-    // **prompt-writing:**
-    else if (currentGame.startTime === null) {
-      setActiveView("prompt-writing");
-    }
-
-    // **game-play:**
-    else if (currentGame.startTime && currentGame.endTime === null) {
-      setActiveView("game-play");
-    }
-
-    // **post-game lobby**
-    else if (currentGame.endTime !== null) {
-      setActiveView("post-game");
-    }
-
-    if (party.host === username) {
-      setIsHost(true);
-    }
-  }, [party, username]);
+  console.log(party, "here?");
+  const [gamePhase] = useGamePhase(party);
 
   const props = {
     party,
     username,
-    game,
-    isHost,
     pointedAt,
     onPoint,
   };
@@ -55,7 +24,7 @@ function Party({ username, party, pointedAt, onPoint }) {
     "game-play": <GamePlay {...props} />,
   };
 
-  return <>{views[activeView]}</>;
+  return <>{views[gamePhase]}</>;
 }
 
 export default SocketHOC(Party);

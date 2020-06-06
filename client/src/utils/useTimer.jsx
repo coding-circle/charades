@@ -7,10 +7,12 @@ export const useTimer = ({ startTime, turnDurationSeconds }) => {
   // 90, 89, ... starting at turnDurationSeconds
   const [time, setTime] = useState(null);
 
-  const endTime = useMemo(() => startTime + turnDurationSeconds * 1000, [
+  const endTime = useMemo(() => (startTime + turnDurationSeconds) * 1000, [
     startTime,
     turnDurationSeconds,
   ]);
+
+  turnDurationSeconds *= 10;
 
   useEffect(() => {
     if (!startTime) {
@@ -22,15 +24,15 @@ export const useTimer = ({ startTime, turnDurationSeconds }) => {
     // sync time intervals
     if (time === null && countdownTime === null) {
       if (startTime >= currentTime) {
-        const secondsUntilTurn = Math.floor((startTime - currentTime) / 1000); // 8000
-        const difference = startTime - currentTime - secondsUntilTurn * 1000;
+        const secondsUntilTurn = Math.floor((startTime - currentTime) / 100); // 8000
+        const difference = startTime - currentTime - secondsUntilTurn * 100;
 
         setTimeout(() => {
           setCountdownTime(secondsUntilTurn);
         }, difference);
       } else {
-        const secondsUntilTurn = Math.floor((startTime - currentTime) / 1000); // 8000
-        const difference = startTime - currentTime - secondsUntilTurn * 1000;
+        const secondsUntilTurn = Math.floor((startTime - currentTime) / 100); // 8000
+        const difference = startTime - currentTime - secondsUntilTurn * 100;
 
         setTimeout(() => {
           setTime(turnDurationSeconds + secondsUntilTurn);
@@ -62,7 +64,7 @@ export const useTimer = ({ startTime, turnDurationSeconds }) => {
         } else if (intervalId) {
           clearInterval(intervalId);
         }
-      }, 1000);
+      }, 100);
     } else if (intervalId) {
       clearInterval(intervalId);
     }
@@ -74,7 +76,26 @@ export const useTimer = ({ startTime, turnDurationSeconds }) => {
     };
   }, [time, countdownTime, endTime, turnDurationSeconds]);
 
-  const countdownText = ["Go!", "Set!", "Ready!"][countdownTime] || null;
+  const countdownText = [null, "Go!", "Set!", "Ready!"][
+    Math.ceil(countdownTime / 10)
+  ];
 
-  return [time, countdownText];
+  // get time as minutes and seconds
+  const timeSeconds =
+    time !== null ? Math.ceil(time / 10) : turnDurationSeconds / 10;
+
+  const minutes = Math.floor(timeSeconds / 60);
+  const seconds = timeSeconds - minutes * 60;
+
+  const str_pad_left = (string, pad, length) =>
+    (new Array(length + 1).join(pad) + string).slice(-length);
+
+  const finalTime = minutes + ":" + str_pad_left(seconds, "0", 2);
+
+  const percentage = time / turnDurationSeconds;
+
+  return {
+    countdown: countdownText || finalTime,
+    percentage: time === null ? 1 : percentage,
+  };
 };

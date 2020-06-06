@@ -76,7 +76,8 @@ function App() {
       setCurrentView("home");
     };
 
-    setTimeout(loadSlug, 1500);
+    // forces loading screen to show at least 500 ms
+    setTimeout(loadSlug, 500);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

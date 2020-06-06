@@ -2,14 +2,17 @@
  * useGameState.jsx
  * React hook for parsing party object and returning info about game state
  */
-import { useEffect, useState, useMemo } from "react";
+import { useMemo, useCallback } from "react";
 
 export const useGameState = ({ party, username }) => {
   // game
   const game = party.games[party.games.length - 1];
 
-  //turn
+  // turn
   const turn = game.turns[game.turns.length - 1];
+
+  // isHost
+  const isHost = party.host === username;
 
   // actorUp
   const actorUp = turn.player;
@@ -23,7 +26,13 @@ export const useGameState = ({ party, username }) => {
       return nextTeam.teamPlayers[nextTeam.playerIndex];
     }
     return "";
-  }, [game]);
+  }, [
+    party.settings.teamsCount,
+    turn.teamIndex,
+    game.totalTurns,
+    game.turns.length,
+    game.teams,
+  ]);
 
   // inTurn
   // if game is currently in a turn (vs in between turn)
@@ -31,13 +40,14 @@ export const useGameState = ({ party, username }) => {
     () =>
       game.turns[game.turns.length - 1].startTime &&
       !game.turns[game.turns.length - 1].endTime,
-    [game]
+    [game.turns]
   );
 
   // userTeamIndex
+  // original team index of current user. Used for renaming teams.
   const userTeamIndex = useMemo(
     () => game.teams.findIndex((team) => team.teamPlayers.includes(username)),
-    [game]
+    [game.teams, username]
   );
 
   // userTeamName
@@ -50,22 +60,31 @@ export const useGameState = ({ party, username }) => {
     return game.teams.reduce((acc, cur, index) => {
       return index === userTeamIndex ? [cur, ...acc] : [...acc, cur];
     }, []);
-  }, [game]);
+  }, [game.teams, userTeamIndex]);
 
   // actorUpTeam
   // if in turn only shows team with actor up
-  const actorUpTeam = useMemo(() =>
-    game.teams.filter((team) => team.teamPlayers.includes(actorUp))
+  const actorUpTeam = useMemo(
+    () => game.teams.filter((team) => team.teamPlayers.includes(actorUp)),
+    [game.teams, actorUp]
   );
 
   return {
+    // teams
     teams: inTurn ? actorUpTeam : reorderedTeams,
     scoreboardTeams: reorderedTeams,
+
+    // game
     game,
     turn,
+
+    // active players
     inTurn,
     actorUp,
     onDeck,
+    isHost,
+
+    // current user
     userTeamIndex,
     userTeamName,
   };

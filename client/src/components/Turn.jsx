@@ -1,15 +1,25 @@
 import React from "react";
+
 import "./Turn.css";
+import Acting from "./Acting";
+import Guessing from "./Guessing";
 
-import { TimerWidget } from "./index";
+function Turn({ party, username, turn, actorUp, color, players }) {
+  const acting = actorUp === username;
 
-function Turn({ party, turn }) {
   return (
     <div className="turn">
-      <TimerWidget
-        startTime={turn.startTime}
-        turnDurationSeconds={party.settings.turnDurationSeconds}
-      />
+      {acting ? (
+        <Acting />
+      ) : (
+        <Guessing
+          party={party}
+          turn={turn}
+          actorUp={actorUp}
+          color={color}
+          myTeam={players.includes(username)}
+        />
+      )}
     </div>
   );
 }
