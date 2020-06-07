@@ -1,0 +1,45 @@
+.circular-progress {
+  vertical-align: middle;
+}
+
+.chart-text {
+  fill: white;
+  transform: translateY(0.25em);
+}
+
+.chart-number {
+  font-size: 0.6em;
+  line-height: 1;
+  text-anchor: middle;
+  transform: translateY(-0.25em);
+}
+
+.chart-label {
+  text-anchor: middle;
+  transform: translateY(-0.13em);
+  font-size: 8px;
+  font-weight: 900;
+}
+
+.figure-key [class*="shape-"] {
+  margin-right: 8px;
+}
+
+.figure-key-list {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+}
+
+.figure-key-list li {
+  margin: 5px auto;
+}
+
+.shape-circle {
+  display: inline-block;
+  vertical-align: middle;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  text-transform: capitalize;
+}

@@ -1,0 +1,10 @@
+.game-play__player-box {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.game-play__player-list {
+  display: flex;
+  flex-direction: row;
+}

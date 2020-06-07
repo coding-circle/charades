@@ -1,0 +1,72 @@
+.player {
+  display: flex;
+  flex: 1;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  margin-bottom: 6px;
+  border-radius: 2px;
+}
+
+.player__item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 32px;
+  width: 100%;
+  border-radius: 2px;
+  background: var(--color__background);
+  padding: 0 6px;
+}
+
+.player__name {
+  margin-right: 6px;
+  color: var(--color__default);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
+}
+
+.player__badge {
+  flex-shrink: 0;
+  background: var(--color__foreground);
+  color: var(--color__background);
+}
+
+.player__badge--host {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+  border-radius: 100%;
+}
+
+.player__badge--host:after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  content: "H";
+}
+
+.player__badge--status {
+  display: flex;
+  align-items: center;
+  height: 20px;
+  line-height: 20px;
+  margin-left: auto;
+  padding: 0 6px;
+  border-radius: 2px;
+}
+
+.player__badge--status-actor-up:after {
+  content: "Actor Up";
+}
+
+.player__badge--status-on-deck {
+  background: var(--color__default);
+}
+
+.player__badge--status-on-deck:after {
+  content: "On Deck";
+}

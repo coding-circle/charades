@@ -1,0 +1,31 @@
+.close-button {
+  width: 40px;
+  margin-left: -40px;
+}
+
+@media screen and (max-width: 374px) {
+  .close-button {
+    margin-left: 0;
+  }
+}
+
+.close-button.button-secondary {
+  padding: 0;
+}
+
+.close-button svg {
+  width: 32px;
+  height: 32px;
+  stroke: var(--color__foreground);
+}
+
+.modal__header .close-button {
+  background: var(--color__foreground);
+  border-color: var(--color__default);
+}
+
+.modal__header .close-button svg {
+  background: var(--color__foreground);
+  stroke: var(--color__default);
+}
+

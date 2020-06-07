@@ -1,0 +1,25 @@
+.text-input {
+  max-width: 24rem;
+}
+
+.text-input {
+  display: grid;
+  grid-template-columns: min-content auto;
+  align-items: center;
+  width: 100%;
+}
+
+.text-input__label {
+  margin-right: 12px;
+  min-width: 120px;
+}
+
+.text-input__label--with-sublabel {
+  min-width: 150px;
+}
+
+.text-input__sub-label {
+  display: inline-block;
+  color: var(--color__default);
+}
+

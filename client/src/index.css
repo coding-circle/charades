@@ -1,0 +1,192 @@
+/* VARIABLES */
+:root {
+  --color__background: #333333;
+  --color__foreground: white;
+  --color__default: #bdbdbd;
+  --color__primary: #2d9cdb;
+  --color__yes: #6FCF97;
+  --color__no: #EB5757;
+  --font-size__default: 16px;
+  --font-weight__medium: 500;
+  --font-weight__heavy: 900;
+}
+/* /VARIABLES */
+/* RESET */
+body,
+body * {
+  box-sizing: border-box;
+}
+
+body *:not(input):not(textarea) {
+  user-select: none;
+}
+
+body {
+  background: var(--color__background);
+  margin: 0;
+  color: var(--color__foreground);
+  font-size: var(--font-size__default);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  font-weight: 600;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+ol,
+li {
+  list-style: none;
+}
+
+/* /RESET */
+/* APP */
+#app {
+  display: flex;
+  flex-flow: column nowrap;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.app__main {
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+}
+
+.app__header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  padding: 20px;
+  box-sizing: content-box;
+}
+
+.app__main {
+  flex-grow: 1;
+  padding: 32px 20px;
+  overflow: auto;
+}
+
+.app__main--home {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.app__footer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.app__header--with-rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app__header--with-rule:after,
+.app__footer--with-rule:before {
+  content: "";
+  position: absolute;
+  display: block;
+  width: calc(100% - (20px * 2));
+  height: 2px;
+  border-radius: 1px;
+  background-color: var(--color__foreground);
+}
+
+.app__header--with-rule:after {
+  bottom: 0;
+}
+
+.app__footer--with-rule:before {
+  top: 0;
+}
+
+.app__title {
+  text-align: center;
+  margin: 0 auto;
+  line-height: 40px;
+}
+
+/* /APP */
+/* FORM ELEMENTS */
+button,
+input {
+  max-width: 24rem;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 4px;
+}
+
+button:focus,
+input:focus {
+  border-color: var(--color__primary);
+}
+
+button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 32px;
+  font-weight: var(--font-weight__medium);
+  cursor: pointer;
+  max-width: 24rem;
+  background: var(--color__default);
+  border-color: var(--color__default);
+}
+
+input {
+  height: 48px;
+  width: 100%;
+  padding: 0 12px;
+  text-align: center;
+}
+
+/* /FORM ELEMENTS */
+/* TYPOGRAPHY */
+.text__heading {
+  font-size: 1.3125em;
+}
+
+.text__all-caps {
+  text-transform: uppercase;
+}
+
+.text__bold {
+  font-weight: var(--font-weight__heavy);
+}
+
+.text__small {
+  font-size: 0.5625em;
+}
+
+.text__large {
+  font-size: 2.8125em;
+}
+
+/* /TYPOGRAPHY */

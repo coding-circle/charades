@@ -1,0 +1,48 @@
+.waiting-room__header-subtext {
+  color: var(--color__default);
+  margin-right: 10px;
+}
+
+.waiting-room__header-divider {
+  width: 2px;
+  height: 25px;
+  border-left: 2px solid var(--color__foreground);
+  margin: 0 20px;
+}
+
+.waiting-room__header-flexbox {
+  display: flex;
+  flex-direction: row;
+}
+
+.waiting-room__header {
+  display: flex;
+  flex: 1;
+  height: 100%;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.waiting-room__header-left {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-end;
+  height: 25px;
+}
+
+.waiting-room__header-right {
+  flex: 1;
+  display: flex;
+  height: 25px;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.waiting-room__waiting-text {
+  margin-top: 56px;
+}
