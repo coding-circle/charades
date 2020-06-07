@@ -39,3 +39,7 @@
   font-size: 27px;
   line-height: 32px;
 }
+
+.acting__timer {
+  cursor: pointer;
+}

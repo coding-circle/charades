@@ -35,7 +35,7 @@ export const useTimer = ({ startTime, turnDurationSeconds }) => {
         const difference = startTime - currentTime - secondsUntilTurn * 100;
 
         setTimeout(() => {
-          setTime(turnDurationSeconds + secondsUntilTurn);
+          setTime(Math.min(endTime, turnDurationSeconds + secondsUntilTurn));
         }, difference);
       }
     }
@@ -76,6 +76,8 @@ export const useTimer = ({ startTime, turnDurationSeconds }) => {
     };
   }, [time, countdownTime, endTime, turnDurationSeconds]);
 
+  console.log(countdownTime);
+
   const countdownText = [null, "Go!", "Set!", "Ready!"][
     Math.ceil(countdownTime / 10)
   ];
@@ -84,18 +86,18 @@ export const useTimer = ({ startTime, turnDurationSeconds }) => {
   const timeSeconds =
     time !== null ? Math.ceil(time / 10) : turnDurationSeconds / 10;
 
-  const minutes = Math.floor(timeSeconds / 60);
-  const seconds = timeSeconds - minutes * 60;
+  const minutes = Math.max(0, Math.floor(timeSeconds / 60));
+  const seconds = Math.max(0, timeSeconds - minutes * 60);
 
-  const str_pad_left = (string, pad, length) =>
+  const prefixSecondsWithZero = (string, pad, length) =>
     (new Array(length + 1).join(pad) + string).slice(-length);
 
-  const finalTime = minutes + ":" + str_pad_left(seconds, "0", 2);
+  const finalTime = minutes + ":" + prefixSecondsWithZero(seconds, "0", 2);
 
-  const percentage = time / turnDurationSeconds;
+  const percentage = Math.min(1, 1 - time / turnDurationSeconds);
 
   return {
     countdown: countdownText || finalTime,
-    percentage: time === null ? 1 : percentage,
+    percentage: time === null ? 0 : percentage,
   };
 };

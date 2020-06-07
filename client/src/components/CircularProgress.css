@@ -1,11 +1,8 @@
 .circular-progress {
-  /* max-width: ${props => props.maxSize}; */
-  /* max-width: 300px; */
   vertical-align: middle;
 }
 
 .chart-text {
-  /* fill: ${props => props.textColor}; */
   fill: white;
   transform: translateY(0.25em);
 }

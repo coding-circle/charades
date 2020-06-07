@@ -9,7 +9,7 @@ import { TextInput, CloseButton, Button } from "../../components";
 function CreateGame({ username, setUsername, hideCreateGameView }) {
   const [teamsCount, setTeamsCount] = useState(2);
   const [rotations, setRotations] = useState(1);
-  const [turnDuration, setTurnDuration] = useState(90);
+  const [turnDurationSeconds, setTurnDurationSeconds] = useState(90);
 
   const [_, setLocalStorage] = useLocalStorage("charades");
 
@@ -19,7 +19,7 @@ function CreateGame({ username, setUsername, hideCreateGameView }) {
       settings: {
         teamsCount,
         rotations,
-        turnDuration,
+        turnDurationSeconds,
       },
     });
 
@@ -69,9 +69,9 @@ function CreateGame({ username, setUsername, hideCreateGameView }) {
           label="Turn Duration"
           subLabel="The length of each turn (in seconds)"
           style={{ marginTop: "20px" }}
-          value={turnDuration}
+          value={turnDurationSeconds}
           onChange={(evt) => {
-            setTurnDuration(evt.target.value);
+            setTurnDurationSeconds(evt.target.value);
           }}
         />
         <TextInput

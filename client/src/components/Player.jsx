@@ -8,7 +8,7 @@ const Player = ({
   youreUp,
   party,
   playerName,
-  host,
+  isHost,
   actorUp,
   onDeck,
   color,
@@ -24,7 +24,7 @@ const Player = ({
   return (
     <li className={itemClasses}>
       <div className="player__item">
-        {host && (
+        {isHost && (
           <div className="player__badge player__badge--host text__all-caps text__small text__bold"></div>
         )}
         <div
