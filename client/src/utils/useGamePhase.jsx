@@ -19,13 +19,8 @@ export const useGamePhase = (party) => {
     }
 
     // **game-play:**
-    else if (game.startTime && game.endTime === null) {
+    else if (game.startTime) {
       return "game-play";
-    }
-
-    // **post-game lobby**
-    else if (game.endTime !== null) {
-      return "post-game";
     }
   }, [party]);
 

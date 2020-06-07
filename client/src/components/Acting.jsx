@@ -4,7 +4,16 @@ import "./Acting.css";
 import TimerWidget from "./TimerWidget";
 import Pointing from "./Pointing";
 
-function Acting({ party, turn, color, username, teamPlayers, onPoint }) {
+function Acting({
+  party,
+  turn,
+  color,
+  username,
+  teamPlayers,
+  onPoint,
+  onEndTurnClick,
+  onTimesUpClick,
+}) {
   return (
     <div className="acting">
       <div className="acting__header">
@@ -17,12 +26,13 @@ function Acting({ party, turn, color, username, teamPlayers, onPoint }) {
           </h1>
           <h3 className="text__heading text__bold">Your Prompt Is:</h3>
         </div>
-        <div className="acting__timer">
+        <div className="acting__timer" onClick={onEndTurnClick}>
           <TimerWidget
             startTime={turn.startTime}
             turnDurationSeconds={party.settings.turnDurationSeconds}
             size="medium"
             color={color}
+            onTimerEnd={onTimesUpClick}
           />
         </div>
       </div>

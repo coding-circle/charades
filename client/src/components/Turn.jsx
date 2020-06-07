@@ -4,7 +4,17 @@ import "./Turn.css";
 import Acting from "./Acting";
 import Guessing from "./Guessing";
 
-function Turn({ party, username, turn, actorUp, color, teamPlayers, onPoint }) {
+function Turn({
+  party,
+  username,
+  turn,
+  actorUp,
+  color,
+  teamPlayers,
+  onPoint,
+  onEndTurnClick,
+  onTimesUpClick,
+}) {
   const acting = actorUp === username;
 
   return (
@@ -18,6 +28,8 @@ function Turn({ party, username, turn, actorUp, color, teamPlayers, onPoint }) {
           username={username}
           teamPlayers={teamPlayers}
           onPoint={onPoint}
+          onEndTurnClick={onEndTurnClick}
+          onTimesUpClick={onTimesUpClick}
         />
       ) : (
         <Guessing

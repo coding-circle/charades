@@ -33,6 +33,21 @@ export const endTurnTests = () => {
     expect(party.games[0].turns[turnIndex].success).toBeTruthy();
   });
 
+  it("should change the score depending on success", async () => {
+    const { slug, games } = await createInProgressGame("midGame");
+
+    const oldScore = games[0].teams[0].score;
+
+    const party = await endTurn({
+      success: true,
+      slug,
+    });
+
+    const newScore = party.games[0].teams[0].score;
+
+    expect(newScore).toEqual(oldScore + 1);
+  });
+
   it("should add endTime and creates new turn", async () => {
     const { slug } = await createInProgressGame("midGame");
 

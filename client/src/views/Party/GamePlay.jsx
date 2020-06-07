@@ -10,32 +10,41 @@ import {
   TextInput,
   PointedAt,
   Scoreboard,
+  Results,
 } from "../../components";
+import PlayAgain from "./PlayAgain";
 import "./GamePlay.css";
 import api from "../../utils/api";
 import { useGameState } from "../../utils/useGameState";
 
-function GamePlay({ party, username, isHost, onPoint, pointedAt }) {
+function GamePlay({ party, username, onPoint, pointedAt }) {
   // state
   const {
     teams,
     scoreboardTeams,
     game,
+    isGameOver,
+    isWinner,
     turn,
     inTurn,
     actorUp,
     onDeck,
+    isHost,
     userTeamIndex,
     userTeamName,
   } = useGameState({ party, username });
+
+  console.log(party);
 
   const [renameTeamInput, setRenameTeamInput] = useState(userTeamName);
 
   const [scoreboardOpen, setScoredboardOpen] = useState(false);
 
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
+  const [isPlayAgainOpen, setIsPlayAgainOpen] = useState(false);
   const [isLeaveGameModalOpen, setIsLeaveGameModalOpen] = useState(false);
   const [isTimesUpModalOpen, setIsTimesUpModalOpen] = useState(false);
+  const [isEndTurnModalOpen, setIsEndTurnModalOpen] = useState(false);
   const [isManagePlayersModalOpen, setIsManagePlayersModalOpen] = useState(
     false
   );
@@ -44,11 +53,20 @@ function GamePlay({ party, username, isHost, onPoint, pointedAt }) {
   const handleRenameClick = () => setIsRenameModalOpen(true);
   const handleRenameModalClose = () => setIsRenameModalOpen(false);
 
+  const handleEndTurnClick = () => setIsEndTurnModalOpen(true);
+  const handleEndTurnModalClose = () => setIsEndTurnModalOpen(false);
+
+  const handlePlayAgainOpen = () => setIsPlayAgainOpen(true);
+  const handlePlayAgainClose = () => setIsPlayAgainOpen(false);
+
   const handleLeaveGameClick = () => setIsLeaveGameModalOpen(true);
   const handleLeaveGameModalClose = () => setIsLeaveGameModalOpen(false);
 
   const handleTimesUpClick = () => setIsTimesUpModalOpen(true);
-  const handleTimesUpModalClose = () => setIsTimesUpModalOpen(false);
+  const handleTimesUpModalClose = () => {
+    handleEndTurnModalClose();
+    setIsTimesUpModalOpen(false);
+  };
 
   const handleManagePlayersClick = () => setIsManagePlayersModalOpen(true);
   const handleManagePlayersModalClose = () =>
@@ -101,9 +119,9 @@ function GamePlay({ party, username, isHost, onPoint, pointedAt }) {
 
   // resets scoreboard to when not in turn
   useEffect(() => {
-    if (inTurn) {
-      setScoredboardOpen(false);
-    }
+    // if (inTurn) {
+    setScoredboardOpen(false);
+    // }
   }, [inTurn]);
 
   if (pointedAt.pointer && pointedAt.pointer !== username) {
@@ -115,6 +133,10 @@ function GamePlay({ party, username, isHost, onPoint, pointedAt }) {
         color={teams[0].teamColor}
       />
     );
+  }
+
+  if (isPlayAgainOpen) {
+    return <PlayAgain party={party} onPlayAgainClose={handlePlayAgainClose} />;
   }
 
   return (
@@ -162,19 +184,31 @@ function GamePlay({ party, username, isHost, onPoint, pointedAt }) {
                     color={team.teamColor}
                     teamPlayers={team.teamPlayers}
                     onPoint={onPoint}
+                    onEndTurnClick={handleEndTurnClick}
+                    onTimesUpClick={handleTimesUpClick}
                   />
                 ) : (
-                  <>
-                    <PlayerList
-                      party={party}
-                      username={username}
-                      color={team.teamColor}
-                      players={team.teamPlayers}
-                      actorUp={actorUp}
-                      onDeck={onDeck}
-                    />
-                    {game.turns.length > 1 && <Score score={team.score} />}
-                  </>
+                  <div className="game-play__player-box">
+                    <div className="game-play__player-list">
+                      <PlayerList
+                        party={party}
+                        username={username}
+                        color={team.teamColor}
+                        players={team.teamPlayers}
+                        actorUp={actorUp}
+                        onDeck={onDeck}
+                        isHost={isHost}
+                      />
+                      {game.turns.length > 1 && <Score score={team.score} />}
+                    </div>
+                    {isGameOver && index === 0 && (
+                      <Results
+                        teamName={team.teamName}
+                        color={team.teamColor}
+                        isWinner={isWinner}
+                      />
+                    )}
+                  </div>
                 )}
               </TeamBox>
             ))}
@@ -188,6 +222,16 @@ function GamePlay({ party, username, isHost, onPoint, pointedAt }) {
                 icon="♛"
               >
                 Scoreboard
+              </Button>
+            )}
+            {isGameOver && isHost && (
+              <Button
+                onClick={handlePlayAgainOpen}
+                type="secondary"
+                className="button-secondary--min-width"
+              >
+                <div className="player__badge player__badge--host text__all-caps text__small text__bold"></div>
+                <span style={{ marginLeft: "4px" }}>Play Again</span>
               </Button>
             )}
           </footer>
@@ -220,6 +264,21 @@ function GamePlay({ party, username, isHost, onPoint, pointedAt }) {
         onClickSubmit={handleLeaveGameSubmit}
         type="alert"
         body={<p style={{ marginBottom: "12px" }}>Leave this game now</p>}
+      />
+
+      {/* End Turn */}
+      <Modal
+        isActive={isEndTurnModalOpen}
+        onClickClose={handleEndTurnModalClose}
+        title="End Turn Now?"
+        submitButtonText="End This Turn"
+        onClickSubmit={handleTimesUpClick}
+        type="alert"
+        body={
+          <p style={{ marginBottom: "12px" }}>
+            Tap the button to end this turn early
+          </p>
+        }
       />
 
       {/* Time's Up Modal */}

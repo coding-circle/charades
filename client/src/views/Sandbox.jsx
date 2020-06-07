@@ -44,22 +44,23 @@ function Sandbox() {
       <br />
       <br />
 
-      <TimerWidget
+      {/* <TimerWidget
         startTime={Date.now() + 3000}
-        turnDurationSeconds={60}
+        turnDurationSeconds={10}
         size="small"
       />
       <br />
       <TimerWidget
         startTime={Date.now() + 3000}
-        turnDurationSeconds={60}
+        turnDurationSeconds={10}
         size="medium"
-      />
+      /> */}
       <br />
       <TimerWidget
-        startTime={Date.now() + 3000}
-        turnDurationSeconds={60}
+        startTime={Date.now() - 100000}
+        turnDurationSeconds={10}
         size="large"
+        onTimerEnd={() => console.log("end")}
       />
     </div>
   );

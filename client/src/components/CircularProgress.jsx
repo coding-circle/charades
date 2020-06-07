@@ -29,7 +29,7 @@ const CircleProgressBar = ({
         cy={circleConfig.y}
         r={circleConfig.radio}
         fill="transparent"
-        stroke="white"
+        stroke={strokeColor}
         strokeWidth={trailStrokeWidth}
         strokeDasharray={trailSpaced ? 1 : 0}
       />
@@ -40,7 +40,7 @@ const CircleProgressBar = ({
         cy={circleConfig.y}
         r={circleConfig.radio}
         fill="transparent"
-        stroke={strokeColor}
+        stroke="white"
         strokeWidth={strokeWidth}
         strokeDasharray={`${progressBar} ${100 - progressBar}`}
         strokeDashoffset={INITIAL_OFFSET}

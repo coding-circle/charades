@@ -10,6 +10,7 @@ import Modal from "./Modal";
 import Turn from "./Turn";
 import PointedAt from "./PointedAt";
 import Scoreboard from "./Scoreboard";
+import Results from "./Results";
 
 export {
   TextInput,
@@ -24,4 +25,5 @@ export {
   Turn,
   PointedAt,
   Scoreboard,
+  Results,
 };

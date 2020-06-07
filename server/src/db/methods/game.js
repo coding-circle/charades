@@ -86,29 +86,35 @@ export const endTurn = async ({ slug, success }) => {
 
   const currentGame = party.games[party.games.length - 1];
 
-  const { teamIndex } = currentGame.turns[currentGame.turns.length - 1];
+  const currentTurn = currentGame.turns[currentGame.turns.length - 1];
+
+  if (!currentTurn.startTime) {
+    console.log("no start time");
+    return party;
+  }
 
   const {
     playerIndex: currentPlayerIndex,
     teamPlayers: currentTeamPlayers,
-  } = currentGame.teams[teamIndex];
+  } = currentGame.teams[currentTurn.teamIndex];
 
   // add status and endtime to current game
-  currentGame.turns[currentGame.turns.length - 1].endTime = Date.now();
-  currentGame.turns[currentGame.turns.length - 1].success = success;
+  currentTurn.endTime = Date.now();
+  currentTurn.success = success;
+  currentGame.teams[currentTurn.teamIndex].score += success ? 1 : 0;
 
   // if last turn, end game
   if (currentGame.totalTurns === currentGame.turns.length) {
-    currentGame.endTime === Date.now();
+    currentGame.endTime = Date.now();
 
     return party.save();
   }
 
   // change playerIndex on previous team
-  currentGame.teams[teamIndex].playerIndex =
+  currentGame.teams[currentTurn.teamIndex].playerIndex =
     (currentPlayerIndex + 1) % currentTeamPlayers.length;
 
-  const nextTeamIndex = (teamIndex + 1) % party.settings.teamsCount;
+  const nextTeamIndex = (currentTurn.teamIndex + 1) % party.settings.teamsCount;
 
   const {
     playerIndex: nextPlayerIndex,

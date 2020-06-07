@@ -47,6 +47,8 @@ const joinParty = async ({ slug, username }) => {
 
 // update settings
 const updateSettings = async ({ slug, settings }) => {
+  console.log(settings);
+
   const res = await axios.put(`${API_URL}party/${slug}/settings`, {
     settings,
   });
@@ -96,7 +98,9 @@ const startTurn = async ({ slug }) => {
 
 // end turn
 const endTurn = async ({ slug, success }) => {
-  const res = await axios.put(`${API_URL}party/${slug}/turn/end`);
+  const res = await axios.put(`${API_URL}party/${slug}/turn/end`, {
+    success,
+  });
 
   return res;
 };

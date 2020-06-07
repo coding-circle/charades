@@ -13,9 +13,11 @@ import { renameTeamTests } from "./renameTeam";
 import { endTurnTests } from "./endTurn";
 import { startGameTests } from "./startGame";
 import { skipPlayerTests } from "./skipPlayer";
+import { leavePartyTests } from "./leaveParty";
 
 describe("Create Party", createPartyTests);
 describe("Join Party", joinPartyTests);
+describe("Leave Party", leavePartyTests);
 describe("Create Game", createGameTests);
 describe("Add Prompt", addPromptTests);
 describe("Update Settings", updateSettingsTests);

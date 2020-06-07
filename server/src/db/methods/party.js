@@ -96,6 +96,11 @@ const leaveParty = async ({ slug, username }) => {
     });
   }
 
+  if (party.host === username) {
+    const newHostIndex = Math.floor(Math.random() * party.players.length);
+    party.host = party.players[newHostIndex];
+  }
+
   return party.save();
 };
 

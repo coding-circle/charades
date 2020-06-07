@@ -1,0 +1,9 @@
+.results {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 162px;
+  flex-direction: column;
+  background-color: var(--color__background);
+  color: var(--color__foreground);
+}

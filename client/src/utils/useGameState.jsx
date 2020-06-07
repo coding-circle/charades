@@ -69,6 +69,20 @@ export const useGameState = ({ party, username }) => {
     [game.teams, actorUp]
   );
 
+  // isGameOver
+  const isGameOver = game.endTime !== null;
+
+  // isWinner
+  let isWinner = useMemo(() => {
+    if (!isGameOver) return false;
+
+    const winningTeam = game.teams.reduce((prev, current) =>
+      prev.score > current.score ? prev : current
+    );
+
+    return winningTeam.teamPlayers.includes(username);
+  }, [isGameOver]);
+
   return {
     // teams
     teams: inTurn ? actorUpTeam : reorderedTeams,
@@ -78,10 +92,12 @@ export const useGameState = ({ party, username }) => {
     // game
     game,
     turn,
+    isGameOver,
+    isWinner,
 
     // active players
     inTurn,
-    actorUp,
+    actorUp: isGameOver ? "" : actorUp,
     onDeck,
     isHost,
 
