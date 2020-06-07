@@ -1,18 +1,22 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
+  Button,
   TeamBox,
   PlayerList,
   Score,
   Turn,
   Modal,
   TextInput,
+  PointedAt,
+  Scoreboard,
 } from "../../components";
 import "./GamePlay.css";
 import api from "../../utils/api";
 import { useGameState } from "../../utils/useGameState";
 
 function GamePlay({ party, username, isHost, onPoint, pointedAt }) {
+  // state
   const {
     teams,
     scoreboardTeams,
@@ -27,6 +31,8 @@ function GamePlay({ party, username, isHost, onPoint, pointedAt }) {
 
   const [renameTeamInput, setRenameTeamInput] = useState(userTeamName);
 
+  const [scoreboardOpen, setScoredboardOpen] = useState(false);
+
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [isLeaveGameModalOpen, setIsLeaveGameModalOpen] = useState(false);
   const [isTimesUpModalOpen, setIsTimesUpModalOpen] = useState(false);
@@ -34,6 +40,7 @@ function GamePlay({ party, username, isHost, onPoint, pointedAt }) {
     false
   );
 
+  // event handlers
   const handleRenameClick = () => setIsRenameModalOpen(true);
   const handleRenameModalClose = () => setIsRenameModalOpen(false);
 
@@ -46,6 +53,9 @@ function GamePlay({ party, username, isHost, onPoint, pointedAt }) {
   const handleManagePlayersClick = () => setIsManagePlayersModalOpen(true);
   const handleManagePlayersModalClose = () =>
     setIsManagePlayersModalOpen(false);
+
+  const handleScoreboardOpen = () => setScoredboardOpen(true);
+  const handleScoreboardClose = () => setScoredboardOpen(false);
 
   const handleRenameSubmit = async () => {
     try {
@@ -63,10 +73,12 @@ function GamePlay({ party, username, isHost, onPoint, pointedAt }) {
 
   const handleLeaveGameSubmit = async () => {
     try {
-      await api.leaveParty({
+      const res = await api.leaveParty({
         slug: party.slug,
         username,
       });
+
+      console.log(res);
 
       handleLeaveGameModalClose();
     } catch (error) {
@@ -87,46 +99,100 @@ function GamePlay({ party, username, isHost, onPoint, pointedAt }) {
     }
   };
 
+  // resets scoreboard to when not in turn
+  useEffect(() => {
+    if (inTurn) {
+      setScoredboardOpen(false);
+    }
+  }, [inTurn]);
+
+  if (pointedAt.pointer && pointedAt.pointer !== username) {
+    return (
+      <PointedAt
+        pointer={pointedAt.pointer}
+        pointee={pointedAt.pointee}
+        username={username}
+        color={teams[0].teamColor}
+      />
+    );
+  }
+
   return (
     <>
-      {!inTurn && (
+      {/* scoreboard */}
+      {scoreboardOpen && (
+        <Scoreboard
+          party={party}
+          username={username}
+          teams={scoreboardTeams}
+          turn={turn}
+          onRenameClick={handleRenameClick}
+          onScoreboardClose={handleScoreboardClose}
+          onLeaveGameClick={handleLeaveGameClick}
+          onManagePlayersClick={handleManagePlayersClick}
+        />
+      )}
+
+      {/* header */}
+      {!inTurn && !scoreboardOpen && (
         <header className="app__header app__header--with-rule">
           <h1 className="text__heading app__title">Teams</h1>
         </header>
       )}
-      <main className="app__main">
-        {teams.map((team, index) => (
-          <TeamBox
-            key={team.teamName}
-            myTeam={team.teamPlayers.includes(username)}
-            color={team.teamColor}
-            teamName={team.teamName}
-            fullHeight={inTurn}
-            onRenameClick={handleRenameClick}
-          >
-            {inTurn ? (
-              <Turn
-                party={party}
-                game={game}
-                turn={game.turns[game.turns.length - 1]}
-                username={username}
-              />
-            ) : (
-              <>
-                <PlayerList
-                  party={party}
-                  username={username}
-                  color={team.teamColor}
-                  players={team.teamPlayers}
-                  actorUp={actorUp}
-                  onDeck={onDeck}
-                />
-                {game.turns.length > 1 && <Score score={team.score} />}
-              </>
+
+      {!scoreboardOpen && (
+        <>
+          <main className="app__main" style={{ paddingBottom: 0 }}>
+            {teams.map((team, index) => (
+              <TeamBox
+                key={team.teamName}
+                myTeam={team.teamPlayers.includes(username)}
+                myTurn={actorUp === username}
+                color={team.teamColor}
+                teamName={team.teamName}
+                fullHeight={inTurn}
+                onRenameClick={handleRenameClick}
+              >
+                {inTurn ? (
+                  <Turn
+                    party={party}
+                    username={username}
+                    turn={turn}
+                    actorUp={actorUp}
+                    color={team.teamColor}
+                    teamPlayers={team.teamPlayers}
+                    onPoint={onPoint}
+                  />
+                ) : (
+                  <>
+                    <PlayerList
+                      party={party}
+                      username={username}
+                      color={team.teamColor}
+                      players={team.teamPlayers}
+                      actorUp={actorUp}
+                      onDeck={onDeck}
+                    />
+                    {game.turns.length > 1 && <Score score={team.score} />}
+                  </>
+                )}
+              </TeamBox>
+            ))}
+          </main>
+          <footer className="app__footer">
+            {inTurn && actorUp !== username && (
+              <Button
+                onClick={handleScoreboardOpen}
+                type="secondary"
+                className="button-secondary--min-width"
+                icon="♛"
+              >
+                Scoreboard
+              </Button>
             )}
-          </TeamBox>
-        ))}
-      </main>
+          </footer>
+        </>
+      )}
 
       {/* Rename Modal */}
       <Modal
@@ -163,7 +229,7 @@ function GamePlay({ party, username, isHost, onPoint, pointedAt }) {
         onClickClose={handleTimesUpModalClose}
         title="Time's Up! Did You Get It?"
         onClickYes={() => handleTimesUpSubmit(true)}
-        onClickNo={() => handleTimesUpSubmit(true)}
+        onClickNo={() => handleTimesUpSubmit(false)}
         type="confirm"
         body={
           <p style={{ marginBottom: "12px" }}>Did your team guess correctly?</p>
@@ -171,11 +237,11 @@ function GamePlay({ party, username, isHost, onPoint, pointedAt }) {
       />
 
       {/* Manage Players */}
+      {/* TODO, make this modal */}
       <Modal
-        isOpaque
         isActive={isManagePlayersModalOpen}
         onClickClose={handleManagePlayersModalClose}
-        title="Time's Up! Did You Get It?"
+        title="ManagePlayers?"
         submitButtonText="I'm Done"
         onClickSubmit={handleManagePlayersModalClose}
         type="alert"

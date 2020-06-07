@@ -1,12 +1,20 @@
 import React, { useState } from "react";
-import { TeamBox, PlayerList, Score, Button, Modal, TextInput } from '../components';
+import {
+  TeamBox,
+  PlayerList,
+  Score,
+  Button,
+  Modal,
+  TextInput,
+  TimerWidget,
+} from "../components";
 
 function Sandbox() {
   const [active, setActive] = useState(false);
 
   return (
-    <div className="app__main app__main--home">
-      <TeamBox
+    <div className="app__main">
+      {/* <TeamBox
         teamName={'Christmas Santas'}
         myTeam={true}
         color={'aquamarine'}
@@ -31,7 +39,28 @@ function Sandbox() {
       >
         <p style={{marginBottom: '12px'}}>Sup with all this wild stuff</p>
         <TextInput/>
-      </Modal>
+      </Modal> */}
+      <h1> Timer Widget </h1>
+      <br />
+      <br />
+
+      <TimerWidget
+        startTime={Date.now() + 3000}
+        turnDurationSeconds={60}
+        size="small"
+      />
+      <br />
+      <TimerWidget
+        startTime={Date.now() + 3000}
+        turnDurationSeconds={60}
+        size="medium"
+      />
+      <br />
+      <TimerWidget
+        startTime={Date.now() + 3000}
+        turnDurationSeconds={60}
+        size="large"
+      />
     </div>
   );
 }

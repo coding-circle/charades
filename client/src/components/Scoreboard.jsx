@@ -1,0 +1,98 @@
+import React from "react";
+
+import { Button, TeamBox, PlayerList, Score, TimerWidget } from "./index";
+import { useGameState } from "../utils/useGameState";
+
+function Scoreboard({
+  party,
+  username,
+  onRenameClick,
+  onScoreboardClose,
+  onLeaveGameClick,
+  onManagePlayersClick,
+}) {
+  const {
+    scoreboardTeams,
+    turn,
+    color,
+    inTurn,
+    isHost,
+    actorUp,
+    onDeck,
+    activeTeam,
+  } = useGameState({
+    party,
+    username,
+  });
+
+  return (
+    <>
+      <header
+        className="app__header app__header--with-rule"
+        style={{ justifyContent: "space-between" }}
+      >
+        {isHost ? (
+          <Button
+            onClick={onManagePlayersClick}
+            type="secondary"
+            className="button-secondary--min-width"
+          >
+            <div className="player__badge player__badge--host text__all-caps text__small text__bold"></div>
+            {"  "}
+            Manage Players
+          </Button>
+        ) : (
+          <Button
+            onClick={onLeaveGameClick}
+            type="secondary"
+            className="button-secondary--min-width"
+            icon="✕"
+          >
+            Leave Game
+          </Button>
+        )}
+        <TimerWidget
+          startTime={turn.startTime}
+          turnDurationSeconds={party.settings.turnDurationSeconds}
+          size="small"
+          color={activeTeam.teamColor}
+        />
+      </header>
+
+      <main className="app__main" style={{ paddingBottom: 0 }}>
+        {scoreboardTeams.map((team, index) => (
+          <TeamBox
+            key={team.teamName}
+            myTeam={team.teamPlayers.includes(username)}
+            myTurn={actorUp === username}
+            color={team.teamColor}
+            teamName={team.teamName}
+            onRenameClick={onRenameClick}
+          >
+            <PlayerList
+              party={party}
+              username={username}
+              color={team.teamColor}
+              players={team.teamPlayers}
+              actorUp={actorUp}
+              onDeck={onDeck}
+            />
+            <Score score={team.score} />
+          </TeamBox>
+        ))}
+      </main>
+      <footer className="app__footer">
+        <Button
+          onClick={onScoreboardClose}
+          type="secondary"
+          className="button-secondary--min-width"
+          icon="⏎"
+        >
+          Actor Up
+        </Button>
+      </footer>
+    </>
+  );
+}
+
+export default Scoreboard;

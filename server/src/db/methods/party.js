@@ -96,8 +96,6 @@ const leaveParty = async ({ slug, username }) => {
     });
   }
 
-  // what if user to remove is the current actor?
-
   return party.save();
 };
 

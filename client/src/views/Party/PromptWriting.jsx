@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useCallback } from "react";
 
 import { Button, TextInput } from "../../components";
+import { useGameState } from "../../utils/useGameState";
 import api from "../../utils/api";
 
 function PromptWriting({ party, username }) {
@@ -15,7 +16,7 @@ function PromptWriting({ party, username }) {
     [party]
   );
 
-  const currentUserPromptsCount = useMemo(() => getUserPromptsCount(username), [
+  const userPromptsCount = useMemo(() => getUserPromptsCount(username), [
     getUserPromptsCount,
     username,
   ]);
@@ -27,30 +28,30 @@ function PromptWriting({ party, username }) {
     );
   }, [party]);
 
-  const remainingPlayers = useMemo(() => {
+  const remainingPromptWriters = useMemo(() => {
     return party.players.filter((player) => {
       return getUserPromptsCount(player) < requiredPromptsCount;
     });
   }, [party, getUserPromptsCount, requiredPromptsCount]);
 
   const remainingPlayersText = useMemo(() => {
-    const remainingPlayersCount = remainingPlayers.length;
+    const remainingPlayersCount = remainingPromptWriters.length;
 
     if (remainingPlayersCount > 3) {
       return `Waiting for ${remainingPlayersCount} players to write their prompts.`;
     }
 
     if (remainingPlayersCount > 0) {
-      const remainingPlayersJoined = remainingPlayers.reduce(
-        (text, value, i, array) =>
-          text + (i < array.length - 1 ? ", " : " and ") + value
+      const remainingPlayersJoined = remainingPromptWriters.reduce(
+        (text, username, i, array) =>
+          text + (i < array.length - 1 ? ", " : " and ") + username
       );
 
       return `Still waiting for ${remainingPlayersJoined}!`;
     }
 
     return "Everyone finished their clues! 🥳🥳🥳";
-  }, [remainingPlayers]);
+  }, [remainingPromptWriters]);
 
   const handleAddPrompt = async () => {
     if (!prompt.length) return;
@@ -72,11 +73,9 @@ function PromptWriting({ party, username }) {
   const handleStartGame = async (evt) => {
     evt.preventDefault();
 
-    const res = await api.startGame({
+    await api.startGame({
       slug: party.slug,
     });
-
-    return res;
   };
 
   return (
@@ -90,7 +89,7 @@ function PromptWriting({ party, username }) {
           {remainingPlayersText}
         </p>
         <p className="text-input__sub-label" style={{ marginTop: "40px" }}>
-          {`Prompt ${currentUserPromptsCount + 1} of ${requiredPromptsCount}`}
+          {`Prompt ${userPromptsCount + 1} of ${requiredPromptsCount}`}
         </p>
         <form onSubmit={handleSubmit}>
           <TextInput
@@ -107,7 +106,7 @@ function PromptWriting({ party, username }) {
         </form>
       </main>
       <footer className="app__footer">
-        {!remainingPlayers.length && (
+        {!remainingPromptWriters.length && (
           <Button
             type="secondary"
             className="button-secondary--min-width"

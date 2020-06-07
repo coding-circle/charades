@@ -2,9 +2,12 @@ import React from "react";
 
 import { Button, PlayerList, TeamBox } from "../../components";
 import api from "../../utils/api";
+import { useGameState } from "../../utils/useGameState";
 import "./WaitingRoom.css";
 
-function WaitingRoom({ party, isHost }) {
+function WaitingRoom({ party, username }) {
+  const isHost = party.host === username;
+
   const startGame = async () => {
     await api.createGame({ slug: party.slug });
   };
