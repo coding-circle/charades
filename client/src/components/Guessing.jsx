@@ -1,6 +1,6 @@
 import React from "react";
+
 import TimerWidget from "./TimerWidget";
-import Party from "../views/Party/Party";
 import "./Guessing.css";
 
 function Guessing({ party, actorUp, color, myTeam, turn }) {

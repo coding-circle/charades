@@ -7,6 +7,7 @@ const TeamBox = ({
   teamName,
   children,
   myTeam,
+  myTurn,
   color,
   fullHeight,
   onRenameClick,
@@ -25,7 +26,7 @@ const TeamBox = ({
           >
             {teamName}
           </div>
-          {myTeam && (
+          {myTeam && !myTurn && (
             <Button
               onClick={onRenameClick}
               type="secondary"

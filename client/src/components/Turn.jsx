@@ -4,20 +4,28 @@ import "./Turn.css";
 import Acting from "./Acting";
 import Guessing from "./Guessing";
 
-function Turn({ party, username, turn, actorUp, color, players }) {
+function Turn({ party, username, turn, actorUp, color, teamPlayers, onPoint }) {
   const acting = actorUp === username;
 
   return (
     <div className="turn">
       {acting ? (
-        <Acting />
+        <Acting
+          party={party}
+          turn={turn}
+          username={username}
+          color={color}
+          username={username}
+          teamPlayers={teamPlayers}
+          onPoint={onPoint}
+        />
       ) : (
         <Guessing
           party={party}
           turn={turn}
           actorUp={actorUp}
           color={color}
-          myTeam={players.includes(username)}
+          myTeam={teamPlayers.includes(username)}
         />
       )}
     </div>

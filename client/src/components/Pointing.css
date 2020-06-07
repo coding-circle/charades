@@ -1,0 +1,40 @@
+.pointing {
+  display: flex;
+  width: calc(100% + 3px);
+  flex-grow: 1;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.pointing-item {
+  cursor: pointer;
+  margin: 3px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 2px;
+  min-width: calc(50% - 12px);
+  color: var(--color__background);
+}
+
+.pointing-item:active {
+  background-color: var(--color__foreground) !important;
+}
+
+.pointing-item__pointer {
+  transform: rotate(90deg);
+  font-size: 50px;
+  line-height: 50px;
+  font-weight: normal;
+}
+
+.pointing-item__pointer:after {
+  content: "☜";
+}
+
+.pointing-item:active .pointing-item__pointer:after {
+  content: "☚";
+}

@@ -8,6 +8,8 @@ import Score from "./Score";
 import TimerWidget from "./TimerWidget";
 import Modal from "./Modal";
 import Turn from "./Turn";
+import PointedAt from "./PointedAt";
+import Scoreboard from "./Scoreboard";
 
 export {
   TextInput,
@@ -20,4 +22,6 @@ export {
   TimerWidget,
   Modal,
   Turn,
+  PointedAt,
+  Scoreboard,
 };

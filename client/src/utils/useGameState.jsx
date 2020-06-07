@@ -73,6 +73,7 @@ export const useGameState = ({ party, username }) => {
     // teams
     teams: inTurn ? actorUpTeam : reorderedTeams,
     scoreboardTeams: reorderedTeams,
+    activeTeam: actorUpTeam[0],
 
     // game
     game,

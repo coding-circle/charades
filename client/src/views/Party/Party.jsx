@@ -8,7 +8,6 @@ import { useGamePhase } from "../../utils/useGamePhase";
 
 // Logic for which game view and what what props are passed down is handled here.
 function Party({ username, party, pointedAt, onPoint }) {
-  console.log(party, "here?");
   const [gamePhase] = useGamePhase(party);
 
   const props = {

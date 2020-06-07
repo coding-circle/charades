@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import io from "socket.io-client";
 import { useDebouncedCallback } from "use-debounce";
 
@@ -6,6 +6,7 @@ const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
 const Wrapper = (PartyComponent) =>
   function SocketHOC(props) {
+    const [isActive, setIsActive] = useState(false);
     const [party, setParty] = useState(props.party);
     const [pointedAt, setPointedAt] = useState({
       pointer: null,
@@ -17,24 +18,28 @@ const Wrapper = (PartyComponent) =>
         pointer: null,
         pointee: null,
       });
-    }, 2000);
+    }, 1000);
 
-    const socket = io(`${SOCKET_URL}${props.slug}`);
+    const socket = useMemo(() => io(`${SOCKET_URL}${props.slug}`));
 
     useEffect(() => {
-      socket.on("connect", () => {});
+      if (!isActive) {
+        socket.on("update", (res) => setParty(res.party));
 
-      socket.on("update", (res) => setParty(res.party));
+        socket.on("point-at", ({ pointee, pointer }) => {
+          cancel();
 
-      socket.on("point-at", ({ pointee, pointer }) => {
-        cancel();
+          setPointedAt({
+            pointee,
+            pointer,
+          });
 
-        setPointedAt({
-          pointee,
-          pointer,
+          debouncedClearPointedAt();
         });
+      }
 
-        debouncedClearPointedAt();
+      socket.on("connect", () => {
+        setIsActive(true);
       });
     }, [props, cancel, debouncedClearPointedAt, socket]);
 
