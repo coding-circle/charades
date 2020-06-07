@@ -2,10 +2,11 @@
   "name": "server",
   "version": "1.0.0",
   "description": "A companion app for playing [charades](https://us02web.zoom.us/j/86762991790?pwd=bHEvUkw1K1djMUpqTlBUOWJVTDRrUT09)",
-  "main": "app.js",
+  "main": "src/app.js",
   "scripts": {
     "test": "jest --testTimeout=20000 --watch --runInBand --detectOpenHandles",
-    "start": "nodemon --exec babel-node src/app.js"
+    "start": "nodemon --exec babel-node src/app.js",
+    "build": "babel src -d dist"
   },
   "repository": {
     "type": "git",
@@ -34,6 +35,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/cli": "^7.10.1",
     "@babel/core": "^7.9.6",
     "@babel/node": "^7.8.7",
     "@babel/preset-env": "^7.9.6",
