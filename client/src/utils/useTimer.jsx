@@ -76,8 +76,6 @@ export const useTimer = ({ startTime, turnDurationSeconds }) => {
     };
   }, [time, countdownTime, endTime, turnDurationSeconds]);
 
-  console.log(countdownTime);
-
   const countdownText = [null, "Go!", "Set!", "Ready!"][
     Math.ceil(countdownTime / 10)
   ];

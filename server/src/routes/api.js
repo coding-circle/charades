@@ -16,7 +16,7 @@ router.post("/party", ash(partyController.createParty));
 router.put("/party/:slug", ash(partyController.joinParty));
 router.get("/party/:slug", ash(partyController.getParty));
 router.put("/party/:slug/settings", ash(partyController.updateSettings));
-router.delete("/party/:slug/leave", ash(partyController.leaveParty));
+router.put("/party/:slug/leave", ash(partyController.leaveParty));
 
 // game
 router.post("/party/:slug/prompt", ash(gameController.addPrompt));

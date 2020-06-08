@@ -73,6 +73,7 @@ function Scoreboard({
               party={party}
               username={username}
               color={team.teamColor}
+              host={party.host}
               players={team.teamPlayers}
               actorUp={actorUp}
               onDeck={onDeck}
