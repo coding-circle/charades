@@ -22,10 +22,11 @@ function PromptWriting({ party, username }) {
   ]);
 
   const requiredPromptsCount = useMemo(() => {
-    return Math.ceil(
-      (party.players.length / party.settings.teamsCount) *
-        party.settings.rotations
-    );
+    const isOddNumberOfPlayers = !!party.players % 2;
+
+    return isOddNumberOfPlayers
+      ? party.settings.rotations + 1
+      : party.settings.rotations;
   }, [party]);
 
   const remainingPromptWriters = useMemo(() => {
@@ -84,26 +85,34 @@ function PromptWriting({ party, username }) {
         <h1 className="text__heading app__title">WebCharades</h1>
       </header>
       <main className="app__main app__main--home">
-        <h3>Start Writing!</h3>
+        <h3>
+          {userPromptsCount + 1 <= requiredPromptsCount
+            ? "Start Writing!"
+            : "You're Done!"}
+        </h3>
         <p style={{ marginTop: "40px", width: "200px", textAlign: "center" }}>
           {remainingPlayersText}
         </p>
-        <p className="text-input__sub-label" style={{ marginTop: "40px" }}>
-          {`Prompt ${userPromptsCount + 1} of ${requiredPromptsCount}`}
-        </p>
-        <form onSubmit={handleSubmit}>
-          <TextInput
-            name="prompt"
-            style={{ marginTop: "20px" }}
-            value={prompt}
-            onChange={(evt) => {
-              setPrompt(evt.target.value);
-            }}
-          />
-          <Button type="primary" style={{ marginTop: "24px" }}>
-            Submit Prompt
-          </Button>
-        </form>
+        {userPromptsCount + 1 <= requiredPromptsCount && (
+          <>
+            <p className="text-input__sub-label" style={{ marginTop: "40px" }}>
+              {`Prompt ${userPromptsCount + 1} of ${requiredPromptsCount}`}
+            </p>
+            <form onSubmit={handleSubmit}>
+              <TextInput
+                name="prompt"
+                style={{ marginTop: "20px" }}
+                value={prompt}
+                onChange={(evt) => {
+                  setPrompt(evt.target.value);
+                }}
+              />
+              <Button type="primary" style={{ marginTop: "24px" }}>
+                Submit Prompt
+              </Button>
+            </form>
+          </>
+        )}
       </main>
       <footer className="app__footer">
         {!remainingPromptWriters.length && (
