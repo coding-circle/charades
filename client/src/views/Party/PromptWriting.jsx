@@ -22,7 +22,7 @@ function PromptWriting({ party, username }) {
   ]);
 
   const requiredPromptsCount = useMemo(() => {
-    const isOddNumberOfPlayers = !!party.players % 2;
+    const isOddNumberOfPlayers = Boolean(party.players.length % 2);
 
     return isOddNumberOfPlayers
       ? party.settings.rotations + 1

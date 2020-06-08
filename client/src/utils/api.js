@@ -58,7 +58,7 @@ const updateSettings = async ({ slug, settings }) => {
 
 // leave party
 const leaveParty = async ({ slug, username }) => {
-  const res = await axios.delete(`${API_URL}party/${slug}/leave`, {
+  const res = await axios.put(`${API_URL}party/${slug}/leave`, {
     username,
   });
 

@@ -6,10 +6,10 @@ const PlayerList = ({
   className,
   username,
   party,
+  host,
   players,
   actorUp,
   onDeck,
-  isHost,
   color,
 }) => {
   const classes = `player-list
@@ -22,7 +22,7 @@ const PlayerList = ({
           party={party}
           username={username}
           playerName={playerName}
-          isHost={isHost && playerName === username}
+          isHost={playerName === host}
           actorUp={actorUp === playerName}
           onDeck={onDeck === playerName}
           youreUp={actorUp === username && actorUp === playerName}

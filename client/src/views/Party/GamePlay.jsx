@@ -16,6 +16,7 @@ import PlayAgain from "./PlayAgain";
 import "./GamePlay.css";
 import api from "../../utils/api";
 import { useGameState } from "../../utils/useGameState";
+import { useLocalStorage } from "@rehooks/local-storage";
 
 function GamePlay({ party, username, onPoint, pointedAt }) {
   // state
@@ -34,12 +35,11 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
     userTeamName,
   } = useGameState({ party, username });
 
-  console.log(party);
+  const [localStorage, setLocalStorage] = useLocalStorage("charades");
 
   const [renameTeamInput, setRenameTeamInput] = useState(userTeamName);
 
   const [scoreboardOpen, setScoredboardOpen] = useState(false);
-
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [isPlayAgainOpen, setIsPlayAgainOpen] = useState(false);
   const [isLeaveGameModalOpen, setIsLeaveGameModalOpen] = useState(false);
@@ -91,12 +91,17 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
 
   const handleLeaveGameSubmit = async () => {
     try {
-      const res = await api.leaveParty({
+      await api.leaveParty({
         slug: party.slug,
         username,
       });
 
-      console.log(res);
+      setLocalStorage({
+        ...localStorage,
+        slug: "",
+      });
+
+      window.location.pathname = "";
 
       handleLeaveGameModalClose();
     } catch (error) {
@@ -197,7 +202,7 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
                         players={team.teamPlayers}
                         actorUp={actorUp}
                         onDeck={onDeck}
-                        isHost={isHost}
+                        host={party.host}
                       />
                       {game.turns.length > 1 && <Score score={team.score} />}
                     </div>

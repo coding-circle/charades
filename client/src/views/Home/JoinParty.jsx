@@ -57,7 +57,7 @@ function JoinGame({ slug, username, setUsername, showCreateGameView }) {
           onClick={joinParty}
           type="primary"
           style={{ marginTop: "24px" }}
-          disabled={!roomCode.length || !username.length}
+          disabled={!roomCode || !username}
         >
           Join Game
         </Button>
