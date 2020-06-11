@@ -28,7 +28,7 @@ const generateRandomTeamName = () => {
 
   const teamName = `${adjective}${noun}`;
   if (teamName.length > 10) return teamName.substring(0, 10);
-  return teamName;
+  return teamName.toUpperCase();
 };
 
 function generateTeamColor (teamsCount, startingHue = Math.floor(Math.random() * 360)) {

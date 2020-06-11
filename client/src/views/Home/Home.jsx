@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import CreateGame from "./CreateParty";
-import JoinGame from "./JoinParty";
+import JoinParty from "./JoinParty";
 
 function Home({ username: storageUsername, slug, setCurrentViewToParty }) {
   const [createGameOpen, setCreateGameOpen] = useState(false);
@@ -10,20 +10,22 @@ function Home({ username: storageUsername, slug, setCurrentViewToParty }) {
   const showCreateGameView = () => setCreateGameOpen(true);
   const hideCreateGameView = () => setCreateGameOpen(false);
 
+  const handleChangeUsername = (username) => setUsername(username.toUpperCase());
+
   return (
     <div id="app">
       {createGameOpen ? (
         <CreateGame
           username={username}
-          setUsername={setUsername}
+          onChangeUsername={handleChangeUsername}
           hideCreateGameView={hideCreateGameView}
           setCurrentViewToParty={setCurrentViewToParty}
         />
       ) : (
-        <JoinGame
+        <JoinParty
           slug={slug}
           username={username}
-          setUsername={setUsername}
+          onChangeUsername={handleChangeUsername}
           showCreateGameView={showCreateGameView}
           setCurrentViewToParty={setCurrentViewToParty}
         />

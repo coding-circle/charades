@@ -43,11 +43,12 @@ const createParty = async ({ host, settings } = {}) => {
 
 // join party
 const joinParty = async ({ slug, username }) => {
-  const party = await getParty({ slug });
+  const party = await getParty({ slug: slug.toUpperCase() });
+  const upperCaseUsername = username.toUpperCase();
 
   if (!party) return { error: "Party does not exist" };
 
-  party.players.push(username);
+  party.players.push(upperCaseUsername);
 
   if (helpers.isGameInProgress(party)) {
     const { teams } = party.games[party.games.length - 1];
@@ -56,7 +57,7 @@ const joinParty = async ({ slug, username }) => {
       .map((team) => team.teamPlayers.length)
       .findIndex((el, _, arr) => el === Math.min(...arr));
 
-    teams[teamToAddPlayerTo].teamPlayers.push(username);
+    teams[teamToAddPlayerTo].teamPlayers.push(upperCaseUsername);
   }
 
   return party.save();

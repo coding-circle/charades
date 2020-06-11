@@ -6,7 +6,7 @@ import { useLocalStorage } from "@rehooks/local-storage";
 import api from "../../utils/api";
 import { TextInput, CloseButton, Button } from "../../components";
 
-function CreateGame({ username, setUsername, hideCreateGameView }) {
+function CreateGame({ username, onChangeUsername, hideCreateGameView }) {
   const [teamsCount, setTeamsCount] = useState(2);
   const [rotations, setRotations] = useState(1);
   const [turnDurationSeconds, setTurnDurationSeconds] = useState(90);
@@ -81,7 +81,7 @@ function CreateGame({ username, setUsername, hideCreateGameView }) {
           style={{ marginTop: "20px" }}
           value={username}
           onChange={(evt) => {
-            setUsername(evt.target.value);
+            onChangeUsername(evt.target.value);
           }}
         />
         <Button

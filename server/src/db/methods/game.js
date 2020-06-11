@@ -172,7 +172,7 @@ const renameTeam = async ({ slug, teamIndex, teamName }) => {
   }
 
   const currentGame = party.games[party.games.length - 1];
-  currentGame.teams[teamIndex].teamName = teamName;
+  currentGame.teams[teamIndex].teamName = teamName.toUpperCase();
 
   return party.save();
 };

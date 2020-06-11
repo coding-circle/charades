@@ -5,7 +5,7 @@ import { useLocalStorage } from "@rehooks/local-storage";
 import api from "../../utils/api";
 import { TextInput, Button } from "../../components";
 
-function JoinGame({ slug, username, setUsername, showCreateGameView }) {
+function JoinGame({ slug, username, onChangeUsername, showCreateGameView }) {
   const [roomCode, setRoomCode] = useState(slug);
   const [_, setLocalStorage] = useLocalStorage("charades");
 
@@ -50,7 +50,7 @@ function JoinGame({ slug, username, setUsername, showCreateGameView }) {
           style={{ marginTop: "20px" }}
           value={username}
           onChange={(evt) => {
-            setUsername(evt.target.value);
+            onChangeUsername(evt.target.value);
           }}
         />
         <Button

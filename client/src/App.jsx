@@ -91,7 +91,6 @@ function App() {
     ),
     party: (
       <Party
-        slug={localStorage.slug}
         username={localStorage.username}
         party={party}
         setCurrentViewToHome={setCurrentViewToHome}
