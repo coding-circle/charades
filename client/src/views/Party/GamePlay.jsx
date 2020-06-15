@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocalStorage } from "@rehooks/local-storage";
 
 import {
   Button,
@@ -11,12 +12,12 @@ import {
   PointedAt,
   Scoreboard,
   Results,
+  ManagePlayersModal,
 } from "../../components";
 import PlayAgain from "./PlayAgain";
 import "./GamePlay.css";
 import api from "../../utils/api";
 import { useGameState } from "../../utils/useGameState";
-import { useLocalStorage } from "@rehooks/local-storage";
 
 function GamePlay({ party, username, onPoint, pointedAt }) {
   // state
@@ -64,8 +65,8 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
 
   const handleTimesUpClick = () => setIsTimesUpModalOpen(true);
   const handleTimesUpModalClose = () => {
-    handleEndTurnModalClose();
     setIsTimesUpModalOpen(false);
+    setIsEndTurnModalOpen(false);
   };
 
   const handleManagePlayersClick = () => setIsManagePlayersModalOpen(true);
@@ -109,7 +110,7 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
     }
   };
 
-  const handleTimesUpSubmit = async (success) => {
+  const handleTimesUpSubmit = (success) => async () => {
     try {
       await api.endTurn({
         slug: party.slug,
@@ -162,8 +163,30 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
 
       {/* header */}
       {!inTurn && !scoreboardOpen && (
-        <header className="app__header app__header--with-rule">
-          <h1 className="text__heading app__title">Teams</h1>
+        <header
+          className="app__header app__header--with-rule"
+          style={{ justifyContent: "space-between" }}
+        >
+          {isHost ? (
+            <Button
+              onClick={handleManagePlayersClick}
+              type="secondary"
+              className="button-secondary--min-width"
+            >
+              <div className="player__badge player__badge--host text__all-caps text__small text__bold"></div>
+              {"  "}
+              Manage Players
+            </Button>
+          ) : (
+            <Button
+              onClick={handleLeaveGameClick}
+              type="secondary"
+              className="button-secondary--min-width"
+              icon="✕"
+            >
+              Leave Game
+            </Button>
+          )}
         </header>
       )}
 
@@ -175,7 +198,7 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
                 key={team.teamName}
                 myTeam={team.teamPlayers.includes(username)}
                 myTurn={actorUp === username}
-                color={team.teamColor}
+                backgroundColor={team.teamColor}
                 teamName={team.teamName}
                 fullHeight={inTurn}
                 onRenameClick={handleRenameClick}
@@ -289,11 +312,11 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
       {/* Time's Up Modal */}
       <Modal
         isOpaque
-        isActive={isTimesUpModalOpen}
-        onClickClose={handleTimesUpModalClose}
+        noCancel
+        isActive={isTimesUpModalOpen && actorUp === username}
         title="Time's Up! Did You Get It?"
-        onClickYes={() => handleTimesUpSubmit(true)}
-        onClickNo={() => handleTimesUpSubmit(false)}
+        onClickYes={handleTimesUpSubmit(true)}
+        onClickNo={handleTimesUpSubmit(false)}
         type="confirm"
         body={
           <p style={{ marginBottom: "12px" }}>Did your team guess correctly?</p>
@@ -301,18 +324,11 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
       />
 
       {/* Manage Players */}
-      {/* TODO, make this modal */}
-      <Modal
+      <ManagePlayersModal
+        party={party}
         isActive={isManagePlayersModalOpen}
         onClickClose={handleManagePlayersModalClose}
-        title="ManagePlayers?"
-        submitButtonText="I'm Done"
-        onClickSubmit={handleManagePlayersModalClose}
-        type="alert"
-      >
-        {/* TODO: Add skip turn feature here! */}
-        {/* TODO: Add team box with players to remove */}
-      </Modal>
+      />
     </>
   );
 }

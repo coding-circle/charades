@@ -14,6 +14,21 @@ export const useTimer = ({ startTime, turnDurationSeconds }) => {
 
   turnDurationSeconds *= 10;
 
+  // clears timers when screen is inactive
+  // this forces recalculation of timer when page is visible
+  const handleVisibilityChange = () => {
+    setCountdownTime(null);
+    setTime(null);
+  };
+
+  useEffect(() => {
+    window.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
+
   useEffect(() => {
     if (!startTime) {
       return setTime(null);
@@ -24,18 +39,19 @@ export const useTimer = ({ startTime, turnDurationSeconds }) => {
     // sync time intervals
     if (time === null && countdownTime === null) {
       if (startTime >= currentTime) {
-        const secondsUntilTurn = Math.floor((startTime - currentTime) / 100); // 8000
+        const secondsUntilTurn = Math.floor((startTime - currentTime) / 100);
         const difference = startTime - currentTime - secondsUntilTurn * 100;
 
         setTimeout(() => {
           setCountdownTime(secondsUntilTurn);
         }, difference);
       } else {
-        const secondsUntilTurn = Math.floor((startTime - currentTime) / 100); // 8000
+        const secondsUntilTurn = Math.floor((startTime - currentTime) / 100);
         const difference = startTime - currentTime - secondsUntilTurn * 100;
 
+        setCountdownTime(-1);
         setTimeout(() => {
-          setTime(Math.min(endTime, turnDurationSeconds + secondsUntilTurn));
+          setTime(turnDurationSeconds + secondsUntilTurn + 1);
         }, difference);
       }
     }
@@ -54,7 +70,7 @@ export const useTimer = ({ startTime, turnDurationSeconds }) => {
           // countdown ended
         } else if (countdownTime === 0) {
           setTime(turnDurationSeconds);
-          setCountdownTime(null);
+          setCountdownTime(-1);
 
           // time is running
         } else if (time > 0) {
@@ -76,8 +92,8 @@ export const useTimer = ({ startTime, turnDurationSeconds }) => {
     };
   }, [time, countdownTime, endTime, turnDurationSeconds]);
 
-  const countdownText = [null, "Go!", "Set!", "Ready!"][
-    Math.ceil(countdownTime / 10)
+  const countdownText = [0, "Go!", "Set!", "Ready!", ""][
+    countdownTime === null ? 4 : Math.ceil(countdownTime / 10)
   ];
 
   // get time as minutes and seconds
@@ -95,7 +111,7 @@ export const useTimer = ({ startTime, turnDurationSeconds }) => {
   const percentage = Math.min(1, 1 - time / turnDurationSeconds);
 
   return {
-    countdown: countdownText || finalTime,
+    countdown: countdownText === 0 ? finalTime : countdownText,
     percentage: time === null ? 0 : percentage,
   };
 };

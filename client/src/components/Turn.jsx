@@ -25,7 +25,6 @@ function Turn({
           turn={turn}
           username={username}
           color={color}
-          username={username}
           teamPlayers={teamPlayers}
           onPoint={onPoint}
           onEndTurnClick={onEndTurnClick}

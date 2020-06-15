@@ -8,6 +8,7 @@ const Wrapper = (PartyComponent) =>
   function SocketHOC(props) {
     const [isActive, setIsActive] = useState(false);
     const [party, setParty] = useState(props.party);
+
     const [pointedAt, setPointedAt] = useState({
       pointer: null,
       pointee: null,
@@ -20,11 +21,15 @@ const Wrapper = (PartyComponent) =>
       });
     }, 1000);
 
-    const socket = useMemo(() => io(`${SOCKET_URL}${props.slug}`));
+    const socket = useMemo(() => io(`${SOCKET_URL}${props.slug}`), [
+      props.slug,
+    ]);
 
     useEffect(() => {
       if (!isActive) {
-        socket.on("update", (res) => setParty(res.party));
+        socket.on("update", (res) => {
+          setParty(res.party);
+        });
 
         socket.on("point-at", ({ pointee, pointer }) => {
           cancel();
@@ -41,7 +46,7 @@ const Wrapper = (PartyComponent) =>
       socket.on("connect", () => {
         setIsActive(true);
       });
-    }, [props, cancel, debouncedClearPointedAt, socket]);
+    }, [props, cancel, debouncedClearPointedAt, socket, isActive]);
 
     const handlePoint = (pointee) => {
       socket.emit("point-at", {
@@ -54,6 +59,7 @@ const Wrapper = (PartyComponent) =>
       <PartyComponent
         {...props}
         party={party}
+        setParty={setParty}
         onPoint={handlePoint}
         pointedAt={pointedAt}
       />

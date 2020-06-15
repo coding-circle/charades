@@ -14,8 +14,7 @@ function Scoreboard({
   const {
     scoreboardTeams,
     turn,
-    color,
-    inTurn,
+
     isHost,
     actorUp,
     onDeck,
@@ -65,7 +64,7 @@ function Scoreboard({
             key={team.teamName}
             myTeam={team.teamPlayers.includes(username)}
             myTurn={actorUp === username}
-            color={team.teamColor}
+            backgroundColor={team.teamColor}
             teamName={team.teamName}
             onRenameClick={onRenameClick}
           >

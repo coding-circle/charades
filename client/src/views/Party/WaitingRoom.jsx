@@ -2,7 +2,6 @@ import React from "react";
 
 import { Button, PlayerList, TeamBox } from "../../components";
 import api from "../../utils/api";
-import { useGameState } from "../../utils/useGameState";
 import "./WaitingRoom.css";
 
 function WaitingRoom({ party, username }) {
@@ -37,7 +36,7 @@ function WaitingRoom({ party, username }) {
       </header>
       <main className="app__main app__main--home">
         <TeamBox
-          color="var(--color__foreground)"
+          backgroundColor="var(--color__foreground)"
           players={party.players}
           teamName="Players"
         >

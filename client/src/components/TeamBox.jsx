@@ -9,6 +9,7 @@ const TeamBox = ({
   myTeam,
   myTurn,
   color,
+  backgroundColor,
   fullHeight,
   onRenameClick,
 }) => {
@@ -17,30 +18,37 @@ const TeamBox = ({
   ${fullHeight ? "team-box--full-height" : ""}`;
 
   return (
-    <>
-      <div className={classes}>
-        <div className="team-box__header">
-          <div
-            className="team-box__team-label text__all-caps text__heading text__bold"
-            style={{ background: color }}
+    <div className={classes}>
+      <div className="team-box__header">
+        <div
+          className="team-box__team-label text__all-caps text__heading text__bold"
+          style={{
+            background: backgroundColor,
+            ...(color && { color }),
+          }}
+        >
+          {teamName}
+        </div>
+        {myTeam && !myTurn && (
+          <Button
+            onClick={onRenameClick}
+            type="secondary"
+            className="team-box__rename-button"
           >
-            {teamName}
-          </div>
-          {myTeam && !myTurn && (
-            <Button
-              onClick={onRenameClick}
-              type="secondary"
-              className="team-box__rename-button"
-            >
-              Rename?
-            </Button>
-          )}
-        </div>
-        <div className="team-box__body" style={{ background: color }}>
-          {children}
-        </div>
+            Rename?
+          </Button>
+        )}
       </div>
-    </>
+      <div
+        className="team-box__body"
+        style={{
+          background: backgroundColor,
+          ...(color && { color }),
+        }}
+      >
+        {children}
+      </div>
+    </div>
   );
 };
 
