@@ -22,32 +22,13 @@ function App() {
 
   useEffect(() => {
     const loadSlug = async () => {
-      const urlSlug = document.location.pathname.slice(1);
+      const urlSlug = document.location.pathname.slice(1).toUpperCase();
 
       if (!urlSlug) {
-        if (!localStorage.slug) {
-          setLocalStorage({
-            ...localStorage,
-            slug: "",
-          });
-        } else {
-          const remoteParty = await api.getParty({ slug: localStorage.slug });
-
-          if (
-            remoteParty &&
-            remoteParty.players.includes(localStorage.username)
-          ) {
-            window.location.pathname = localStorage.slug;
-            setParty(remoteParty);
-            setCurrentView("party");
-            return;
-          }
-
-          setLocalStorage({
-            ...localStorage,
-            slug: "",
-          });
-        }
+        setLocalStorage({
+          ...localStorage,
+          slug: "",
+        });
       } else {
         // if development and sandbox
         if (isDevelopment && urlSlug.toLowerCase() === "sandbox") {
@@ -56,13 +37,10 @@ function App() {
         }
 
         if (urlSlug === localStorage.slug) {
-          const remoteParty = await api.getParty({ slug: localStorage.slug });
+          const party = await api.getParty({ slug: localStorage.slug });
 
-          if (
-            remoteParty &&
-            remoteParty.players.includes(localStorage.username)
-          ) {
-            setParty(remoteParty);
+          if (party && party.players.includes(localStorage.username)) {
+            setParty(party);
             setCurrentView("party");
             return;
           }
@@ -91,6 +69,7 @@ function App() {
     ),
     party: (
       <Party
+        slug={localStorage.slug}
         username={localStorage.username}
         party={party}
         setCurrentViewToHome={setCurrentViewToHome}

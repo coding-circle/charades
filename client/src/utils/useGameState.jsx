@@ -2,7 +2,7 @@
  * useGameState.jsx
  * React hook for parsing party object and returning info about game state
  */
-import { useMemo, useCallback } from "react";
+import { useMemo } from "react";
 
 export const useGameState = ({ party, username }) => {
   // game
@@ -81,7 +81,7 @@ export const useGameState = ({ party, username }) => {
     );
 
     return winningTeam.teamPlayers.includes(username);
-  }, [isGameOver]);
+  }, [isGameOver, game.teams, username]);
 
   return {
     // teams

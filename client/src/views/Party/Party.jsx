@@ -1,13 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import SocketHOC from "../../utils/SocketHOC";
+import useNoSleep from "use-no-sleep";
 
 import WaitingRoom from "./WaitingRoom";
 import PromptWriting from "./PromptWriting";
 import GamePlay from "./GamePlay";
 import { useGamePhase } from "../../utils/useGamePhase";
+import api from "../../utils/api";
 
-// Logic for which game view and what what props are passed down is handled here.
-function Party({ username, party, pointedAt, onPoint }) {
+function Party({ username, party, setParty, pointedAt, onPoint }) {
+  const [isPreventingSleep, setIsPreventingSleep] = useState(false);
+
+  useNoSleep(isPreventingSleep);
+
+  useEffect(() => {
+    const handleFocus = () => {
+      setIsPreventingSleep(true);
+    };
+
+    const handleVisibilityChange = async (evt) => {
+      if (!evt.target.hidden) {
+        const newParty = await api.getParty({ slug: party.slug });
+        setParty(newParty);
+      }
+    };
+
+    window.addEventListener("focus", handleFocus);
+    window.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener("focus", handleFocus);
+      window.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [party.slug, setParty]);
+
   const [gamePhase] = useGamePhase(party);
 
   const props = {

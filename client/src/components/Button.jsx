@@ -14,6 +14,7 @@ const Button = ({
   const classes = `${className || ""}
   ${type && type === "primary" ? "button-primary text__heading" : ""}
   ${type && type === "secondary" ? "button-secondary" : ""}
+  ${type && type === "small" ? "button-small" : ""}
   ${variant && variant === "yes" ? "button-yes" : ""}
   ${variant && variant === "no" ? "button-no" : ""}
   ${!!disabled ? "button-disabled" : ""}`;

@@ -11,6 +11,8 @@ const PlayerList = ({
   actorUp,
   onDeck,
   color,
+  backgroundColor,
+  isManagePlayers,
 }) => {
   const classes = `player-list
   ${className || ""}`;
@@ -22,11 +24,13 @@ const PlayerList = ({
           party={party}
           username={username}
           playerName={playerName}
+          isManagePlayers={isManagePlayers}
           isHost={playerName === host}
           actorUp={actorUp === playerName}
           onDeck={onDeck === playerName}
           youreUp={actorUp === username && actorUp === playerName}
           color={color}
+          backgroundColor={backgroundColor}
           key={playerName + index}
         />
       ))}

@@ -6,7 +6,7 @@ import { useLocalStorage } from "@rehooks/local-storage";
 import api from "../../utils/api";
 import { TextInput, CloseButton, Button } from "../../components";
 
-function CreateGame({ username, onChangeUsername, hideCreateGameView }) {
+function CreateGame({ username, setUsername, hideCreateGameView }) {
   const [teamsCount, setTeamsCount] = useState(2);
   const [rotations, setRotations] = useState(1);
   const [turnDurationSeconds, setTurnDurationSeconds] = useState(90);
@@ -14,8 +14,10 @@ function CreateGame({ username, onChangeUsername, hideCreateGameView }) {
   const [_, setLocalStorage] = useLocalStorage("charades");
 
   const createParty = async () => {
+    const upperCaseUsername = username.toUpperCase();
+
     const res = await api.createParty({
-      host: username,
+      host: upperCaseUsername,
       settings: {
         teamsCount,
         rotations,
@@ -31,8 +33,8 @@ function CreateGame({ username, onChangeUsername, hideCreateGameView }) {
     const slug = res.data;
 
     setLocalStorage({
+      username: upperCaseUsername,
       slug,
-      username,
     });
 
     window.location.pathname = slug;
@@ -81,7 +83,7 @@ function CreateGame({ username, onChangeUsername, hideCreateGameView }) {
           style={{ marginTop: "20px" }}
           value={username}
           onChange={(evt) => {
-            onChangeUsername(evt.target.value);
+            setUsername(evt.target.value);
           }}
         />
         <Button

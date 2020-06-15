@@ -55,6 +55,7 @@
 .modal__buttons {
   display: flex;
   width: 100%;
+  justify-content: center;
 }
 
 .modal__buttons--confirm * {

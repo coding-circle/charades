@@ -105,8 +105,8 @@ const endTurn = async ({ slug, success }) => {
   return res;
 };
 
-// skip turn
-const skipTurn = async ({ slug }) => {
+// skip player
+const skipPlayer = async ({ slug }) => {
   const res = await axios.put(`${API_URL}party/${slug}/turn/skip`);
 
   return res;
@@ -136,6 +136,6 @@ export default {
   startGame,
   startTurn,
   endTurn,
-  skipTurn,
+  skipPlayer,
   renameTeam,
 };
