@@ -24,7 +24,7 @@ router.post("/party/:slug/game/create", ash(gameController.createGame));
 router.put("/party/:slug/game/start", ash(gameController.startGame));
 router.put("/party/:slug/turn/start", ash(gameController.startTurn));
 router.put("/party/:slug/turn/end", ash(gameController.endTurn));
-router.put("/party/:slug/turn/skip", ash(gameController.skipTurn));
+router.put("/party/:slug/turn/skip", ash(gameController.skipPlayer));
 router.put("/party/:slug/rename", ash(gameController.renameTeam));
 
 export default router;

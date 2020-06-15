@@ -22,7 +22,7 @@ export const useGamePhase = (party) => {
     else if (game.startTime) {
       return "game-play";
     }
-  }, [party, game.startTime]);
+  }, [party, game]);
 
   return [gamePhase];
 };

@@ -328,6 +328,7 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
         party={party}
         isActive={isManagePlayersModalOpen}
         onClickClose={handleManagePlayersModalClose}
+        showSkipPlayer={!inTurn && !game.endTime}
       />
     </>
   );
