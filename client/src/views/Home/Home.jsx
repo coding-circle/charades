@@ -10,14 +10,12 @@ function Home({ username: storageUsername, slug, setCurrentViewToParty }) {
   const showCreateGameView = () => setCreateGameOpen(true);
   const hideCreateGameView = () => setCreateGameOpen(false);
 
-  const handleChangeUsername = (username) => setUsername(username.toUpperCase());
-
   return (
     <div id="app">
       {createGameOpen ? (
         <CreateGame
           username={username}
-          onChangeUsername={handleChangeUsername}
+          setUsername={setUsername}
           hideCreateGameView={hideCreateGameView}
           setCurrentViewToParty={setCurrentViewToParty}
         />
@@ -25,7 +23,7 @@ function Home({ username: storageUsername, slug, setCurrentViewToParty }) {
         <JoinParty
           slug={slug}
           username={username}
-          onChangeUsername={handleChangeUsername}
+          setUsername={setUsername}
           showCreateGameView={showCreateGameView}
           setCurrentViewToParty={setCurrentViewToParty}
         />

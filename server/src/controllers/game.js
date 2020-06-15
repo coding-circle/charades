@@ -61,15 +61,15 @@ const endTurn = async (req, res) => {
   res.status(200).send("endTurn success");
 };
 
-// skip turn
-const skipTurn = async (req, res) => {
+// skip player
+const skipPlayer = async (req, res) => {
   const { slug } = req.params;
 
-  const party = await gameMethods.skipTurn({ slug });
+  const party = await gameMethods.skipPlayer({ slug });
 
   req.socket.broadcastParty(slug, party);
 
-  res.status(200).send("skipTurn success");
+  res.status(200).send("skipPlayer success");
 };
 
 // rename team
@@ -90,6 +90,6 @@ export default {
   startGame,
   startTurn,
   endTurn,
-  skipTurn,
+  skipPlayer,
   renameTeam,
 };

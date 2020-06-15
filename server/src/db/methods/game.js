@@ -89,7 +89,6 @@ export const endTurn = async ({ slug, success }) => {
   const currentTurn = currentGame.turns[currentGame.turns.length - 1];
 
   if (!currentTurn.startTime) {
-    console.log("no start time");
     return party;
   }
 

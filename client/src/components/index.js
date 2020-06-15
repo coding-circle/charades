@@ -11,6 +11,7 @@ import Turn from "./Turn";
 import PointedAt from "./PointedAt";
 import Scoreboard from "./Scoreboard";
 import Results from "./Results";
+import ManagePlayersModal from "./ManagePlayersModal";
 
 export {
   TextInput,
@@ -26,4 +27,5 @@ export {
   PointedAt,
   Scoreboard,
   Results,
+  ManagePlayersModal,
 };

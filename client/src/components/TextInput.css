@@ -23,3 +23,8 @@
   color: var(--color__default);
 }
 
+.text-input__multiline {
+  outline: none;
+  resize: none;
+  overflow: auto;
+}

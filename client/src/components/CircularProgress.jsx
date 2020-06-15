@@ -1,5 +1,5 @@
 // reference: https://github.com/dastasoft/react-ui-components/blob/master/src/components/CircleProgressBar
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import "./CircularProgress.css";
 

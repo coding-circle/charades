@@ -2,7 +2,7 @@
  * useGamePhase.jsx
  * React hook for parsing party object and returning what phase game is in
  */
-import { useMemo, useCallback } from "react";
+import { useMemo } from "react";
 
 export const useGamePhase = (party) => {
   const game = party.games[party.games.length - 1];
@@ -22,7 +22,7 @@ export const useGamePhase = (party) => {
     else if (game.startTime) {
       return "game-play";
     }
-  }, [party]);
+  }, [party, game]);
 
   return [gamePhase];
 };

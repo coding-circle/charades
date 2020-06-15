@@ -5,7 +5,7 @@ import { useLocalStorage } from "@rehooks/local-storage";
 import api from "../../utils/api";
 import { TextInput, Button } from "../../components";
 
-function JoinGame({ slug, username, onChangeUsername, showCreateGameView }) {
+function JoinGame({ slug, username, setUsername, showCreateGameView }) {
   const [roomCode, setRoomCode] = useState(slug);
   const [_, setLocalStorage] = useLocalStorage("charades");
 
@@ -14,9 +14,12 @@ function JoinGame({ slug, username, onChangeUsername, showCreateGameView }) {
   }, [slug]);
 
   const joinParty = async () => {
+    const upperCaseRoomCode = roomCode.toUpperCase();
+    const upperCaseUsername = username.toUpperCase();
+
     const { error } = await api.joinParty({
-      slug: roomCode,
-      username: username,
+      slug: upperCaseRoomCode,
+      username: upperCaseUsername,
     });
 
     if (error) {
@@ -24,12 +27,13 @@ function JoinGame({ slug, username, onChangeUsername, showCreateGameView }) {
     }
 
     setLocalStorage({
-      slug: roomCode,
-      username: username,
+      slug: upperCaseRoomCode,
+      username: upperCaseUsername,
     });
 
-    window.location.pathname = slug;
+    window.location.pathname = upperCaseRoomCode;
   };
+
   return (
     <>
       <header className="app__header">
@@ -50,7 +54,7 @@ function JoinGame({ slug, username, onChangeUsername, showCreateGameView }) {
           style={{ marginTop: "20px" }}
           value={username}
           onChange={(evt) => {
-            onChangeUsername(evt.target.value);
+            setUsername(evt.target.value);
           }}
         />
         <Button

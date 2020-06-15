@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useCallback } from "react";
 
 import { Button, TextInput } from "../../components";
-import { useGameState } from "../../utils/useGameState";
 import api from "../../utils/api";
 
 function PromptWriting({ party, username }) {
@@ -100,6 +99,7 @@ function PromptWriting({ party, username }) {
             </p>
             <form onSubmit={handleSubmit}>
               <TextInput
+                multiline
                 name="prompt"
                 style={{ marginTop: "20px" }}
                 value={prompt}
