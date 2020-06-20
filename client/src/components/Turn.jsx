@@ -14,6 +14,7 @@ function Turn({
   onPoint,
   onEndTurnClick,
   onTimesUpClick,
+  onPostTurnModalOpen,
 }) {
   const acting = actorUp === username;
 
@@ -37,6 +38,7 @@ function Turn({
           actorUp={actorUp}
           color={color}
           myTeam={teamPlayers.includes(username)}
+          onTimesUpClick={onTimesUpClick}
         />
       )}
     </div>

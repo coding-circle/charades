@@ -72,15 +72,33 @@ export const useGameState = ({ party, username }) => {
   // isGameOver
   const isGameOver = game.endTime !== null;
 
-  // isWinner
-  let isWinner = useMemo(() => {
-    if (!isGameOver) return false;
+  // result
+  let result = useMemo(() => {
+    if (!isGameOver) return null;
 
-    const winningTeam = game.teams.reduce((prev, current) =>
-      prev.score > current.score ? prev : current
+    const winningScore = game.teams.reduce((highestScore, current) => {
+      return highestScore > current.score ? highestScore : current.score;
+    }, 0);
+
+    const winningTeams = game.teams.filter(
+      (team) => team.score === winningScore
     );
 
-    return winningTeam.teamPlayers.includes(username);
+    if (
+      winningTeams.length === 1 &&
+      winningTeams[0].teamPlayers.includes(username)
+    ) {
+      return "win";
+    }
+
+    if (
+      winningTeams.length > 1 &&
+      winningTeams.some(({ teamPlayers }) => teamPlayers.includes(username))
+    ) {
+      return "tie";
+    }
+
+    return "lose";
   }, [isGameOver, game.teams, username]);
 
   return {
@@ -93,7 +111,7 @@ export const useGameState = ({ party, username }) => {
     game,
     turn,
     isGameOver,
-    isWinner,
+    result,
 
     // active players
     inTurn,

@@ -26,7 +26,7 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
     scoreboardTeams,
     game,
     isGameOver,
-    isWinner,
+    result,
     turn,
     inTurn,
     actorUp,
@@ -54,6 +54,8 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
   const handleRenameClick = () => setIsRenameModalOpen(true);
   const handleRenameModalClose = () => setIsRenameModalOpen(false);
 
+  // TODO: consider opening post turn modal here
+  // this would require some sort of change to db or socket update
   const handleEndTurnClick = () => setIsEndTurnModalOpen(true);
   const handleEndTurnModalClose = () => setIsEndTurnModalOpen(false);
 
@@ -123,11 +125,21 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
     }
   };
 
+  useEffect(() => {
+    if (!isRenameModalOpen) {
+      setRenameTeamInput(userTeamName);
+    }
+  }, [userTeamName, isRenameModalOpen]);
+
+  useEffect(() => {
+    if (!inTurn) {
+      handleTimesUpModalClose();
+    }
+  }, [inTurn]);
+
   // resets scoreboard to when not in turn
   useEffect(() => {
-    // if (inTurn) {
     setScoredboardOpen(false);
-    // }
   }, [inTurn]);
 
   if (pointedAt.pointer && pointedAt.pointer !== username) {
@@ -227,13 +239,15 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
                         onDeck={onDeck}
                         host={party.host}
                       />
-                      {game.turns.length > 1 && <Score score={team.score} />}
+                      {game.turns.length > 1 && actorUp !== username && (
+                        <Score score={team.score} />
+                      )}
                     </div>
                     {isGameOver && index === 0 && (
                       <Results
                         teamName={team.teamName}
                         color={team.teamColor}
-                        isWinner={isWinner}
+                        result={result}
                       />
                     )}
                   </div>
@@ -309,21 +323,37 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
         }
       />
 
-      {/* Time's Up Modal */}
-      <Modal
-        isOpaque
-        noCancel
-        isActive={isTimesUpModalOpen && actorUp === username}
-        title="Time's Up! Did You Get It?"
-        onClickYes={handleTimesUpSubmit(true)}
-        onClickNo={handleTimesUpSubmit(false)}
-        type="confirm"
-        body={
-          <p style={{ marginBottom: "12px" }}>Did your team guess correctly?</p>
-        }
-      />
+      {/* Time's Up Modals */}
+      {actorUp === username ? (
+        <Modal
+          isOpaque
+          noCancel
+          isActive={isTimesUpModalOpen}
+          title="Time's Up! Did You Get It?"
+          onClickYes={handleTimesUpSubmit(true)}
+          onClickNo={handleTimesUpSubmit(false)}
+          type="confirm"
+          body={
+            <p
+              style={{ marginBottom: "12px" }}
+            >{`Did your team guess ${turn.author}'s prompt correctly?`}</p>
+          }
+        />
+      ) : (
+        <Modal
+          isOpaque
+          noCancel
+          isActive={isTimesUpModalOpen}
+          title="Time's Up! ⏲"
+          body={
+            <p
+              style={{ marginBottom: "12px" }}
+            >{`Waiting for  ${actorUp} to enter result...`}</p>
+          }
+        />
+      )}
 
-      {/* Manage Players */}
+      {/* Manage Players Modal */}
       <ManagePlayersModal
         party={party}
         isActive={isManagePlayersModalOpen}
