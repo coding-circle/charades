@@ -3,6 +3,7 @@ import React from "react";
 import "./Acting.css";
 import TimerWidget from "./TimerWidget";
 import Pointing from "./Pointing";
+import Button from "./Button";
 
 function Acting({
   party,
@@ -17,6 +18,9 @@ function Acting({
   return (
     <div className="acting">
       <div className="acting__header">
+        <Button type="secondary" onClick={onEndTurnClick}>
+          End Turn
+        </Button>
         <div className="acting__header-text">
           <h1
             className="text__all-caps text__heading text__bold"

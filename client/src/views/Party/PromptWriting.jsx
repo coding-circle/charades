@@ -54,19 +54,22 @@ function PromptWriting({ party, username }) {
   }, [remainingPromptWriters]);
 
   const handleAddPrompt = async () => {
-    if (!prompt.length) return;
+    // clears prompt to prevent duplicates
+    const tempPrompt = prompt;
+    setPrompt("");
+
+    if (!tempPrompt.length) return;
 
     await api.addPrompt({
       slug: party.slug,
       author: username,
-      prompt,
+      prompt: tempPrompt,
     });
-
-    setPrompt("");
   };
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
+
     handleAddPrompt();
   };
 
