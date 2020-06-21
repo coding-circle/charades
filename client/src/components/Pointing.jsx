@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Pointing.css";
 
 function Pointing({ party, teamPlayers, username, onPoint, color }) {
@@ -27,11 +27,20 @@ function PointingItem({ player, onPoint, color }) {
     onPoint(player);
   };
 
+  const [pointPressed, setPointPressed] = useState(false);
+
   return (
     <div
-      className="pointing-item"
-      style={{ backgroundColor: color }}
+      className={`
+      pointing-item 
+      ${pointPressed ? "pointing-item--active" : ""}
+      `}
+      style={{
+        backgroundColor: color,
+      }}
       onClick={handlePointingItemPress}
+      onMouseDown={() => setPointPressed(true)}
+      onMouseUp={() => setPointPressed(false)}
     >
       <h4 className="text__all-caps text__heading text__bold">{player}</h4>
       <div className="pointing-item__pointer"></div>
