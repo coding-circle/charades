@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    name: Deploy
+    name: Deploy Client
     runs-on: ubuntu-latest
 
     env:
@@ -34,3 +34,15 @@ jobs:
           args: --acl public-read --follow-symlinks --delete
         env:
           AWS_S3_BUCKET: charades.space
+
+  build:
+    name: Deploy Server
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.1.6
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: "esc-charades"
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          appdir: "server"
