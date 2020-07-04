@@ -1,0 +1,21 @@
+{
+  "name": "charades.space",
+  "version": "1.0.0",
+  "description": "A companion app for playing [charades](https://en.wikipedia.org/wiki/Charades)",
+  "scripts": {
+    "install:client": "cd client && npm install",
+    "start:client": "cd client && npm start",
+    "build:client": "cd client && npm run build",
+    "install:server": "cd server && npm install",
+    "start:server": "cd server && npm start",
+    "build:server": "cd server && npm run build",
+    "test:server": "cd server && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coding-circle/charades.git"
+  },
+  "author": "coding-circle",
+  "license": "ISC",
+  "homepage": "https://charades.space"
+}
