@@ -8,6 +8,8 @@ import DbService from "./services/db.js";
 import router from "./routes/api.js";
 import bodyParser from "body-parser";
 
+// small change to test server deployment
+
 if (process.env.NODE_ENV !== "production") {
   dotenv.config();
 }
