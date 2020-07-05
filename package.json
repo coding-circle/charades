@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A companion app for playing [charades](https://en.wikipedia.org/wiki/Charades)",
   "scripts": {
+    "start": "concurrently \"npm run start:client\" \"npm run start:server\"",
     "install:client": "cd client && npm install",
     "start:client": "cd client && npm start",
     "build:client": "cd client && npm run build",
@@ -17,5 +18,8 @@
   },
   "author": "coding-circle",
   "license": "ISC",
-  "homepage": "https://charades.space"
+  "homepage": "https://charades.space",
+  "dependencies": {
+    "concurrently": "^5.2.0"
+  }
 }

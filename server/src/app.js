@@ -43,7 +43,9 @@ app.use((req, res, next) => {
 // routes
 app.use("/api/", router);
 
-app.use("/", (req, res) => res.status(200));
+app.use("/timesync", (req, res) => {
+  return res.status(200).send({ serverTime: Date.now() });
+});
 
 // listen
 const port = process.env.PORT || 4001;
