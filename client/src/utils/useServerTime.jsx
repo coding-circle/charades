@@ -3,18 +3,18 @@ import axios from "axios";
 export const useServerTime = () => {
   let systemtime = new Date();
 
-  const API_URL = process.env.REACT_APP_SOCKET_URL;
+  const API_URL = "https://esc-charades.herokuapp.com/";
 
   const syncTime = async () => {
     console.log("syncing time");
 
     const start = new Date().getTime();
+
     const {
       data: { serverTime },
     } = await axios.get(`${API_URL}timesync`);
 
     const latency = new Date().getTime() - start;
-
     console.log("latency: ", latency);
 
     // Set the time to the **slightly old** date sent from the

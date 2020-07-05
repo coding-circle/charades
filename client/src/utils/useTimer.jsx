@@ -23,9 +23,11 @@ export const useTimer = ({ startTime, turnDurationSeconds }) => {
 
   useEffect(() => {
     window.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("pageshow", handleVisibilityChange);
 
     return () => {
       window.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("pageshow", handleVisibilityChange);
     };
   }, []);
 
