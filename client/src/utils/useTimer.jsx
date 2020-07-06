@@ -91,10 +91,6 @@ export const useTimer = ({ startTime, turnDurationSeconds }) => {
 
   const finalTime = minutes + ":" + prefixSecondsWithZero(seconds, "0", 2);
 
-  // these timer.percentage && and timer.countdown && below prevent
-  // it from flashing in the beginning. Kinda a hacky fix but for now
-  // is acceptable.
-
   return {
     countdown: finalTime,
     percentage: timer.percentage === null ? 0 : timer.percentage,
