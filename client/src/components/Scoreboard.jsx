@@ -6,23 +6,19 @@ import { useGameState } from "../utils/useGameState";
 function Scoreboard({
   party,
   username,
+  countdown,
+  percentage,
   onRenameClick,
   onScoreboardClose,
   onLeaveGameClick,
   onManagePlayersClick,
 }) {
-  const {
-    scoreboardTeams,
-    turn,
-
-    isHost,
-    actorUp,
-    onDeck,
-    activeTeam,
-  } = useGameState({
-    party,
-    username,
-  });
+  const { scoreboardTeams, isHost, actorUp, onDeck, activeTeam } = useGameState(
+    {
+      party,
+      username,
+    }
+  );
 
   return (
     <>
@@ -51,8 +47,8 @@ function Scoreboard({
           </Button>
         )}
         <TimerWidget
-          startTime={turn.startTime}
-          turnDurationSeconds={party.settings.turnDurationSeconds}
+          countdown={countdown}
+          percentage={percentage}
           size="small"
           color={activeTeam.teamColor}
         />

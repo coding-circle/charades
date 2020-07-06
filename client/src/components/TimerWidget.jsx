@@ -1,20 +1,14 @@
 import React, { useEffect } from "react";
 
-import { useTimer } from "../utils/useTimer";
 import CircularProgress from "./CircularProgress";
 
 function TimerWidget({
-  startTime,
-  turnDurationSeconds,
+  countdown,
+  percentage,
   size = "medium",
   color,
   onTimerEnd,
 }) {
-  const { countdown, percentage } = useTimer({
-    startTime: new Date(startTime).getTime(),
-    turnDurationSeconds,
-  });
-
   useEffect(() => {
     if (percentage === 1) {
       onTimerEnd && onTimerEnd();

@@ -38,7 +38,7 @@ export const useGameState = ({ party, username }) => {
   // if game is currently in a turn (vs in between turn)
   const inTurn = useMemo(
     () =>
-      game.turns[game.turns.length - 1].startTime &&
+      !!game.turns[game.turns.length - 1].startTime &&
       !game.turns[game.turns.length - 1].endTime,
     [game.turns]
   );

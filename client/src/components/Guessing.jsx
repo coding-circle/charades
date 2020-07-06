@@ -3,7 +3,14 @@ import React from "react";
 import TimerWidget from "./TimerWidget";
 import "./Guessing.css";
 
-function Guessing({ party, actorUp, color, myTeam, turn, onTimesUpClick }) {
+function Guessing({
+  actorUp,
+  color,
+  myTeam,
+  onTimesUpClick,
+  countdown,
+  percentage,
+}) {
   const actionText = myTeam
     ? "Guess correctly before time is up! ⏰"
     : "You can relax this turn 😎";
@@ -18,8 +25,8 @@ function Guessing({ party, actorUp, color, myTeam, turn, onTimesUpClick }) {
       <p className="guessing__action-text">{actionText}</p>
       <div className="guessing__timer">
         <TimerWidget
-          startTime={turn.startTime}
-          turnDurationSeconds={party.settings.turnDurationSeconds}
+          countdown={countdown}
+          percentage={percentage}
           size="large"
           color={color}
           onTimerEnd={onTimesUpClick}
