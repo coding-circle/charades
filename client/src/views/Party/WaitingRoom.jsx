@@ -47,7 +47,7 @@ function WaitingRoom({ party, username }) {
           />
         </TeamBox>
         <p className="waiting-room__waiting-text">
-          Waiting for all players to join...
+          Waiting for at least four players to join...
         </p>
       </main>
       <footer className="app__footer">
@@ -56,8 +56,9 @@ function WaitingRoom({ party, username }) {
             type="primary"
             className="button-secondary--min-width"
             onClick={startGame}
+            disabled={party.players.length < 4}
           >
-            Everyone's Here!
+            {party.players.length < 4 ? "Waiting for more players" : "Everyone's Here!"}
           </Button>
         )}
       </footer>
