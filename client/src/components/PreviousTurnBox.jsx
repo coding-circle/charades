@@ -17,7 +17,7 @@ const PreviousTurnBox = ({
       <div>
         PLAYER
       </div>
-      <div color="var(--color__foreground)"
+      <div 
       >
 
       </div>
