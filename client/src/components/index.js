@@ -12,6 +12,7 @@ import PointedAt from "./PointedAt";
 import Scoreboard from "./Scoreboard";
 import Results from "./Results";
 import ManagePlayersModal from "./ManagePlayersModal";
+import SuccessMarker from "./SuccessMarker";
 
 export {
   TextInput,
@@ -28,4 +29,5 @@ export {
   Scoreboard,
   Results,
   ManagePlayersModal,
+  SuccessMarker,
 };
