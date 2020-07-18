@@ -16,10 +16,12 @@ function Party({ username, party, setParty, pointedAt, onPoint }) {
 
     window.addEventListener("focus", handleVisibilityChange);
     window.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("pageshow", handleVisibilityChange);
 
     return () => {
       window.removeEventListener("focus", handleVisibilityChange);
       window.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("pageshow", handleVisibilityChange);
     };
   }, [party.slug, setParty]);
 

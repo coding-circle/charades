@@ -9,8 +9,7 @@ function YoureUp({ party }) {
 
   const handleYoureUpClick = async () => {
     try {
-      const res = await api.startTurn({ slug: party.slug });
-      console.log(res);
+      await api.startTurn({ slug: party.slug });
     } catch (error) {
       console.error(error);
     }

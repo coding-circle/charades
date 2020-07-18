@@ -11,6 +11,8 @@ function Acting({
   color,
   username,
   teamPlayers,
+  countdown,
+  percentage,
   onPoint,
   onEndTurnClick,
   onTimesUpClick,
@@ -32,10 +34,10 @@ function Acting({
         </div>
         <div className="acting__timer" onClick={onEndTurnClick}>
           <TimerWidget
-            startTime={turn.startTime}
-            turnDurationSeconds={party.settings.turnDurationSeconds}
             size="medium"
             color={color}
+            countdown={countdown}
+            percentage={percentage}
             onTimerEnd={onTimesUpClick}
           />
         </div>

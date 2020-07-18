@@ -1,117 +1,98 @@
-// adapted from https://github.com/thibaultboursier/use-timer/
-import { useEffect, useState, useMemo } from "react";
+/**
+ * @file useTimer.jsx
+ * React hook for calculating the turn timer.
+ * Uses 10th of a second intervals so timer
+ * percentage changes will visually look smooth.
+ *
+ * reference:
+ *  https://github.com/thibaultboursier/use-timer/
+ *  https://stackoverflow.com/questions/53891790/make-javascript-interval-synchronize-with-actual-time
+ */
+
+import { useEffect, useState, useMemo, useRef } from "react";
+import { useServerTime } from "./useServerTime";
 
 export const useTimer = ({ startTime, turnDurationSeconds }) => {
-  // 3, 2, 1, 0 before turn starts
-  const [countdownTime, setCountdownTime] = useState(null);
-  // 90, 89, ... starting at turnDurationSeconds
-  const [time, setTime] = useState(null);
+  const [timer, setTimer] = useState({
+    countdown: null,
+    percentage: null,
+  });
 
-  const endTime = useMemo(() => (startTime + turnDurationSeconds) * 1000, [
-    startTime,
-    turnDurationSeconds,
-  ]);
+  const isActive = useRef(false);
 
-  turnDurationSeconds *= 10;
+  const startTimeUnix = new Date(startTime).getTime();
 
-  // clears timers when screen is inactive
-  // this forces recalculation of timer when page is visible
-  const handleVisibilityChange = () => {
-    setCountdownTime(null);
-    setTime(null);
-  };
+  // difference in Date.now() between client and server
+  const { timeDiscrepancy } = useServerTime();
 
-  useEffect(() => {
-    window.addEventListener("visibilitychange", handleVisibilityChange);
+  const endTime = useMemo(() => {
+    const endTimeUnix =
+      startTimeUnix + turnDurationSeconds * 1000 + timeDiscrepancy;
 
-    return () => {
-      window.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
-  }, []);
+    // rounds time down to whole seconds for simplicity.
+    return 1000 * Math.floor(endTimeUnix / 1000 + 0.1);
+  }, [startTimeUnix, turnDurationSeconds, timeDiscrepancy]);
 
   useEffect(() => {
-    if (!startTime) {
-      return setTime(null);
-    }
+    isActive.current = false;
 
-    const currentTime = Date.now();
-
-    // sync time intervals
-    if (time === null && countdownTime === null) {
-      if (startTime >= currentTime) {
-        const secondsUntilTurn = Math.floor((startTime - currentTime) / 100);
-        const difference = startTime - currentTime - secondsUntilTurn * 100;
-
-        setTimeout(() => {
-          setCountdownTime(secondsUntilTurn);
-        }, difference);
-      } else {
-        const secondsUntilTurn = Math.floor((startTime - currentTime) / 100);
-        const difference = startTime - currentTime - secondsUntilTurn * 100;
-
-        setCountdownTime(-1);
-        setTimeout(() => {
-          setTime(turnDurationSeconds + secondsUntilTurn + 1);
-        }, difference);
-      }
-    }
-  }, [startTime, turnDurationSeconds, countdownTime, time]);
+    setTimeout(() => {
+      setTimer({
+        countdown: null,
+        percentage: null,
+      });
+    }, 0);
+  }, [startTime, turnDurationSeconds]);
 
   useEffect(() => {
-    let intervalId;
-    const currentTime = Date.now();
+    // instead of using setInterval, which is unreliable when switching windows
+    // or when devices reallocate resources. We sync timer at every interval.
+    function oncePerSecondAnim() {
+      const frameFunc = () => {
+        // get the current time rounded down
+        // to a 10th of a second (with a 10% margin)
+        const now = 100 * Math.floor(Date.now() / 100 + 0.1);
 
-    if (currentTime < endTime) {
-      intervalId = setInterval(() => {
-        // countdown is running
-        if (countdownTime > 0) {
-          setCountdownTime((previousTime) => previousTime - 1);
+        const countdown = (endTime - now) / 1000;
+        const percentage = 1 - countdown / (turnDurationSeconds + 1);
 
-          // countdown ended
-        } else if (countdownTime === 0) {
-          setTime(turnDurationSeconds);
-          setCountdownTime(-1);
+        setTimer({
+          countdown,
+          percentage: Math.max(0, Math.min(1, percentage)),
+        });
 
-          // time is running
-        } else if (time > 0) {
-          setTime((previousTime) => previousTime - 1);
-
-          // time ended
-        } else if (intervalId) {
-          clearInterval(intervalId);
+        if (countdown > 0 && isActive.current) {
+          // wait for the next 10th of a second
+          setTimeout(() => timerFunc(), now + 100 - Date.now());
         }
-      }, 100);
-    } else if (intervalId) {
-      clearInterval(intervalId);
+      };
+
+      const timerFunc = function () {
+        requestAnimationFrame(frameFunc);
+      };
+
+      timerFunc();
     }
 
-    return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
-    };
-  }, [time, countdownTime, endTime, turnDurationSeconds]);
+    if (!isActive.current && startTime) {
+      isActive.current = true;
+      oncePerSecondAnim();
+    }
+  }, [timer, setTimer, endTime, turnDurationSeconds, startTime]);
 
-  const countdownText = [0, "Go!", "Set!", "Ready!", ""][
-    countdownTime === null ? 4 : Math.ceil(countdownTime / 10)
-  ];
+  // calculate countdown
+  const countdownMax = Math.min(timer.countdown, turnDurationSeconds);
 
-  // get time as minutes and seconds
-  const timeSeconds =
-    time !== null ? Math.ceil(time / 10) : turnDurationSeconds / 10;
-
-  const minutes = Math.max(0, Math.floor(timeSeconds / 60));
-  const seconds = Math.max(0, timeSeconds - minutes * 60);
+  const minutes = Math.max(0, Math.floor(countdownMax / 60));
+  const seconds = Math.max(0, Math.floor(countdownMax - minutes * 60));
 
   const prefixSecondsWithZero = (string, pad, length) =>
     (new Array(length + 1).join(pad) + string).slice(-length);
 
   const finalTime = minutes + ":" + prefixSecondsWithZero(seconds, "0", 2);
 
-  const percentage = Math.min(1, 1 - time / turnDurationSeconds);
-
   return {
-    countdown: countdownText === 0 ? finalTime : countdownText,
-    percentage: time === null ? 0 : percentage,
+    countdown: finalTime,
+    percentage: timer.percentage === null ? 0 : timer.percentage,
   };
 };

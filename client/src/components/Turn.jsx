@@ -11,6 +11,8 @@ function Turn({
   actorUp,
   color,
   teamPlayers,
+  countdown,
+  percentage,
   onPoint,
   onEndTurnClick,
   onTimesUpClick,
@@ -28,6 +30,8 @@ function Turn({
           color={color}
           teamPlayers={teamPlayers}
           onPoint={onPoint}
+          countdown={countdown}
+          percentage={percentage}
           onEndTurnClick={onEndTurnClick}
           onTimesUpClick={onTimesUpClick}
         />
@@ -37,6 +41,8 @@ function Turn({
           turn={turn}
           actorUp={actorUp}
           color={color}
+          countdown={countdown}
+          percentage={percentage}
           myTeam={teamPlayers.includes(username)}
           onTimesUpClick={onTimesUpClick}
         />

@@ -5,6 +5,9 @@
   flex-direction: row;
   flex-wrap: wrap;
   margin-top: 12px;
+
+  /* prevent double tap zoom */
+  touch-action: manipulation;
 }
 
 .pointing-item {

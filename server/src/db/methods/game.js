@@ -75,7 +75,7 @@ const startTurn = async ({ slug }) => {
   const party = await partyMethods.getParty({ slug });
   const currentGame = party.games[party.games.length - 1];
 
-  currentGame.turns[currentGame.turns.length - 1].startTime = Date.now() + 5000;
+  currentGame.turns[currentGame.turns.length - 1].startTime = Date.now() + 2000;
 
   return party.save();
 };

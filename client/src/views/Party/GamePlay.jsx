@@ -18,6 +18,7 @@ import PlayAgain from "./PlayAgain";
 import "./GamePlay.css";
 import api from "../../utils/api";
 import { useGameState } from "../../utils/useGameState";
+import { useTimer } from "../../utils/useTimer";
 
 function GamePlay({ party, username, onPoint, pointedAt }) {
   // state
@@ -35,6 +36,11 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
     userTeamIndex,
     userTeamName,
   } = useGameState({ party, username });
+
+  const { countdown, percentage } = useTimer({
+    startTime: turn.startTime,
+    turnDurationSeconds: party.settings.turnDurationSeconds,
+  });
 
   const [localStorage, setLocalStorage] = useLocalStorage("charades");
 
@@ -54,8 +60,6 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
   const handleRenameClick = () => setIsRenameModalOpen(true);
   const handleRenameModalClose = () => setIsRenameModalOpen(false);
 
-  // TODO: consider opening post turn modal here
-  // this would require some sort of change to db or socket update
   const handleEndTurnClick = () => setIsEndTurnModalOpen(true);
   const handleEndTurnModalClose = () => setIsEndTurnModalOpen(false);
 
@@ -137,7 +141,6 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
     }
   }, [inTurn]);
 
-  // resets scoreboard to when not in turn
   useEffect(() => {
     setScoredboardOpen(false);
   }, [inTurn]);
@@ -166,6 +169,8 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
           username={username}
           teams={scoreboardTeams}
           turn={turn}
+          countdown={countdown}
+          percentage={percentage}
           onRenameClick={handleRenameClick}
           onScoreboardClose={handleScoreboardClose}
           onLeaveGameClick={handleLeaveGameClick}
@@ -224,6 +229,8 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
                     color={team.teamColor}
                     teamPlayers={team.teamPlayers}
                     onPoint={onPoint}
+                    countdown={countdown}
+                    percentage={percentage}
                     onEndTurnClick={handleEndTurnClick}
                     onTimesUpClick={handleTimesUpClick}
                   />
