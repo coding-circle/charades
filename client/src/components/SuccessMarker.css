@@ -5,21 +5,17 @@
   font-size: 12px;
   line-height: 16px;  
   color: #FFFFFF;
-
   display: inline-block;
-  text-transform: capitalize;
-
   background: #6FCF97;
   width: 16px; 
   height: 16px;
-  border-radius: 100px;
+  border-radius: 50%;
   display: flex;
   align-items: center; 
   justify-content: center;
-
 }
 
-.success-marker_failure {
+.success-marker--failure {
   background-color: #EB5757;
 }
 

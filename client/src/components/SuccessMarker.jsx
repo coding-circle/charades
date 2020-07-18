@@ -5,16 +5,16 @@ const SuccessMarker = ({ wasSuccessful }) => {
 
   return (
     <>
-    {wasSuccessful ? (
-      <div className="success-marker">
-        <span>✓</span>
-      </div>
-    ) : (
-      <div className="success-marker success-marker_failure">
-        <span>✕</span>
-      </div>
-    )
-    }
+      {wasSuccessful ? (
+        <div className="success-marker">
+          <span>✓</span>
+        </div>
+      ) : (
+        <div className="success-marker success-marker--failure">
+          <span>✕</span>
+        </div>
+        )
+      }
     </>
   );
 };

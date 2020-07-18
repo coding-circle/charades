@@ -7,9 +7,9 @@ function Sandbox() {
   
     <div className="app__main">
       <h1> SuccessMarker </h1>
-      <SuccessMarker wasSuccessful={true}/>
+      <SuccessMarker wasSuccessful={false}/>
     </div>
-    
+  
   );
 }
 
