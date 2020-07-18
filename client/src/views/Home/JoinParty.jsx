@@ -14,9 +14,12 @@ function JoinGame({ slug, username, setUsername, showCreateGameView }) {
   }, [slug]);
 
   const joinParty = async () => {
+    const upperCaseRoomCode = roomCode.toUpperCase();
+    const upperCaseUsername = username.toUpperCase();
+
     const { error } = await api.joinParty({
-      slug: roomCode,
-      username: username,
+      slug: upperCaseRoomCode,
+      username: upperCaseUsername,
     });
 
     if (error) {
@@ -24,12 +27,13 @@ function JoinGame({ slug, username, setUsername, showCreateGameView }) {
     }
 
     setLocalStorage({
-      slug: roomCode,
-      username: username,
+      slug: upperCaseRoomCode,
+      username: upperCaseUsername,
     });
 
-    window.location.pathname = slug;
+    window.location.pathname = upperCaseRoomCode;
   };
+
   return (
     <>
       <header className="app__header">
@@ -57,7 +61,7 @@ function JoinGame({ slug, username, setUsername, showCreateGameView }) {
           onClick={joinParty}
           type="primary"
           style={{ marginTop: "24px" }}
-          disabled={!roomCode.length || !username.length}
+          disabled={!roomCode || !username}
         >
           Join Game
         </Button>

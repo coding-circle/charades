@@ -21,12 +21,12 @@ export const createPartyTests = () => {
 
   it("should create party when provided host", async () => {
     const party = await createParty({
-      host: "jacten",
+      host: "JACTEN",
     });
 
     expect(party.slug).toBeTruthy();
-    expect(party.host).toEqual("jacten");
-    expect(party.players).toEqual(expect.arrayContaining(["jacten"]));
+    expect(party.host).toEqual("JACTEN");
+    expect(party.players).toEqual(expect.arrayContaining(["JACTEN"]));
   });
 
   it("should throw error when host is not provided", async () => {
@@ -48,7 +48,7 @@ export const createPartyTests = () => {
     };
 
     const party = await createParty({
-      host: "jacten",
+      host: "JACTEN",
       settings,
     });
 
@@ -57,7 +57,7 @@ export const createPartyTests = () => {
 
   it("should persist party object in db", async () => {
     const createdParty = await createParty({
-      host: "jacten",
+      host: "JACTEN",
     });
 
     const retreivedParty = await getParty({ slug: createdParty.slug });
@@ -78,10 +78,21 @@ export const createPartyTests = () => {
     const slugSet = new Set();
     for (let i = 0; i < count; i++) {
       const slug = helpers.generateSlug();
-      expect(slug.split(" ").length).toBe(1);
-      expect(slug.split("-").length).toBe(3);
+      expect(slug.length).toBe(6);
       slugSet.add(slug);
     }
     expect(slugSet.size).toBeGreaterThan(count - duplicatesAllowed);
+  });
+
+  it("should generate reasonably random team names in the right format", async () => {
+    const count = 100;
+    const duplicatesAllowed = 10;
+    const teamNamesSet = new Set();
+    for (let i = 0; i < count; i++) {
+      const teamName = helpers.generateRandomTeamName();
+      expect(teamName.length).toBeLessThanOrEqual(10);
+      teamNamesSet.add(teamName);
+    }
+    expect(teamNamesSet.size).toBeGreaterThan(count - duplicatesAllowed);
   });
 };

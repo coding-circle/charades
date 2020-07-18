@@ -8,6 +8,8 @@ import DbService from "./services/db.js";
 import router from "./routes/api.js";
 import bodyParser from "body-parser";
 
+// small change to test server deployment
+
 if (process.env.NODE_ENV !== "production") {
   dotenv.config();
 }
@@ -21,7 +23,12 @@ const socket = new SocketService(server);
 
 // middleware
 app.use(cors());
-app.use(bodyParser());
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 
 app.use((req, res, next) => {
   req.body = req.body || {};
@@ -36,7 +43,9 @@ app.use((req, res, next) => {
 // routes
 app.use("/api/", router);
 
-app.use("/", (req, res) => res.status(200));
+app.use("/timesync", (req, res) => {
+  return res.status(200).send({ serverTime: Date.now() });
+});
 
 // listen
 const port = process.env.PORT || 4001;

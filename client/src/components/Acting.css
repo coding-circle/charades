@@ -1,0 +1,45 @@
+.acting {
+  display: flex;
+  height: 100%;
+  flex: 1;
+  padding: 12px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.acting__header {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.acting__header-text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.acting__prompt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ffffff;
+  border-radius: 2px;
+  height: 141px;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.acting__prompt-text {
+  font-weight: 900;
+  font-size: 27px;
+  line-height: 32px;
+}
+
+.acting__timer {
+  cursor: pointer;
+}

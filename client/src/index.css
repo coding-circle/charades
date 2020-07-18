@@ -4,6 +4,8 @@
   --color__foreground: white;
   --color__default: #bdbdbd;
   --color__primary: #2d9cdb;
+  --color__yes: #6fcf97;
+  --color__no: #eb5757;
   --font-size__default: 16px;
   --font-weight__medium: 500;
   --font-weight__heavy: 900;
@@ -13,6 +15,10 @@
 body,
 body * {
   box-sizing: border-box;
+}
+
+body *:not(input):not(textarea) {
+  user-select: none;
 }
 
 body {
@@ -57,14 +63,24 @@ li {
   transform: translateX(-50%);
   width: 100%;
   height: 100%;
-  max-width: 800px;
   overflow: hidden;
 }
 
+.app__main {
+  width: 100%;
+  height: 100%;
+  max-width: 800px;
+  margin: auto;
+}
+
 .app__header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: sticky;
   top: 0;
   padding: 20px;
+  box-sizing: content-box;
 }
 
 .app__main {
@@ -88,7 +104,6 @@ li {
 }
 
 .app__header--with-rule {
-  min-height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -115,6 +130,8 @@ li {
 
 .app__title {
   text-align: center;
+  margin: 0 auto;
+  line-height: 40px;
 }
 
 /* /APP */
@@ -138,6 +155,10 @@ button {
   align-items: center;
   min-height: 32px;
   font-weight: var(--font-weight__medium);
+  cursor: pointer;
+  max-width: 24rem;
+  background: var(--color__default);
+  border-color: var(--color__default);
 }
 
 input {
@@ -170,148 +191,3 @@ input {
 }
 
 /* /TYPOGRAPHY */
-/* COMPONENTS */
-.button,
-.text-input {
-  max-width: 24rem;
-}
-
-.button-primary {
-  width: 100%;
-  height: 48px;
-  color: var(--color__foreground);
-  background: var(--color__primary);
-  border-color: var(--color__primary);
-}
-
-.button-primary.button-disabled {
-  background: transparent;
-  border-color: var(--color__default);
-}
-
-.button-secondary {
-  height: 40px;
-  padding: 0 12px;
-  background: var(--color__background);
-  border-color: var(--color__foreground);
-  color: var(--color__foreground);
-  font-size: var(--font-size__default);
-}
-
-.button-secondary--min-width {
-  min-width: 198px;
-}
-
-.button-secondary__icon {
-  margin-right: 10px;
-  transform: translateY(-1px);
-}
-
-.close-button {
-  position: absolute;
-  top: 50%;
-  right: 20px;
-  transform: translateY(-50%);
-  width: 40px;
-}
-
-.close-button.button-secondary {
-  padding: 0;
-}
-
-.close-button svg {
-  width: 32px;
-  height: 32px;
-}
-
-.text-input {
-  display: grid;
-  grid-template-columns: min-content auto;
-  align-items: center;
-  width: 100%;
-}
-
-.text-input__label {
-  margin-right: 12px;
-  min-width: 120px;
-}
-
-.text-input__label--with-sublabel {
-  min-width: 150px;
-}
-
-.text-input__sub-label {
-  display: inline-block;
-  color: var(--color__default);
-}
-
-/* /COMPONENTS */
-/* LOADING INDICATOR */
-
-.spinner {
-  margin: 100px auto;
-  width: 40px;
-  height: 40px;
-  position: relative;
-}
-
-.cube1,
-.cube2 {
-  background-color: rgb(255, 255, 255);
-  width: 15px;
-  height: 15px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  border-radius: 2px;
-
-  -webkit-animation: sk-cubemove 1.8s infinite ease-in-out;
-  animation: sk-cubemove 1.8s infinite ease-in-out;
-}
-
-.cube2 {
-  -webkit-animation-delay: -0.9s;
-  animation-delay: -0.9s;
-}
-
-@-webkit-keyframes sk-cubemove {
-  25% {
-    -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5);
-  }
-  50% {
-    -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);
-  }
-  75% {
-    -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg)
-      scale(0.5);
-  }
-  100% {
-    -webkit-transform: rotate(-360deg);
-  }
-}
-
-@keyframes sk-cubemove {
-  25% {
-    transform: translateX(42px) rotate(-90deg) scale(0.5);
-    -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5);
-  }
-  50% {
-    transform: translateX(42px) translateY(42px) rotate(-179deg);
-    -webkit-transform: translateX(42px) translateY(42px) rotate(-179deg);
-  }
-  50.1% {
-    transform: translateX(42px) translateY(42px) rotate(-180deg);
-    -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);
-  }
-  75% {
-    transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
-    -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg)
-      scale(0.5);
-  }
-  100% {
-    transform: rotate(-360deg);
-    -webkit-transform: rotate(-360deg);
-  }
-}
-
-/* /LOADING INDICATOR */

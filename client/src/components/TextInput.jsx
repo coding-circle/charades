@@ -1,6 +1,16 @@
 import React from "react";
+import "./TextInput.css";
 
-const TextInput = ({ style, label, subLabel, name, value, onChange }) => {
+const TextInput = ({
+  style,
+  label,
+  subLabel,
+  name,
+  value,
+  onChange,
+  maxLength,
+  multiline,
+}) => {
   const classes = `${label && "text-input__label"}
     ${subLabel ? "text-input__label--with-sublabel" : ""}`;
 
@@ -15,13 +25,27 @@ const TextInput = ({ style, label, subLabel, name, value, onChange }) => {
           </span>
         )}
       </label>
-      <input
-        name={name}
-        type="text"
-        value={value}
-        onChange={onChange}
-        className="text__all-caps text__bold text__heading"
-      />
+      {multiline ? (
+        <textarea
+          name={name}
+          type="text"
+          value={value}
+          onChange={onChange}
+          maxLength={maxLength}
+          className="text__bold text-input__multiline text__heading"
+          cols="20"
+          rows="2"
+        />
+      ) : (
+        <input
+          name={name}
+          type="text"
+          value={value}
+          onChange={onChange}
+          maxLength={maxLength}
+          className="text__all-caps text__bold text__heading"
+        />
+      )}
     </div>
   );
 };

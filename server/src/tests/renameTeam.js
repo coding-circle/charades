@@ -25,11 +25,11 @@ export const renameTeamTests = () => {
     const updatedParty = await renameTeam({
       slug: party.slug,
       teamIndex: 0,
-      teamName: "Jack's All Star Cat Parade",
+      teamName: "JACK'S ALL STAR CAT PARADE",
     });
 
     const updatedPartyTeamName = updatedParty.games[0].teams[0].teamName;
-    expect(updatedPartyTeamName).toEqual("Jack's All Star Cat Parade");
+    expect(updatedPartyTeamName).toEqual("JACK'S ALL STAR CAT PARADE");
   });
 
   it("should not rename your team after the game is finished", async () => {
@@ -38,7 +38,7 @@ export const renameTeamTests = () => {
     const updatedParty = await renameTeam({
       slug: party.slug,
       teamIndex: 0,
-      teamName: "Jack's All Star Cat Parade",
+      teamName: "JACK'S ALL STAR CAT PARADE",
     });
 
     const updatedPartyTeamName = updatedParty.games[0].teams[0].teamName;

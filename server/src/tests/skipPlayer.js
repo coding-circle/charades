@@ -24,11 +24,11 @@ export const skipPlayerTests = () => {
     const party = await createInProgressGame("midGame");
 
     const newParty = await skipPlayer({
-        slug: party.slug,
-    })
+      slug: party.slug,
+    });
 
-    expect(newParty.games[0].turns[party.games[0].turns.length - 1].player).toEqual("jilly");
-
+    expect(
+      newParty.games[0].turns[party.games[0].turns.length - 1].player
+    ).toEqual("JILLY");
   });
-
 };

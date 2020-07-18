@@ -27,6 +27,7 @@ const Party = new mongoose.Schema(
           {
             teamName: { type: String, required: true },
             teamPlayers: [String],
+            teamColor: String,
             playerIndex: { type: Number, default: 0 },
             score: { type: Number, default: 0 },
           },

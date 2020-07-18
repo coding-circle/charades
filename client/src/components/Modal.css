@@ -1,0 +1,67 @@
+.modal__screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(51, 51, 51, 0.8);
+  opacity: 0;
+  overflow: hidden;
+  transition: top 0.3s cubic-bezier(0.6, -0.28, 0.74, 0.05),
+    opacity 0.08s linear;
+}
+
+.modal__screen--opaque {
+  background: rgba(51, 51, 51, 1);
+}
+
+.modal__screen--active {
+  top: 0;
+  opacity: 1;
+  transition: opacity 0.2s 0.1s linear,
+    top 0.2s cubic-bezier(0.17, 0.84, 0.44, 1);
+}
+
+.modal__panel {
+  width: 100%;
+  max-width: 400px;
+  margin: 32px;
+  padding: 12px;
+  border-radius: 4px;
+  background: var(--color__foreground);
+  box-shadow: 0 4px 16px 0 rgba(51, 51, 51, 0.25);
+  color: var(--color__background);
+}
+
+.modal__header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.modal__header-text {
+  margin: 0 auto;
+}
+
+.modal__body {
+  text-align: center;
+  margin: 24px 0 40px;
+}
+
+.modal__buttons {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.modal__buttons--confirm * {
+  width: calc(50% - 6px);
+}
+
+.modal__buttons--confirm > * + * {
+  margin-left: 12px;
+}

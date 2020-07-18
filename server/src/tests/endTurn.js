@@ -21,65 +21,94 @@ export const endTurnTests = () => {
   });
 
   it("should adds success status and creates new turn", async () => {
-    const party = await createInProgressGame("midGame");
+    const { slug } = await createInProgressGame("midGame");
 
-    const nextTurnParty = await endTurn({
-      slug: party.slug,
+    const party = await endTurn({
       success: true,
+      slug,
     });
 
-    const currentTurn = nextTurnParty.games[0].turns.length - 2;
-    expect(nextTurnParty.games[0].turns[currentTurn].success).toBeTruthy();
+    const turnIndex = party.games[0].turns.length - 2;
+
+    expect(party.games[0].turns[turnIndex].success).toBeTruthy();
+  });
+
+  it("should change the score depending on success", async () => {
+    const { slug, games } = await createInProgressGame("midGame");
+
+    const oldScore = games[0].teams[0].score;
+
+    const party = await endTurn({
+      success: true,
+      slug,
+    });
+
+    const newScore = party.games[0].teams[0].score;
+
+    expect(newScore).toEqual(oldScore + 1);
   });
 
   it("should add endTime and creates new turn", async () => {
-    const party = await createInProgressGame("midGame");
+    const { slug } = await createInProgressGame("midGame");
 
-    // if it's not null, it should just check if there's a time, not create one
-
-    const nextTurnParty = await endTurn({
-      slug: party.slug,
-      endTime: 1588558102804,
+    const party = await endTurn({
       success: true,
+      slug,
     });
 
-    const currentTurn = nextTurnParty.games[0].turns.length - 2;
+    const turnIndex = party.games[0].turns.length - 2;
 
-    expect(nextTurnParty.games[0].turns[currentTurn].endTime);
+    expect(party.games[0].turns[turnIndex].endTime);
   });
 
   it("should choose the next player from the next team", async () => {
-    const party = await createInProgressGame("midGame");
+    const { slug } = await createInProgressGame("midGame");
 
-    const nextTurnParty = await endTurn({
-      slug: party.slug,
-      endTime: 1588558102804,
+    const party = await endTurn({
       success: true,
+      slug,
     });
 
-    const newCurrentTurn = nextTurnParty.games[0].turns.length - 1;
-    expect(nextTurnParty.games[0].turns[newCurrentTurn].player);
+    const turnIndex = party.games[0].turns.length - 1;
+    expect(party.games[0].turns[turnIndex].player);
   });
 
-  // it("should provide the player with a prompt authored by a player from a different team", async () => {
-  //   const party = await createInProgressGame("midGame");
+  it("should provide the player with a prompt authored by a player from a different team", async () => {
+    const { slug } = await createInProgressGame("midGame");
 
-  // });
+    for (let i = 0; i <= 10; i++) {
+      const party = await endTurn({
+        success: true,
+        slug,
+      });
+
+      const currentGame = party.games[0];
+      const { teamIndex, author } = currentGame.turns[
+        currentGame.turns.length - 1
+      ];
+
+      const playerAndAuthorOnSameTeam = currentGame.teams[
+        teamIndex
+      ].teamPlayers.includes(author);
+
+      expect(playerAndAuthorOnSameTeam).toBeFalsy();
+    }
+  });
 
   // it("should remove prompt from list", async () => {
-  //     const party = await createInProgressGame("midGame");
+  //     const { slug } = await createInProgressGame("midGame");
 
   // });
 
   // it("should be less than or equal to the total number of turns", async () => {
-  //   const party = await createInProgressGame("midGame");
+  //   const { slug } = await createInProgressGame("midGame");
 
   //   const currentTurnNumber = await
 
   // });
 
   // it("should end game if current turn is the last turn", async () => {
-  //   const party = await createInProgressGame("postGame");
+  //   const { slug } = await createInProgressGame("postGame");
 
   // });
 };

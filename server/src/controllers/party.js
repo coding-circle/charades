@@ -49,7 +49,7 @@ const getParty = async (req, res) => {
 // update settings
 const updateSettings = async (req, res) => {
   const { slug } = req.params;
-  const settings = ({ rotations, turnDuration, teamsCount } = req.body);
+  const { settings } = req.body;
 
   const party = await partyMethods.updateSettings({
     slug,

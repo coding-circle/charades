@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import CreateGame from "./CreateParty";
-import JoinGame from "./JoinParty";
+import JoinParty from "./JoinParty";
 
 function Home({ username: storageUsername, slug, setCurrentViewToParty }) {
   const [createGameOpen, setCreateGameOpen] = useState(false);
@@ -20,7 +20,7 @@ function Home({ username: storageUsername, slug, setCurrentViewToParty }) {
           setCurrentViewToParty={setCurrentViewToParty}
         />
       ) : (
-        <JoinGame
+        <JoinParty
           slug={slug}
           username={username}
           setUsername={setUsername}

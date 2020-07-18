@@ -8,12 +8,15 @@ import helpers from "./helpers";
 const createGame = async ({ slug }) => {
   const party = await partyMethods.getParty({ slug });
 
-  const teams = [...new Array(party.settings.teamsCount)].map(() => {
-    return {
-      teamName: helpers.generateRandomTeamName(),
-      teamPlayers: [],
-    };
-  });
+  const teams = helpers
+    .generateTeamColor(party.settings.teamsCount)
+    .map((teamColor) => {
+      return {
+        teamName: helpers.generateRandomTeamName(),
+        teamPlayers: [],
+        teamColor,
+      };
+    });
 
   const shuffledPlayers = _shuffle(party.players);
 
@@ -72,7 +75,7 @@ const startTurn = async ({ slug }) => {
   const party = await partyMethods.getParty({ slug });
   const currentGame = party.games[party.games.length - 1];
 
-  currentGame.turns[currentGame.turns.length - 1].startTime = Date.now() + 5000;
+  currentGame.turns[currentGame.turns.length - 1].startTime = Date.now() + 2000;
 
   return party.save();
 };
@@ -83,29 +86,34 @@ export const endTurn = async ({ slug, success }) => {
 
   const currentGame = party.games[party.games.length - 1];
 
-  const { teamIndex } = currentGame.turns[currentGame.turns.length - 1];
+  const currentTurn = currentGame.turns[currentGame.turns.length - 1];
+
+  if (!currentTurn.startTime) {
+    return party;
+  }
 
   const {
     playerIndex: currentPlayerIndex,
     teamPlayers: currentTeamPlayers,
-  } = currentGame.teams[teamIndex];
+  } = currentGame.teams[currentTurn.teamIndex];
 
   // add status and endtime to current game
-  currentGame.turns[currentGame.turns.length - 1].endTime = Date.now();
-  currentGame.turns[currentGame.turns.length - 1].success = success;
+  currentTurn.endTime = Date.now();
+  currentTurn.success = success;
+  currentGame.teams[currentTurn.teamIndex].score += success ? 1 : 0;
 
   // if last turn, end game
   if (currentGame.totalTurns === currentGame.turns.length) {
-    currentGame.endTime === Date.now();
+    currentGame.endTime = Date.now();
 
     return party.save();
   }
 
   // change playerIndex on previous team
-  currentGame.teams[teamIndex].playerIndex =
+  currentGame.teams[currentTurn.teamIndex].playerIndex =
     (currentPlayerIndex + 1) % currentTeamPlayers.length;
 
-  const nextTeamIndex = (teamIndex + 1) % party.settings.teamsCount;
+  const nextTeamIndex = (currentTurn.teamIndex + 1) % party.settings.teamsCount;
 
   const {
     playerIndex: nextPlayerIndex,
@@ -132,28 +140,27 @@ export const endTurn = async ({ slug, success }) => {
   return party.save();
 };
 
-  // skip player
-  const skipPlayer = async ({ slug }) => {
-    const party = await partyMethods.getParty({ slug });
+// skip player
+const skipPlayer = async ({ slug }) => {
+  const party = await partyMethods.getParty({ slug });
 
-    const currentGame = party.games[party.games.length - 1];
-    const currentTurn = currentGame.turns[currentGame.turns.length - 1];
-    const { teamIndex } = currentGame.turns[currentGame.turns.length - 1];
+  const currentGame = party.games[party.games.length - 1];
+  const currentTurn = currentGame.turns[currentGame.turns.length - 1];
+  const { teamIndex } = currentGame.turns[currentGame.turns.length - 1];
 
-    const {
-      playerIndex: currentPlayerIndex,
-      teamPlayers: currentTeamPlayers,
-    } = currentGame.teams[teamIndex];
+  const {
+    playerIndex: currentPlayerIndex,
+    teamPlayers: currentTeamPlayers,
+  } = currentGame.teams[teamIndex];
 
-    const newPlayerIndex = (currentPlayerIndex + 1) % currentTeamPlayers.length;
-    const newPlayer = currentGame.teams[teamIndex].teamPlayers[newPlayerIndex];
+  const newPlayerIndex = (currentPlayerIndex + 1) % currentTeamPlayers.length;
+  const newPlayer = currentGame.teams[teamIndex].teamPlayers[newPlayerIndex];
 
-    currentGame.teams[teamIndex].playerIndex = newPlayerIndex;
-    currentTurn.player = newPlayer;
-    
-    return party.save();
-  };
- 
+  currentGame.teams[teamIndex].playerIndex = newPlayerIndex;
+  currentTurn.player = newPlayer;
+
+  return party.save();
+};
 
 // rename team
 const renameTeam = async ({ slug, teamIndex, teamName }) => {
@@ -164,7 +171,7 @@ const renameTeam = async ({ slug, teamIndex, teamName }) => {
   }
 
   const currentGame = party.games[party.games.length - 1];
-  currentGame.teams[teamIndex].teamName = teamName;
+  currentGame.teams[teamIndex].teamName = teamName.toUpperCase();
 
   return party.save();
 };

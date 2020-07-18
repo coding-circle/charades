@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useLocalStorage } from "@rehooks/local-storage";
 
-import Home from "./views/Home";
-import Party from "./views/Party";
+import Home from "./views/Home/Home";
+import Party from "./views/Party/Party";
+import Sandbox from "./views/Sandbox";
 import LoadingIndicator from "./components/LoadingIndicator";
 import api from "./utils/api";
+
+const isDevelopment = process.env.NODE_ENV === "development";
 
 function App() {
   const [currentView, setCurrentView] = useState("loading");
@@ -19,55 +22,40 @@ function App() {
 
   useEffect(() => {
     const loadSlug = async () => {
-      const UrlSlug = document.location.pathname.slice(1);
+      const urlSlug = document.location.pathname.slice(1).toUpperCase();
 
-      if (!UrlSlug) {
-        if (!localStorage.slug) {
-          setLocalStorage({
-            ...localStorage,
-            slug: "",
-          });
-        } else {
-          const remoteParty = await api.getParty({ slug: localStorage.slug });
-
-          if (
-            remoteParty &&
-            remoteParty.players.includes(localStorage.username)
-          ) {
-            window.location.pathname = localStorage.slug;
-            setParty(remoteParty);
-            setCurrentView("party");
-            return;
-          }
-
-          setLocalStorage({
-            ...localStorage,
-            slug: "",
-          });
-        }
+      if (!urlSlug) {
+        setLocalStorage({
+          ...localStorage,
+          slug: "",
+        });
       } else {
-        if (UrlSlug === localStorage.slug) {
-          const remoteParty = await api.getParty({ slug: localStorage.slug });
+        // if development and sandbox
+        if (isDevelopment && urlSlug.toLowerCase() === "sandbox") {
+          setCurrentView("sandbox");
+          return;
+        }
 
-          if (
-            remoteParty &&
-            remoteParty.players.includes(localStorage.username)
-          ) {
-            setParty(remoteParty);
+        if (urlSlug === localStorage.slug) {
+          const party = await api.getParty({ slug: localStorage.slug });
+
+          if (party && party.players.includes(localStorage.username)) {
+            setParty(party);
             setCurrentView("party");
             return;
           }
         } else {
           setLocalStorage({
             ...localStorage,
-            slug: UrlSlug,
+            slug: urlSlug,
           });
         }
       }
       setCurrentView("home");
     };
 
-    setTimeout(loadSlug, 1500);
+    // forces loading screen to show at least 500 ms
+    setTimeout(loadSlug, 500);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -88,6 +76,7 @@ function App() {
       />
     ),
     loading: <LoadingIndicator />,
+    sandbox: <Sandbox />,
   };
 
   return <div id="app">{views[currentView]}</div>;

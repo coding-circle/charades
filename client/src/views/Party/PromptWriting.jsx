@@ -15,69 +15,70 @@ function PromptWriting({ party, username }) {
     [party]
   );
 
-  const currentUserPromptsCount = useMemo(() => getUserPromptsCount(username), [
-    party,
+  const userPromptsCount = useMemo(() => getUserPromptsCount(username), [
+    getUserPromptsCount,
+    username,
   ]);
 
   const requiredPromptsCount = useMemo(() => {
-    return Math.ceil(
-      (party.players.length / party.settings.teamsCount) *
-        party.settings.rotations
-    );
+    const isOddNumberOfPlayers = Boolean(party.players.length % 2);
+
+    return isOddNumberOfPlayers
+      ? party.settings.rotations + 1
+      : party.settings.rotations;
   }, [party]);
 
-  const remainingPlayers = useMemo(() => {
+  const remainingPromptWriters = useMemo(() => {
     return party.players.filter((player) => {
       return getUserPromptsCount(player) < requiredPromptsCount;
     });
-  }, [party]);
+  }, [party, getUserPromptsCount, requiredPromptsCount]);
 
   const remainingPlayersText = useMemo(() => {
-    const remainingPlayersCount = remainingPlayers.length;
+    const remainingPlayersCount = remainingPromptWriters.length;
 
     if (remainingPlayersCount > 3) {
       return `Waiting for ${remainingPlayersCount} players to write their prompts.`;
     }
 
     if (remainingPlayersCount > 0) {
-      const remainingPlayersJoined = remainingPlayers.reduce(
-        (text, value, i, array) =>
-          text + (i < array.length - 1 ? ", " : " and ") + value
+      const remainingPlayersJoined = remainingPromptWriters.reduce(
+        (text, username, i, array) =>
+          text + (i < array.length - 1 ? ", " : " and ") + username
       );
 
       return `Still waiting for ${remainingPlayersJoined}!`;
     }
 
     return "Everyone finished their clues! 🥳🥳🥳";
-  });
+  }, [remainingPromptWriters]);
 
   const handleAddPrompt = async () => {
-    if (!prompt.length) return;
+    // clears prompt to prevent duplicates
+    const tempPrompt = prompt;
+    setPrompt("");
+
+    if (!tempPrompt.length) return;
 
     await api.addPrompt({
       slug: party.slug,
       author: username,
-      prompt,
+      prompt: tempPrompt,
     });
-
-    setPrompt("");
   };
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
+
     handleAddPrompt();
   };
 
   const handleStartGame = async (evt) => {
     evt.preventDefault();
 
-    const res = await api.startGame({
+    await api.startGame({
       slug: party.slug,
     });
-
-    console.log(res);
-
-    return res;
   };
 
   return (
@@ -86,29 +87,38 @@ function PromptWriting({ party, username }) {
         <h1 className="text__heading app__title">WebCharades</h1>
       </header>
       <main className="app__main app__main--home">
-        <h3>Start Writing!</h3>
+        <h3>
+          {userPromptsCount + 1 <= requiredPromptsCount
+            ? "Start Writing!"
+            : "You're Done!"}
+        </h3>
         <p style={{ marginTop: "40px", width: "200px", textAlign: "center" }}>
           {remainingPlayersText}
         </p>
-        <p className="text-input__sub-label" style={{ marginTop: "40px" }}>
-          {`Prompt ${currentUserPromptsCount + 1} of ${requiredPromptsCount}`}
-        </p>
-        <form onSubmit={handleSubmit}>
-          <TextInput
-            name="prompt"
-            style={{ marginTop: "20px" }}
-            value={prompt}
-            onChange={(evt) => {
-              setPrompt(evt.target.value);
-            }}
-          />
-          <Button type="primary" style={{ marginTop: "24px" }}>
-            Submit Prompt
-          </Button>
-        </form>
+        {userPromptsCount + 1 <= requiredPromptsCount && (
+          <>
+            <p className="text-input__sub-label" style={{ marginTop: "40px" }}>
+              {`Prompt ${userPromptsCount + 1} of ${requiredPromptsCount}`}
+            </p>
+            <form onSubmit={handleSubmit}>
+              <TextInput
+                multiline
+                name="prompt"
+                style={{ marginTop: "20px" }}
+                value={prompt}
+                onChange={(evt) => {
+                  setPrompt(evt.target.value);
+                }}
+              />
+              <Button type="primary" style={{ marginTop: "24px" }}>
+                Submit Prompt
+              </Button>
+            </form>
+          </>
+        )}
       </main>
       <footer className="app__footer">
-        {!remainingPlayers.length && (
+        {!remainingPromptWriters.length && (
           <Button
             type="secondary"
             className="button-secondary--min-width"
