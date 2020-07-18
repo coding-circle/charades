@@ -13,6 +13,7 @@ import Scoreboard from "./Scoreboard";
 import Results from "./Results";
 import ManagePlayersModal from "./ManagePlayersModal";
 import PreviousTurnBox from "./PreviousTurnBox"
+import SuccessMarker from "./SuccessMarker";
 
 export {
   TextInput,
@@ -30,4 +31,5 @@ export {
   Results,
   ManagePlayersModal,
   PreviousTurnBox,
+  SuccessMarker,
 };
