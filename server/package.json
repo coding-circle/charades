@@ -4,7 +4,7 @@
   "description": "A companion app for playing [charades](https://us02web.zoom.us/j/86762991790?pwd=bHEvUkw1K1djMUpqTlBUOWJVTDRrUT09)",
   "main": "src/app.js",
   "scripts": {
-    "test": "jest --testTimeout=20000 --watch --runInBand --detectOpenHandles",
+    "test": "jest --testTimeout=20000  --runInBand --detectOpenHandles",
     "start": "nodemon --exec babel-node src/app.js",
     "build": "babel src -d dist"
   },
