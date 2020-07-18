@@ -68,9 +68,8 @@ const startGame = async ({ slug }) => {
   currentGame.startTime = Date.now();
   currentGame.turns.push(firstTurn);
   
-  if (party.players.length > 4) {
-    return party.save();
-  }
+  
+  return party.save();
   
 };
 
