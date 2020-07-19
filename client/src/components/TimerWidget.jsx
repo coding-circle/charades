@@ -39,7 +39,9 @@ function TimerWidget({
               strokeColor={color}
             />
           </div>
-          <h1 style={{ fontSize: "21px", fontWeight: 900 }}>{countdown}</h1>
+          <h1 style={{ fontSize: "21px", fontWeight: 900, width: "52px" }}>
+            {countdown}
+          </h1>
         </div>
       )}
 

@@ -1,0 +1,18 @@
+.success-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  color: #ffffff;
+  background: #6fcf97;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+}
+
+.success-marker--failure {
+  background-color: #eb5757;
+}

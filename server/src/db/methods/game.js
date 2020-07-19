@@ -22,8 +22,9 @@ const createGame = async ({ slug }) => {
 
   const teamsWithPlayers = shuffledPlayers.reduce((teams, player, index) => {
     teams[index % party.settings.teamsCount].teamPlayers.push(player);
-
+  
     return teams;
+    
   }, teams);
 
   party.games.push({
@@ -66,8 +67,10 @@ const startGame = async ({ slug }) => {
 
   currentGame.startTime = Date.now();
   currentGame.turns.push(firstTurn);
-
+  
+  
   return party.save();
+  
 };
 
 // start turn
@@ -119,6 +122,7 @@ export const endTurn = async ({ slug, success }) => {
     playerIndex: nextPlayerIndex,
     teamPlayers: nextTeamPlayers,
   } = currentGame.teams[nextTeamIndex];
+
 
   const randomPromptIndex = helpers.getRandomPromptIndex(
     nextTeamPlayers,

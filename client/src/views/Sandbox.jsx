@@ -1,6 +1,5 @@
 import React from "react";
-import { useTimer } from "../utils/useTimer";
-import { TimerWidget } from "../components";
+import { PreviousTurnBox } from "../components";
 
 function Sandbox() {
   const { countdown, percentage } = useTimer({
@@ -9,14 +8,13 @@ function Sandbox() {
   });
 
   return (
-    <div className="app__main">
-      <h1> Timer Widget </h1>
-
-      <TimerWidget
-        countdown={countdown}
-        percentage={percentage}
-        size="large"
-        onTimerEnd={() => console.log("end")}
+    <div className="app_main">
+      <h1> PreviousTurnBox </h1>
+      <PreviousTurnBox
+        player="george"
+        teamColor="red"
+        success={false}
+        prompt="fig tree"
       />
     </div>
   );

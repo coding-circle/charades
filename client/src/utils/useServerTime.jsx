@@ -14,7 +14,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const API_URL = "https://esc-charades.herokuapp.com/timesync";
+const API_URL = `${process.env.REACT_APP_SOCKET_URL}timesync`;
 
 export const useServerTime = () => {
   const [serverTime, setServerTime] = useState({
