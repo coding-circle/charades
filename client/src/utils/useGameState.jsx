@@ -34,6 +34,13 @@ export const useGameState = ({ party, username }) => {
     game.teams,
   ]);
 
+  // userTeamIndex
+  // original team index of current user. Used for renaming teams.
+  const userTeamIndex = useMemo(
+    () => game.teams.findIndex((team) => team.teamPlayers.includes(username)),
+    [game.teams, username]
+  );
+
   // inTurn
   // if game is currently in a turn (vs in between turn)
   const inTurn = useMemo(
@@ -43,11 +50,14 @@ export const useGameState = ({ party, username }) => {
     [game.turns]
   );
 
-  // userTeamIndex
-  // original team index of current user. Used for renaming teams.
-  const userTeamIndex = useMemo(
-    () => game.teams.findIndex((team) => team.teamPlayers.includes(username)),
-    [game.teams, username]
+  // userInTurn
+  const userInTurn = useMemo(
+    () =>
+      inTurn &&
+      game.teams[
+        game.turns[game.turns.length - 1].teamIndex
+      ].teamPlayers.includes(username),
+    [inTurn, username, game]
   );
 
   // userTeamName
@@ -101,9 +111,25 @@ export const useGameState = ({ party, username }) => {
     return "lose";
   }, [isGameOver, game.teams, username]);
 
+  // Previous Turn
+  const previousTurn = useMemo(() => {
+    if (game.turns.length <= 1) return null;
+
+    const turn = game.turns[game.turns.length - 2];
+
+    const [authorTeam] = game.teams.filter((team) =>
+      team.teamPlayers.includes(turn.author)
+    );
+
+    return {
+      ...turn,
+      color: authorTeam.teamColor,
+    };
+  }, [game]);
+
   return {
     // teams
-    teams: inTurn ? actorUpTeam : reorderedTeams,
+    teams: userInTurn ? actorUpTeam : reorderedTeams,
     scoreboardTeams: reorderedTeams,
     activeTeam: actorUpTeam[0],
 
@@ -112,9 +138,11 @@ export const useGameState = ({ party, username }) => {
     turn,
     isGameOver,
     result,
+    previousTurn,
 
     // active players
     inTurn,
+    userInTurn,
     actorUp: isGameOver ? "" : actorUp,
     onDeck,
     isHost,

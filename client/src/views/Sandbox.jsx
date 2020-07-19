@@ -6,10 +6,10 @@ function Sandbox() {
     <div className="app_main">
       <h1> PreviousTurnBox </h1>
       <PreviousTurnBox
-        playerName="george"
+        player="george"
         teamColor="red"
-        lastRoundSuccess={true}
-        lastPrompt="fig tree"
+        success={false}
+        prompt="fig tree"
       />
     </div>
   );

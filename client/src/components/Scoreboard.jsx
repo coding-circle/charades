@@ -1,6 +1,13 @@
 import React from "react";
 
-import { Button, TeamBox, PlayerList, Score, TimerWidget } from "./index";
+import {
+  Button,
+  TeamBox,
+  PlayerList,
+  Score,
+  TimerWidget,
+  PreviousTurnBox,
+} from "./index";
 import { useGameState } from "../utils/useGameState";
 
 function Scoreboard({
@@ -13,12 +20,17 @@ function Scoreboard({
   onLeaveGameClick,
   onManagePlayersClick,
 }) {
-  const { scoreboardTeams, isHost, actorUp, onDeck, activeTeam } = useGameState(
-    {
-      party,
-      username,
-    }
-  );
+  const {
+    scoreboardTeams,
+    isHost,
+    actorUp,
+    onDeck,
+    activeTeam,
+    previousTurn,
+  } = useGameState({
+    party,
+    username,
+  });
 
   return (
     <>
@@ -55,6 +67,7 @@ function Scoreboard({
       </header>
 
       <main className="app__main" style={{ paddingBottom: 0 }}>
+        {previousTurn && <PreviousTurnBox {...previousTurn} />}
         {scoreboardTeams.map((team, index) => (
           <TeamBox
             key={team.teamName}
