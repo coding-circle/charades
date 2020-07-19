@@ -94,5 +94,6 @@ export const useTimer = ({ startTime, turnDurationSeconds }) => {
   return {
     countdown: finalTime,
     percentage: timer.percentage === null ? 0 : timer.percentage,
+    hurryUp: timer.percentage !== null && minutes === 0 && seconds <= 15,
   };
 };

@@ -3,36 +3,29 @@ import "./PreviousTurnBox.css";
 import TeamBox from "./TeamBox";
 import { SuccessMarker } from "../components";
 
-const PreviousTurnBox = ({
-  playerName,
-  teamColor,
-  lastRoundSuccess,
-  lastPrompt,
-}) => {
-
-  return  (
-  <TeamBox
-    backgroundColor="var(--color__foreground)"
-    teamName="PREVIOUS TURN"
-  >
-    <div className="previous-turn-box">
-      <div className="previous-turn-box__player  text__all-caps text__heading text__bold">
-        PLAYER
-        <span style={{ color: teamColor }}>{playerName}</span>
-      </div>
-      <div className="previous-turn-box__prompt">
-        <div className="previous-turn-box__prompt-label text__all-caps text__heading text__bold">
-          PROMPT
-          <SuccessMarker />
+const PreviousTurnBox = ({ author, color, success, prompt }) => {
+  return (
+    <TeamBox
+      backgroundColor="var(--color__foreground)"
+      teamName="PREVIOUS TURN"
+    >
+      <div className="previous-turn-box">
+        <div className="previous-turn-box__player  text__all-caps text__heading text__bold">
+          AUTHOR
+          <span className="player__name" style={{ color: color }}>
+            {author}
+          </span>
+        </div>
+        <div className="previous-turn-box__prompt">
+          <div className="previous-turn-box__prompt-label text__all-caps text__heading text__bold">
+            PROMPT
+            <SuccessMarker wasSuccessful={success} />
           </div>
-        <div>{lastPrompt}</div>
-        
+          <div>{prompt}</div>
+        </div>
       </div>
-
-    </div>
-
-  </TeamBox>
-  )
-}
+    </TeamBox>
+  );
+};
 
 export default PreviousTurnBox;

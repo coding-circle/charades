@@ -111,9 +111,25 @@ export const useGameState = ({ party, username }) => {
     return "lose";
   }, [isGameOver, game.teams, username]);
 
+  // Previous Turn
+  const previousTurn = useMemo(() => {
+    if (game.turns.length <= 1) return null;
+
+    const turn = game.turns[game.turns.length - 2];
+
+    const [authorTeam] = game.teams.filter((team) =>
+      team.teamPlayers.includes(turn.author)
+    );
+
+    return {
+      ...turn,
+      color: authorTeam.teamColor,
+    };
+  }, [game]);
+
   return {
     // teams
-    teams: inTurn ? actorUpTeam : reorderedTeams,
+    teams: userInTurn ? actorUpTeam : reorderedTeams,
     scoreboardTeams: reorderedTeams,
     activeTeam: actorUpTeam[0],
 
@@ -122,6 +138,7 @@ export const useGameState = ({ party, username }) => {
     turn,
     isGameOver,
     result,
+    previousTurn,
 
     // active players
     inTurn,

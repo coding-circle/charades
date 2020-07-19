@@ -14,6 +14,7 @@ import {
   Results,
   ManagePlayersModal,
   TimerWidget,
+  PreviousTurnBox,
 } from "../../components";
 import PlayAgain from "./PlayAgain";
 import "./GamePlay.css";
@@ -31,6 +32,7 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
     result,
     turn,
     inTurn,
+    previousTurn,
     userInTurn,
     actorUp,
     onDeck,
@@ -39,7 +41,7 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
     userTeamName,
   } = useGameState({ party, username });
 
-  const { countdown, percentage } = useTimer({
+  const { countdown, percentage, hurryUp } = useTimer({
     startTime: turn.startTime,
     turnDurationSeconds: party.settings.turnDurationSeconds,
   });
@@ -131,6 +133,8 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
     }
   };
 
+  console.log(userInTurn, previousTurn);
+
   useEffect(() => {
     if (!isRenameModalOpen) {
       setRenameTeamInput(userTeamName);
@@ -207,15 +211,17 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
             </Button>
           )}
 
-          <div className="acting__timer">
-            <TimerWidget
-              size="small"
-              color={teams[0].teamColor}
-              countdown={countdown}
-              percentage={percentage}
-              onTimerEnd={handleTimesUpClick}
-            />
-          </div>
+          {inTurn && (
+            <div style={{ paddingRight: "12px" }}>
+              <TimerWidget
+                size="small"
+                color={teams[0].teamColor}
+                countdown={countdown}
+                percentage={percentage}
+                onTimerEnd={handleTimesUpClick}
+              />
+            </div>
+          )}
         </header>
       )}
 
@@ -224,9 +230,9 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
           {/* header for acting component */}
           {userInTurn && actorUp === username && (
             <>
-              {countdown.slice(0, -3) <= 15 ? (
+              {hurryUp ? (
                 <header
-                  className="app__header"
+                  className="app__header app_header--with-rule"
                   style={{
                     justifyContent: "space-between",
                     backgroundColor: "#EB5757",
@@ -234,7 +240,14 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
                 >
                   <div
                     onClick={handleEndTurnClick}
-                    style={{ cursor: "pointer" }}
+                    style={{
+                      cursor: "pointer",
+                      height: "40px",
+                      display: "flex",
+                      textAlign: "center",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
                     className="text__all-caps text__heading text__bold"
                   >
                     HURRY UP!
@@ -274,10 +287,14 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
               )}
             </>
           )}
+
           <main
             className="app__main"
-            style={{ paddingBottom: 0, paddingTop: "20px" }}
+            style={{ paddingBottom: 0, padding: "20px" }}
           >
+            {!userInTurn && previousTurn && (
+              <PreviousTurnBox {...previousTurn} />
+            )}
             {teams.map((team, index) => (
               <TeamBox
                 key={team.teamName}
@@ -299,6 +316,7 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
                     onPoint={onPoint}
                     countdown={countdown}
                     percentage={percentage}
+                    onTimesUpClick={handleTimesUpClick}
                   />
                 ) : (
                   <div className="game-play__player-box">
@@ -328,28 +346,30 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
               </TeamBox>
             ))}
           </main>
-          <footer className="app__footer">
-            {userInTurn && actorUp !== username && (
-              <Button
-                onClick={handleScoreboardOpen}
-                type="secondary"
-                className="button-secondary--min-width"
-                icon="♛"
-              >
-                Scoreboard
-              </Button>
-            )}
-            {isGameOver && isHost && (
-              <Button
-                onClick={handlePlayAgainOpen}
-                type="secondary"
-                className="button-secondary--min-width"
-              >
-                <div className="player__badge player__badge--host text__all-caps text__small text__bold"></div>
-                <span style={{ marginLeft: "4px" }}>Play Again</span>
-              </Button>
-            )}
-          </footer>
+          {((userInTurn && actorUp !== username) || (isGameOver && isHost)) && (
+            <footer className="app__footer">
+              {userInTurn && actorUp !== username && (
+                <Button
+                  onClick={handleScoreboardOpen}
+                  type="secondary"
+                  className="button-secondary--min-width"
+                  icon="♛"
+                >
+                  Scoreboard
+                </Button>
+              )}
+              {isGameOver && isHost && (
+                <Button
+                  onClick={handlePlayAgainOpen}
+                  type="secondary"
+                  className="button-secondary--min-width"
+                >
+                  <div className="player__badge player__badge--host text__all-caps text__small text__bold"></div>
+                  <span style={{ marginLeft: "4px" }}>Play Again</span>
+                </Button>
+              )}
+            </footer>
+          )}
         </>
       )}
 
@@ -407,9 +427,9 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
           onClickNo={handleTimesUpSubmit(false)}
           type="confirm"
           body={
-            <p
-              style={{ marginBottom: "12px" }}
-            >{`Did your team guess ${turn.author}'s prompt correctly?`}</p>
+            <p style={{ marginBottom: "12px" }}>
+              Did your team guess correctly?
+            </p>
           }
         />
       ) : (
