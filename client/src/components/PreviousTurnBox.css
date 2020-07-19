@@ -1,0 +1,53 @@
+.previous-turn-box {
+    display:flex;
+    flex-direction: row;
+    flex: 1;
+    min-height: 74px;
+   
+}
+
+.previous-turn-box__player {
+    
+
+    background: #333333;
+    border-radius: 2px;
+  
+    color: #FFFFFF;
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+    position: relative;
+    margin-right: 6px;
+
+    overflow: hidden;
+    flex-direction: column;
+    padding: 12px 16px;
+}
+
+.previous-turn-box__prompt {
+    background: #333333;
+    border-radius: 2px;
+  
+    color: #FFFFFF;
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+    position: relative;
+ 
+  
+    flex: 1;
+
+    overflow: hidden;
+    flex-direction: column;
+    padding: 12px 16px;
+    
+}
+
+.previous-turn-box__prompt-label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+

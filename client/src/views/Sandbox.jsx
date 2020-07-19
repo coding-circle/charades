@@ -1,15 +1,17 @@
 import React from "react";
-import { SuccessMarker } from "../components";
+import { PreviousTurnBox } from "../components";
 
 function Sandbox() {
-
   return (
-  
-    <div className="app__main">
-      <h1> SuccessMarker </h1>
-      <SuccessMarker wasSuccessful={false}/>
+    <div className="app_main">
+      <h1> PreviousTurnBox </h1>
+      <PreviousTurnBox
+        playerName="george"
+        teamColor="red"
+        lastRoundSuccess={true}
+        lastPrompt="fig tree"
+      />
     </div>
-  
   );
 }
 
