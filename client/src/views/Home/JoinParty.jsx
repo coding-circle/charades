@@ -3,11 +3,16 @@ import React, { useState, useEffect } from "react";
 import { useLocalStorage } from "@rehooks/local-storage";
 
 import api from "../../utils/api";
-import { TextInput, Button } from "../../components";
+import { TextInput, Button, Modal } from "../../components";
 
 function JoinGame({ slug, username, setUsername, showCreateGameView }) {
   const [roomCode, setRoomCode] = useState(slug);
   const [_, setLocalStorage] = useLocalStorage("charades");
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  
+
+  const handleErrorModal = () => setIsErrorModalOpen(true);
+  const handleErrorModalClose = () => setIsErrorModalOpen(false);
 
   useEffect(() => {
     setRoomCode(slug);
@@ -24,6 +29,8 @@ function JoinGame({ slug, username, setUsername, showCreateGameView }) {
 
     if (error) {
       console.error(`SERVER ERROR: ${error}`);
+      handleErrorModal();
+      return;
     }
 
     setLocalStorage({
@@ -76,6 +83,16 @@ function JoinGame({ slug, username, setUsername, showCreateGameView }) {
           Create Game
         </Button>
       </footer>
+      <Modal
+        isActive={isErrorModalOpen}
+        onClickClose={handleErrorModalClose}
+        title="Room Does Not Exist"
+        submitButtonText="Okay"
+        onClickSubmit={handleErrorModalClose}
+        type="alert"
+        body="is the room key correct?"
+      />
+      
     </>
   );
 }
