@@ -13,6 +13,7 @@ import {
   Scoreboard,
   Results,
   ManagePlayersModal,
+  TimerWidget,
 } from "../../components";
 import PlayAgain from "./PlayAgain";
 import "./GamePlay.css";
@@ -30,6 +31,7 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
     result,
     turn,
     inTurn,
+    userInTurn,
     actorUp,
     onDeck,
     isHost,
@@ -179,7 +181,7 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
       )}
 
       {/* header */}
-      {!inTurn && !scoreboardOpen && (
+      {!userInTurn && !scoreboardOpen && (
         <header
           className="app__header app__header--with-rule"
           style={{ justifyContent: "space-between" }}
@@ -204,12 +206,78 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
               Leave Game
             </Button>
           )}
+
+          <div className="acting__timer">
+            <TimerWidget
+              size="small"
+              color={teams[0].teamColor}
+              countdown={countdown}
+              percentage={percentage}
+              onTimerEnd={handleTimesUpClick}
+            />
+          </div>
         </header>
       )}
 
       {!scoreboardOpen && (
         <>
-          <main className="app__main" style={{ paddingBottom: 0 }}>
+          {/* header for acting component */}
+          {userInTurn && actorUp === username && (
+            <>
+              {countdown.slice(0, -3) <= 15 ? (
+                <header
+                  className="app__header"
+                  style={{
+                    justifyContent: "space-between",
+                    backgroundColor: "#EB5757",
+                  }}
+                >
+                  <div
+                    onClick={handleEndTurnClick}
+                    style={{ cursor: "pointer" }}
+                    className="text__all-caps text__heading text__bold"
+                  >
+                    HURRY UP!
+                  </div>
+                  <div className="acting__timer" onClick={handleEndTurnClick}>
+                    <TimerWidget
+                      size="small"
+                      color="#EB5757"
+                      countdown={countdown}
+                      percentage={percentage}
+                      onTimerEnd={handleTimesUpClick}
+                    />
+                  </div>
+                </header>
+              ) : (
+                <header
+                  className="app__header app__header--with-rule"
+                  style={{ justifyContent: "space-between" }}
+                >
+                  <Button
+                    type="secondary"
+                    icon="✓"
+                    onClick={handleEndTurnClick}
+                  >
+                    We Got It
+                  </Button>
+                  <div className="acting__timer" onClick={handleEndTurnClick}>
+                    <TimerWidget
+                      size="small"
+                      color={teams[0].teamColor}
+                      countdown={countdown}
+                      percentage={percentage}
+                      onTimerEnd={handleTimesUpClick}
+                    />
+                  </div>
+                </header>
+              )}
+            </>
+          )}
+          <main
+            className="app__main"
+            style={{ paddingBottom: 0, paddingTop: "20px" }}
+          >
             {teams.map((team, index) => (
               <TeamBox
                 key={team.teamName}
@@ -217,10 +285,10 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
                 myTurn={actorUp === username}
                 backgroundColor={team.teamColor}
                 teamName={team.teamName}
-                fullHeight={inTurn}
+                fullHeight={userInTurn}
                 onRenameClick={handleRenameClick}
               >
-                {inTurn ? (
+                {userInTurn ? (
                   <Turn
                     party={party}
                     username={username}
@@ -231,8 +299,6 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
                     onPoint={onPoint}
                     countdown={countdown}
                     percentage={percentage}
-                    onEndTurnClick={handleEndTurnClick}
-                    onTimesUpClick={handleTimesUpClick}
                   />
                 ) : (
                   <div className="game-play__player-box">
@@ -263,7 +329,7 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
             ))}
           </main>
           <footer className="app__footer">
-            {inTurn && actorUp !== username && (
+            {userInTurn && actorUp !== username && (
               <Button
                 onClick={handleScoreboardOpen}
                 type="secondary"
