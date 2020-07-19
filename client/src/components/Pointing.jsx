@@ -44,7 +44,9 @@ function PointingItem({ player, onPoint, color }) {
       onMouseUp={() => setPointPressed(false)}
       onTouchEnd={() => setPointPressed(false)}
     >
-      <h4 className="text__all-caps text__heading text__bold">{player}</h4>
+      <h4 className="text__all-caps text__heading text__bold">
+        {player.slice(0, -7)}
+      </h4>
       <div className="pointing-item__pointer"></div>
     </div>
   );

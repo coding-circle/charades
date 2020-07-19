@@ -133,8 +133,6 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
     }
   };
 
-  console.log(userInTurn, previousTurn);
-
   useEffect(() => {
     if (!isRenameModalOpen) {
       setRenameTeamInput(userTeamName);
@@ -152,12 +150,16 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
   }, [inTurn]);
 
   if (pointedAt.pointer && pointedAt.pointer !== username) {
+    const teamIndexOfPointer = teams.findIndex(({ teamPlayers }) =>
+      teamPlayers.includes(pointedAt.pointer)
+    );
+
     return (
       <PointedAt
         pointer={pointedAt.pointer}
         pointee={pointedAt.pointee}
         username={username}
-        color={teams[0].teamColor}
+        color={teams[teamIndexOfPointer].teamColor}
       />
     );
   }

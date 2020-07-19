@@ -115,7 +115,9 @@ export const useGameState = ({ party, username }) => {
   const previousTurn = useMemo(() => {
     if (game.turns.length <= 1) return null;
 
-    const turn = game.turns[game.turns.length - 2];
+    const turn = isGameOver
+      ? game.turns[game.turns.length - 1]
+      : game.turns[game.turns.length - 2];
 
     const [authorTeam] = game.teams.filter((team) =>
       team.teamPlayers.includes(turn.author)
@@ -123,9 +125,9 @@ export const useGameState = ({ party, username }) => {
 
     return {
       ...turn,
-      color: authorTeam.teamColor,
+      color: authorTeam ? authorTeam.teamColor : "#FFFFFF",
     };
-  }, [game]);
+  }, [game, isGameOver]);
 
   return {
     // teams

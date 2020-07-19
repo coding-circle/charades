@@ -18,7 +18,7 @@ function Guessing({
   return (
     <div className="guessing">
       <h1 className="text__all-caps text__heading text__bold" style={{ color }}>
-        {actorUp}
+        {actorUp.slice(0, -7)}
       </h1>
       <h3 className="text__heading text__bold">Is Acting!</h3>
 

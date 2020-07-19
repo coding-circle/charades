@@ -42,10 +42,12 @@ function PromptWriting({ party, username }) {
     }
 
     if (remainingPlayersCount > 0) {
-      const remainingPlayersJoined = remainingPromptWriters.reduce(
-        (text, username, i, array) =>
-          text + (i < array.length - 1 ? ", " : " and ") + username
-      );
+      const remainingPlayersJoined = remainingPromptWriters
+        .map((player) => player.slice(0, -7))
+        .reduce(
+          (text, username, i, array) =>
+            `${text}${i < array.length - 1 ? "," : " and"} ${username}`
+        );
 
       return `Still waiting for ${remainingPlayersJoined}!`;
     }
@@ -84,7 +86,7 @@ function PromptWriting({ party, username }) {
   return (
     <>
       <header className="app__header">
-        <h1 className="text__heading app__title">WebCharades</h1>
+        <h1 className="text__heading app__title">CharadesSpace</h1>
       </header>
       <main className="app__main app__main--home">
         <h3>

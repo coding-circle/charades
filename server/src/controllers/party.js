@@ -11,7 +11,7 @@ const createParty = async (req, res) => {
 
   req.socket.create(party.slug, party);
 
-  res.status(200).send(party.slug);
+  res.status(200).send({ slug: party.slug, username: party.host });
 };
 
 // join party
@@ -20,21 +20,23 @@ const joinParty = async (req, res) => {
   const { username } = req.body;
 
   if (!slug || !username) {
-    return res.status(400).send("Missing Info");
+    return res.status(500).send("Username and Roomcode must be provided");
   }
 
-  const party = await partyMethods.joinParty({
-    slug,
-    username,
-  });
+  const { party, username: uuidUsername, error } = await partyMethods.joinParty(
+    {
+      slug,
+      username,
+    }
+  );
 
-  if (party.error) {
-    return res.status(500).send(party.error);
+  if (error) {
+    return res.status(500).send(error);
   }
 
   req.socket.broadcastParty(slug, party);
 
-  res.status(200).send("joinParty success");
+  res.status(200).send({ username: uuidUsername });
 };
 
 // get party
