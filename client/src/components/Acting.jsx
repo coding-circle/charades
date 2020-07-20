@@ -12,7 +12,7 @@ function Acting({ party, turn, color, username, teamPlayers, onPoint }) {
             className="text__all-caps text__heading text__bold"
             style={{ color }}
           >
-            {username}
+            {username.slice(0, -7)}
           </h1>
           <h3 className="text__heading text__bold">Your Prompt Is:</h3>
         </div>

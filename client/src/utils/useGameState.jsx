@@ -17,6 +17,15 @@ export const useGameState = ({ party, username }) => {
   // actorUp
   const actorUp = turn.player;
 
+  // actorUpTeamColor
+  const actorUpTeamColor = useMemo(() => {
+    const teamIndex = game.teams.findIndex(({ teamPlayers }) =>
+      teamPlayers.includes(actorUp)
+    );
+
+    return game.teams[teamIndex].teamColor;
+  }, [actorUp, game.teams]);
+
   // onDeck
   const onDeck = useMemo(() => {
     if (game.totalTurns > game.turns.length) {
@@ -38,7 +47,7 @@ export const useGameState = ({ party, username }) => {
   // original team index of current user. Used for renaming teams.
   const userTeamIndex = useMemo(
     () => game.teams.findIndex((team) => team.teamPlayers.includes(username)),
-    [game.teams, username]
+    [game, username]
   );
 
   // inTurn
@@ -61,7 +70,9 @@ export const useGameState = ({ party, username }) => {
   );
 
   // userTeamName
-  const userTeamName = game.teams[userTeamIndex].teamName;
+  const userTeamName = game.teams[userTeamIndex]
+    ? game.teams[userTeamIndex].teamName
+    : null;
 
   // reordered/filtered teams
   // teams reordered so that users team is first
@@ -115,7 +126,9 @@ export const useGameState = ({ party, username }) => {
   const previousTurn = useMemo(() => {
     if (game.turns.length <= 1) return null;
 
-    const turn = game.turns[game.turns.length - 2];
+    const turn = isGameOver
+      ? game.turns[game.turns.length - 1]
+      : game.turns[game.turns.length - 2];
 
     const [authorTeam] = game.teams.filter((team) =>
       team.teamPlayers.includes(turn.author)
@@ -123,9 +136,9 @@ export const useGameState = ({ party, username }) => {
 
     return {
       ...turn,
-      color: authorTeam.teamColor,
+      color: authorTeam ? authorTeam.teamColor : "#FFFFFF",
     };
-  }, [game]);
+  }, [game, isGameOver]);
 
   return {
     // teams
@@ -146,6 +159,7 @@ export const useGameState = ({ party, username }) => {
     actorUp: isGameOver ? "" : actorUp,
     onDeck,
     isHost,
+    actorUpTeamColor,
 
     // current user
     userTeamIndex,

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
-import SocketHOC from "../../utils/SocketHOC";
+import { useLocalStorage } from "@rehooks/local-storage";
 
+import SocketHOC from "../../utils/SocketHOC";
 import WaitingRoom from "./WaitingRoom";
 import PromptWriting from "./PromptWriting";
 import GamePlay from "./GamePlay";
@@ -8,6 +9,8 @@ import { useGamePhase } from "../../utils/useGamePhase";
 import api from "../../utils/api";
 
 function Party({ username, party, setParty, pointedAt, onPoint }) {
+  const [localStorage, setLocalStorage] = useLocalStorage("charades");
+
   useEffect(() => {
     const handleVisibilityChange = async (evt) => {
       const newParty = await api.getParty({ slug: party.slug });
@@ -24,6 +27,18 @@ function Party({ username, party, setParty, pointedAt, onPoint }) {
       window.removeEventListener("pageshow", handleVisibilityChange);
     };
   }, [party.slug, setParty]);
+
+  // redirect when removed from party
+  useEffect(() => {
+    if (!party.players.includes(username)) {
+      setLocalStorage({
+        ...localStorage,
+        slug: "",
+      });
+
+      window.location.pathname = "";
+    }
+  }, [party, localStorage, setLocalStorage, username]);
 
   const [gamePhase] = useGamePhase(party);
 
