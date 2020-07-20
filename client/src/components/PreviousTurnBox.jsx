@@ -13,7 +13,7 @@ const PreviousTurnBox = ({ author, color, success, prompt }) => {
         <div className="previous-turn-box__player  text__all-caps text__heading text__bold">
           AUTHOR
           <span className="player__name" style={{ color: color }}>
-            {author}
+            {author.slice(0, -7)}
           </span>
         </div>
         <div className="previous-turn-box__prompt">

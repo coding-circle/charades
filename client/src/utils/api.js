@@ -21,9 +21,14 @@ const createParty = async ({ host, settings }) => {
       settings,
     });
 
-    return res;
+    return res.data;
   } catch (error) {
-    console.error(error);
+    const errorMessage =
+      error.response && error.response.data
+        ? error.response.data
+        : error.message;
+
+    return { error: errorMessage };
   }
 };
 
@@ -34,7 +39,7 @@ const joinParty = async ({ slug, username }) => {
       username,
     });
 
-    return res;
+    return res.data;
   } catch (error) {
     const errorMessage =
       error.response && error.response.data

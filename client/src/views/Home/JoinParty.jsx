@@ -1,50 +1,57 @@
-/*eslint no-unused-vars: "ignore" */
 import React, { useState, useEffect } from "react";
 import { useLocalStorage } from "@rehooks/local-storage";
 
 import api from "../../utils/api";
-import { TextInput, Button, Modal } from "../../components";
+import { TextInput, Button } from "../../components";
 
-function JoinGame({ slug, username, setUsername, showCreateGameView }) {
+function JoinGame({
+  slug,
+  username,
+  setUsername,
+  showCreateGameView,
+  setErrorMessage,
+}) {
   const [roomCode, setRoomCode] = useState(slug);
-  const [_, setLocalStorage] = useLocalStorage("charades");
-  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
-  
-
-  const handleErrorModal = () => setIsErrorModalOpen(true);
-  const handleErrorModalClose = () => setIsErrorModalOpen(false);
+  const [, setLocalStorage] = useLocalStorage("charades");
+  const [isJoiningParty, setIsJoiningParty] = useState(false);
 
   useEffect(() => {
     setRoomCode(slug);
   }, [slug]);
 
   const joinParty = async () => {
+    // prevent double clicking button
+    if (isJoiningParty) return;
+    setIsJoiningParty(true);
+
     const upperCaseRoomCode = roomCode.toUpperCase();
     const upperCaseUsername = username.toUpperCase();
 
-    const { error } = await api.joinParty({
+    const { error, username: uuidUsername } = await api.joinParty({
       slug: upperCaseRoomCode,
       username: upperCaseUsername,
     });
 
     if (error) {
       console.error(`SERVER ERROR: ${error}`);
-      handleErrorModal();
+      setErrorMessage(error);
+      setIsJoiningParty(false);
       return;
     }
 
     setLocalStorage({
       slug: upperCaseRoomCode,
-      username: upperCaseUsername,
+      username: uuidUsername,
     });
 
     window.location.pathname = upperCaseRoomCode;
+    setIsJoiningParty(false);
   };
 
   return (
     <>
       <header className="app__header">
-        <h1 className="text__heading app__title">WebCharades</h1>
+        <h1 className="text__heading app__title">CharadesSpace</h1>
       </header>
       <main className="app__main app__main--home">
         <TextInput
@@ -83,16 +90,6 @@ function JoinGame({ slug, username, setUsername, showCreateGameView }) {
           Create Game
         </Button>
       </footer>
-      <Modal
-        isActive={isErrorModalOpen}
-        onClickClose={handleErrorModalClose}
-        title="Room Does Not Exist"
-        submitButtonText="Okay"
-        onClickSubmit={handleErrorModalClose}
-        type="alert"
-        body="is the room key correct?"
-      />
-      
     </>
   );
 }

@@ -31,15 +31,15 @@ const generateRandomTeamName = () => {
   return teamName.toUpperCase();
 };
 
-function generateTeamColor (teamsCount, startingHue = Math.floor(Math.random() * 360)) {
-    return new Array(teamsCount)
-      .fill('')
-      .map((_, index) => {
-        var hue = (startingHue + (Math.floor(360 / teamsCount) * index)) % 360;
-        return `hsl(${hue}, 100%, 75%)`
-      });
-  }
-
+function generateTeamColor(
+  teamsCount,
+  startingHue = Math.floor(Math.random() * 360)
+) {
+  return new Array(teamsCount).fill("").map((_, index) => {
+    var hue = (startingHue + Math.floor(360 / teamsCount) * index) % 360;
+    return `hsl(${hue}, 100%, 75%)`;
+  });
+}
 
 const createInProgressGame = (gamePhase) => {
   const phaseMapper = {
@@ -84,6 +84,19 @@ const generateSlug = () => {
   return slug;
 };
 
+const generateUUID = () => {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+  const random = (chars) => {
+    return chars[Math.floor(Math.random() * chars.length)];
+  };
+
+  let uuid = "";
+  for (let i = 0; i < 6; i++) uuid = uuid + random(chars);
+
+  return uuid;
+};
+
 export default {
   computeTotalTurns,
   isGameInProgress,
@@ -92,4 +105,5 @@ export default {
   createInProgressGame,
   getRandomPromptIndex,
   generateSlug,
+  generateUUID,
 };

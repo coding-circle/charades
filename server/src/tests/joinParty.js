@@ -25,9 +25,12 @@ export const joinPartyTests = () => {
       host: "JACTEN",
     });
 
-    const party = await joinParty({ username: "BOBANYA", slug });
+    const { party, username } = await joinParty({
+      username: "BOBANYA",
+      slug,
+    });
 
-    expect(party.players.includes("BOBANYA")).toBeTruthy();
+    expect(party.players.includes(username)).toBeTruthy();
   });
 
   it("it should add a player to the team with fewest members when teams are uneven", async () => {
@@ -39,12 +42,22 @@ export const joinPartyTests = () => {
     await joinParty({ username: "george", slug });
     await createGame({ slug });
 
-    const party = await joinParty({ username: "COOLBEANS", slug });
+    const { party, username } = await joinParty({
+      username: "COOLBEANS",
+      slug,
+    });
     const { teamPlayers } = party.games[0].teams[1];
 
     expect(teamPlayers.length).toEqual(3);
-    expect(teamPlayers.includes("COOLBEANS")).toBeTruthy();
+    expect(teamPlayers.includes(username)).toBeTruthy();
   });
 
-  it("it should add a player to the first team if teams are even", async () => {});
+  it("it should prevent a user from joining with the same username", async () => {
+    const { slug } = await createParty({ host: "BOBANYA" });
+
+    await joinParty({ username: "paul", slug });
+    const { error } = await joinParty({ username: "paul", slug });
+
+    expect(error).toEqual("User already exists. Enter a different username.");
+  });
 };

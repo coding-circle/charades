@@ -77,9 +77,7 @@ This project aims to solve these problems and build a tool that can be used over
   host: string,
   createdAt: timestamp,
   updatedAt: timestamp,
-  players: [
-    usernames,
-  ],
+  players: string[], // username_uuid
   settings: {
     rotations: number,
     turnDurationSeconds: number,
@@ -127,17 +125,17 @@ This project aims to solve these problems and build a tool that can be used over
 ```
 {
   slug: "XL9T", // randomly generated. roomCode.
-  host: "jacten",
+  host: "jacten_TRC030",
   createdAt: 1588553102804,
   updatedAt: 1588553102804,
   players: [
-    "jacten",
-    "chedgo",
-    "asim",
-    "chelsea",
-    "mick",
-    "lady ash",
-    "jerry",
+    "jacten_TRC030",
+    "chedgo_FIF301",
+    "asim_FJE919",
+    "chelsea_FJF911",
+    "mick_FDO131",
+    "lady ash_IFK310",
+    "jerry_FJF010",
   ],
   settings: {
     rotations: 2,
@@ -152,10 +150,10 @@ This project aims to solve these problems and build a tool that can be used over
         {
           teamName: "Turkey Team",
           players: [
-            "lady ash",
-            "asim",
-            "mick",
-            "chelsea",
+            "lady ash_IFK310",
+            "asim_FJE919",
+            "mick_FDO131",
+            "chelsea_FJF911",
           ],
           playerIndex: 0,
           score: 0,
@@ -163,9 +161,9 @@ This project aims to solve these problems and build a tool that can be used over
         {
           teamName: "Turkey Team",
           players: [
-            "jerry",
-            "jacten",
-            "chedgo",
+            "jerry_FJF010",
+            "jacten_TRC030",
+            "chedgo_FIF301",
           ],
           teamColor: "hsl(${hue}, 100%, 75%)"
           playerIndex: 0,
@@ -177,19 +175,19 @@ This project aims to solve these problems and build a tool that can be used over
         {
           startTime: 1588553102804,
           endTime: 1588553102804
-          author: "lady ash",
+          author: "lady ash_IFK310",
           prompt: "Bubba Gump Shrimp Co.",
           teamIndex: 0,
-          player: "lady ash"
+          player: "lady ash_IFK310"
           success: true,
         },
         {
           startTime: 1588553102804,
           endTime: 1588553102804,
-          author: "jerry",
+          author: "jerry_FJF010",
           prompt: "Luigi's Mansion",
           teamIndex: 0,
-          player: "lady ash"
+          player: "lady ash_IFK310"
           success: true,
         },
       ],
@@ -197,11 +195,11 @@ This project aims to solve these problems and build a tool that can be used over
   ],
  prompts: [
     {
-      author: "chedgo"
+      author: "chedgo_FIF301"
       prompt: "Tuna Salad",
     },
     {
-      author: "mick"
+      author: "mick_FDO131"
       prompt: "Bald Eagle",
     },
   ],

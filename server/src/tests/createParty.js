@@ -20,13 +20,13 @@ export const createPartyTests = () => {
   });
 
   it("should create party when provided host", async () => {
-    const party = await createParty({
-      host: "JACTEN",
+    const { host, slug, players } = await createParty({
+      host: "jacten",
     });
 
-    expect(party.slug).toBeTruthy();
-    expect(party.host).toEqual("JACTEN");
-    expect(party.players).toEqual(expect.arrayContaining(["JACTEN"]));
+    expect(slug).toBeTruthy();
+    expect(host.slice(0, -7)).toEqual("JACTEN");
+    expect(players).toEqual(expect.arrayContaining([host]));
   });
 
   it("should throw error when host is not provided", async () => {
