@@ -37,6 +37,7 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
     actorUp,
     onDeck,
     isHost,
+    actorUpTeamColor,
     userTeamIndex,
     userTeamName,
   } = useGameState({ party, username });
@@ -150,16 +151,12 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
   }, [inTurn]);
 
   if (pointedAt.pointer && pointedAt.pointer !== username) {
-    const teamIndexOfPointer = teams.findIndex(({ teamPlayers }) =>
-      teamPlayers.includes(pointedAt.pointer)
-    );
-
     return (
       <PointedAt
         pointer={pointedAt.pointer}
         pointee={pointedAt.pointee}
         username={username}
-        color={teams[teamIndexOfPointer].teamColor}
+        color={actorUpTeamColor}
       />
     );
   }
@@ -217,7 +214,7 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
             <div style={{ paddingRight: "12px" }}>
               <TimerWidget
                 size="small"
-                color={teams[0].teamColor}
+                color={actorUpTeamColor}
                 countdown={countdown}
                 percentage={percentage}
                 onTimerEnd={handleTimesUpClick}
@@ -279,7 +276,7 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
                   <div className="acting__timer" onClick={handleEndTurnClick}>
                     <TimerWidget
                       size="small"
-                      color={teams[0].teamColor}
+                      color={actorUpTeamColor}
                       countdown={countdown}
                       percentage={percentage}
                       onTimerEnd={handleTimesUpClick}
@@ -441,9 +438,9 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
           isActive={isTimesUpModalOpen}
           title="Time's Up! ⏲"
           body={
-            <p
-              style={{ marginBottom: "12px" }}
-            >{`Waiting for  ${actorUp} to enter result...`}</p>
+            <p style={{ marginBottom: "12px" }}>
+              {`Waiting for  ${actorUp.slice(0, -7)} to enter result...`}
+            </p>
           }
         />
       )}
