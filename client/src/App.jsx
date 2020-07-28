@@ -6,6 +6,7 @@ import Party from "./views/Party/Party";
 import Sandbox from "./views/Sandbox";
 import LoadingIndicator from "./components/LoadingIndicator";
 import api from "./utils/api";
+import ReactGa from 'react-ga';
 
 const isDevelopment = process.env.NODE_ENV === "development";
 
@@ -21,6 +22,9 @@ function App() {
   const setCurrentViewToParty = () => setCurrentView("party");
 
   useEffect(() => {
+    ReactGa.initialize('G-BCL6Z3PLF5')
+    ReactGa.pageview(window.location.pathname)
+
     const loadSlug = async () => {
       const urlSlug = document.location.pathname.slice(1).toUpperCase();
 
