@@ -23,7 +23,7 @@ function App() {
 
   useEffect(() => {
     ReactGa.initialize('G-BCL6Z3PLF5')
-    ReactGa.pageview(window.location.pathname)
+    ReactGa.pageview(window.location.pathname + window.location.search)
 
     const loadSlug = async () => {
       const urlSlug = document.location.pathname.slice(1).toUpperCase();
