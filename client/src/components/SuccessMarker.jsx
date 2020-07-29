@@ -2,7 +2,6 @@ import React from "react";
 import "./SuccessMarker.css";
 
 const SuccessMarker = ({ wasSuccessful }) => {
-
   return (
     <>
       {wasSuccessful ? (
@@ -13,13 +12,9 @@ const SuccessMarker = ({ wasSuccessful }) => {
         <div className="success-marker success-marker--failure">
           <span>✕</span>
         </div>
-        )
-      }
+      )}
     </>
   );
 };
 
 export default SuccessMarker;
-
-
-

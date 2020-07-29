@@ -15,15 +15,15 @@ function PointedAt({ color, pointer, pointee, username }) {
       }}
     >
       <div className="pointed-at__text">
-        <h1>{pointer}</h1>
+        <h1>{pointer.slice(0, -7)}</h1>
         <h1>is pointing</h1>
         {pointedAtYou ? (
           <>
             <h1>at you,</h1>
-            <h1>{pointee}!</h1>
+            <h1>{pointee.slice(0, -7)}!</h1>
           </>
         ) : (
-          <h1>at {pointee}!</h1>
+          <h1>at {pointee.slice(0, -7)}!</h1>
         )}
       </div>
       <div className="pointed-at__icon">{pointedAtIcon}</div>
