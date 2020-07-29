@@ -13,6 +13,8 @@ import {
   Scoreboard,
   Results,
   ManagePlayersModal,
+  TimerWidget,
+  PreviousTurnBox,
 } from "../../components";
 import PlayAgain from "./PlayAgain";
 import "./GamePlay.css";
@@ -30,14 +32,17 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
     result,
     turn,
     inTurn,
+    previousTurn,
+    userInTurn,
     actorUp,
     onDeck,
     isHost,
+    actorUpTeamColor,
     userTeamIndex,
     userTeamName,
   } = useGameState({ party, username });
 
-  const { countdown, percentage } = useTimer({
+  const { countdown, percentage, hurryUp } = useTimer({
     startTime: turn.startTime,
     turnDurationSeconds: party.settings.turnDurationSeconds,
   });
@@ -151,7 +156,7 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
         pointer={pointedAt.pointer}
         pointee={pointedAt.pointee}
         username={username}
-        color={teams[0].teamColor}
+        color={actorUpTeamColor}
       />
     );
   }
@@ -179,7 +184,7 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
       )}
 
       {/* header */}
-      {!inTurn && !scoreboardOpen && (
+      {!userInTurn && !scoreboardOpen && (
         <header
           className="app__header app__header--with-rule"
           style={{ justifyContent: "space-between" }}
@@ -204,12 +209,91 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
               Leave Game
             </Button>
           )}
+
+          {inTurn && (
+            <div style={{ paddingRight: "12px" }}>
+              <TimerWidget
+                size="small"
+                color={actorUpTeamColor}
+                countdown={countdown}
+                percentage={percentage}
+                onTimerEnd={handleTimesUpClick}
+              />
+            </div>
+          )}
         </header>
       )}
 
       {!scoreboardOpen && (
         <>
-          <main className="app__main" style={{ paddingBottom: 0 }}>
+          {/* header for acting component */}
+          {userInTurn && actorUp === username && (
+            <>
+              {hurryUp ? (
+                <header
+                  className="app__header app_header--with-rule"
+                  style={{
+                    justifyContent: "space-between",
+                    backgroundColor: "#EB5757",
+                  }}
+                >
+                  <div
+                    onClick={handleEndTurnClick}
+                    style={{
+                      cursor: "pointer",
+                      height: "40px",
+                      display: "flex",
+                      textAlign: "center",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                    className="text__all-caps text__heading text__bold"
+                  >
+                    HURRY UP!
+                  </div>
+                  <div className="acting__timer" onClick={handleEndTurnClick}>
+                    <TimerWidget
+                      size="small"
+                      color="#EB5757"
+                      countdown={countdown}
+                      percentage={percentage}
+                      onTimerEnd={handleTimesUpClick}
+                    />
+                  </div>
+                </header>
+              ) : (
+                <header
+                  className="app__header app__header--with-rule"
+                  style={{ justifyContent: "space-between" }}
+                >
+                  <Button
+                    type="secondary"
+                    icon="✓"
+                    onClick={handleEndTurnClick}
+                  >
+                    We Got It
+                  </Button>
+                  <div className="acting__timer" onClick={handleEndTurnClick}>
+                    <TimerWidget
+                      size="small"
+                      color={actorUpTeamColor}
+                      countdown={countdown}
+                      percentage={percentage}
+                      onTimerEnd={handleTimesUpClick}
+                    />
+                  </div>
+                </header>
+              )}
+            </>
+          )}
+
+          <main
+            className="app__main"
+            style={{ paddingBottom: 0, padding: "20px" }}
+          >
+            {!userInTurn && previousTurn && (
+              <PreviousTurnBox {...previousTurn} />
+            )}
             {teams.map((team, index) => (
               <TeamBox
                 key={team.teamName}
@@ -217,10 +301,10 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
                 myTurn={actorUp === username}
                 backgroundColor={team.teamColor}
                 teamName={team.teamName}
-                fullHeight={inTurn}
+                fullHeight={userInTurn}
                 onRenameClick={handleRenameClick}
               >
-                {inTurn ? (
+                {userInTurn ? (
                   <Turn
                     party={party}
                     username={username}
@@ -231,7 +315,6 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
                     onPoint={onPoint}
                     countdown={countdown}
                     percentage={percentage}
-                    onEndTurnClick={handleEndTurnClick}
                     onTimesUpClick={handleTimesUpClick}
                   />
                 ) : (
@@ -262,28 +345,30 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
               </TeamBox>
             ))}
           </main>
-          <footer className="app__footer">
-            {inTurn && actorUp !== username && (
-              <Button
-                onClick={handleScoreboardOpen}
-                type="secondary"
-                className="button-secondary--min-width"
-                icon="♛"
-              >
-                Scoreboard
-              </Button>
-            )}
-            {isGameOver && isHost && (
-              <Button
-                onClick={handlePlayAgainOpen}
-                type="secondary"
-                className="button-secondary--min-width"
-              >
-                <div className="player__badge player__badge--host text__all-caps text__small text__bold"></div>
-                <span style={{ marginLeft: "4px" }}>Play Again</span>
-              </Button>
-            )}
-          </footer>
+          {((userInTurn && actorUp !== username) || (isGameOver && isHost)) && (
+            <footer className="app__footer">
+              {userInTurn && actorUp !== username && (
+                <Button
+                  onClick={handleScoreboardOpen}
+                  type="secondary"
+                  className="button-secondary--min-width"
+                  icon="♛"
+                >
+                  Scoreboard
+                </Button>
+              )}
+              {isGameOver && isHost && (
+                <Button
+                  onClick={handlePlayAgainOpen}
+                  type="secondary"
+                  className="button-secondary--min-width"
+                >
+                  <div className="player__badge player__badge--host text__all-caps text__small text__bold"></div>
+                  <span style={{ marginLeft: "4px" }}>Play Again</span>
+                </Button>
+              )}
+            </footer>
+          )}
         </>
       )}
 
@@ -341,9 +426,9 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
           onClickNo={handleTimesUpSubmit(false)}
           type="confirm"
           body={
-            <p
-              style={{ marginBottom: "12px" }}
-            >{`Did your team guess ${turn.author}'s prompt correctly?`}</p>
+            <p style={{ marginBottom: "12px" }}>
+              Did your team guess correctly?
+            </p>
           }
         />
       ) : (
@@ -353,9 +438,9 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
           isActive={isTimesUpModalOpen}
           title="Time's Up! ⏲"
           body={
-            <p
-              style={{ marginBottom: "12px" }}
-            >{`Waiting for  ${actorUp} to enter result...`}</p>
+            <p style={{ marginBottom: "12px" }}>
+              {`Waiting for  ${actorUp.slice(0, -7)} to enter result...`}
+            </p>
           }
         />
       )}

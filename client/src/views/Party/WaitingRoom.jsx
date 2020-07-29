@@ -19,7 +19,7 @@ function WaitingRoom({ party, username }) {
       <header className="app__header app__header--with-rule ">
         <div className="waiting-room__header">
           <span className="waiting-room__header-left">
-            <h1 className="text__heading">WebCharades</h1>
+            <h1 className="text__heading">CharadesSpace</h1>
           </span>
           <span className="waiting-room__header-divider"></span>
           <span className="waiting-room__header-right">
@@ -35,11 +35,7 @@ function WaitingRoom({ party, username }) {
         </div>
       </header>
       <main className="app__main app__main--home">
-        <TeamBox
-          backgroundColor="var(--color__foreground)"
-          players={party.players}
-          teamName="Players"
-        >
+        <TeamBox backgroundColor="var(--color__foreground)" teamName="Players">
           <PlayerList
             color="var(--color__foreground)"
             players={party.players}
@@ -58,7 +54,9 @@ function WaitingRoom({ party, username }) {
             onClick={startGame}
             disabled={party.players.length < 4}
           >
-            {party.players.length < 4 ? "Waiting for more players" : "Everyone's Here!"}
+            {party.players.length < 4
+              ? "Waiting for more players"
+              : "Everyone's Here!"}
           </Button>
         )}
       </footer>

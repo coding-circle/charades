@@ -60,7 +60,7 @@ const Player = ({
             color,
           }}
         >
-          {playerName}
+          {playerName.slice(0, -7)}
         </div>
         {(actorUp || onDeck) && (
           <div

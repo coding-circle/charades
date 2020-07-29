@@ -64,4 +64,19 @@ export const leavePartyTests = () => {
     expect(party.players.includes(username)).toBeFalsy();
     expect(party.host).not.toEqual(username);
   });
+
+  it("should change actorUp if person leaving is actorUp", async () => {
+    const { slug, games } = await createInProgressGame("midGame");
+
+    const oldTurn = games[0].turns[games[0].turns.length - 1];
+
+    const party = await leaveParty({
+      username: oldTurn.player,
+      slug,
+    });
+
+    const newTurn = party.games[0].turns[party.games[0].turns.length - 1];
+
+    expect(newTurn.player).not.toEqual(oldTurn.player);
+  });
 };

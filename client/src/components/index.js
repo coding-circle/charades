@@ -12,6 +12,7 @@ import PointedAt from "./PointedAt";
 import Scoreboard from "./Scoreboard";
 import Results from "./Results";
 import ManagePlayersModal from "./ManagePlayersModal";
+import PreviousTurnBox from "./PreviousTurnBox"
 import SuccessMarker from "./SuccessMarker";
 
 export {
@@ -29,5 +30,6 @@ export {
   Scoreboard,
   Results,
   ManagePlayersModal,
+  PreviousTurnBox,
   SuccessMarker,
 };
