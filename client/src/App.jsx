@@ -6,10 +6,24 @@ import Party from "./views/Party/Party";
 import Sandbox from "./views/Sandbox";
 import LoadingIndicator from "./components/LoadingIndicator";
 import api from "./utils/api";
+import ReactGA from 'react-ga';
 
 const isDevelopment = process.env.NODE_ENV === "development";
 
 function App() {
+
+  useEffect(() => {
+    ReactGA.initialize('UA-NNNNNN-N', {  
+      debug: true,
+      titleCase: false,
+      gaOptions: {
+        userId: 173896885,
+        siteSpeedSampleRate: 100
+      }
+    });
+    ReactGA.pageview(window.location.pathname + window.location.search);
+    }, []);
+
   const [currentView, setCurrentView] = useState("loading");
   const [party, setParty] = useState({});
   const [localStorage, setLocalStorage] = useLocalStorage("charades", {
@@ -83,3 +97,10 @@ function App() {
 }
 
 export default App;
+
+
+
+
+
+
+  
