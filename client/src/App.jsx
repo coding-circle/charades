@@ -13,7 +13,7 @@ const isDevelopment = process.env.NODE_ENV === "development";
 function App() {
 
   useEffect(() => {
-    ReactGA.initialize('UA-NNNNNN-N', {  
+    ReactGA.initialize('UA-173896885-1', {  
       debug: true,
       titleCase: false,
       gaOptions: {
