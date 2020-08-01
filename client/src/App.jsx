@@ -10,11 +10,11 @@ import ReactGA from 'react-ga';
 
 const isDevelopment = process.env.NODE_ENV === "development";
 
+
 function App() {
 
   useEffect(() => {
-    ReactGA.initialize('UA-NNNNNN-N', {  
-      debug: true,
+    ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID, {   
       titleCase: false,
       gaOptions: {
         userId: 173896885,
