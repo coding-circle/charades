@@ -12,13 +12,14 @@ import PointedAt from "./PointedAt";
 import Scoreboard from "./Scoreboard";
 import Results from "./Results";
 import ManagePlayersModal from "./ManagePlayersModal";
-import PreviousTurnBox from "./PreviousTurnBox"
+import PreviousTurnBox from "./PreviousTurnBox";
 import SuccessMarker from "./SuccessMarker";
+import LoadingIndicator from "./LoadingIndicator";
 
 export {
-  TextInput,
   Button,
   CloseButton,
+  TextInput,
   TeamBox,
   PlayerList,
   Player,
@@ -32,4 +33,5 @@ export {
   ManagePlayersModal,
   PreviousTurnBox,
   SuccessMarker,
+  LoadingIndicator,
 };

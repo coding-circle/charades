@@ -89,13 +89,13 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
 
   const handleRenameSubmit = async () => {
     try {
+      handleRenameModalClose();
+
       await api.renameTeam({
         slug: party.slug,
         teamName: renameTeamInput,
         teamIndex: userTeamIndex,
       });
-
-      handleRenameModalClose();
     } catch (error) {
       console.error(error);
     }
@@ -103,6 +103,8 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
 
   const handleLeaveGameSubmit = async () => {
     try {
+      handleLeaveGameModalClose();
+
       await api.leaveParty({
         slug: party.slug,
         username,
@@ -114,8 +116,6 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
       });
 
       window.location.pathname = "";
-
-      handleLeaveGameModalClose();
     } catch (error) {
       console.error(error);
     }
@@ -123,13 +123,14 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
 
   const handleTimesUpSubmit = (success) => async () => {
     try {
+      handleTimesUpModalClose();
+
       await api.endTurn({
         slug: party.slug,
         success,
       });
-
-      handleTimesUpModalClose();
     } catch (error) {
+      handleTimesUpClick();
       console.error(error);
     }
   };
