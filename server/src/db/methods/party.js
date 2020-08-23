@@ -78,8 +78,10 @@ const joinParty = async ({ slug, username }) => {
     teams[teamToAddPlayerTo].teamPlayers.push(uniqueUsername);
   }
 
+  const party = await party.save();
+
   return {
-    party: await party.save(),
+    party,
     username: uniqueUsername,
   };
 };

@@ -1,8 +1,13 @@
 import React, { useState } from "react";
-import { useLocalStorage } from "@rehooks/local-storage";
+import { writeStorage } from "@rehooks/local-storage";
 
 import api from "../../utils/api";
-import { TextInput, CloseButton, Button } from "../../components";
+import {
+  TextInput,
+  CloseButton,
+  Button,
+  LoadingIndicator,
+} from "../../components";
 
 function CreateGame({
   username,
@@ -13,10 +18,12 @@ function CreateGame({
   const [teamsCount, setTeamsCount] = useState(2);
   const [rotations, setRotations] = useState(1);
   const [turnDurationSeconds, setTurnDurationSeconds] = useState(90);
-
-  const [, setLocalStorage] = useLocalStorage("charades");
+  const [isCreatingParty, setIsCreatingParty] = useState(false);
 
   const createParty = async () => {
+    const startTime = Date.now();
+    setIsCreatingParty(true);
+
     const upperCaseUsername = username.toUpperCase();
 
     const { error, slug, username: uuidUsername } = await api.createParty({
@@ -30,16 +37,25 @@ function CreateGame({
 
     if (error) {
       setErrorMessage(error);
+      setIsCreatingParty(false);
       return;
     }
 
-    setLocalStorage({
+    writeStorage("charades", {
       username: uuidUsername,
       slug,
     });
 
-    window.location.pathname = slug;
+    // make sure loading screen shows for at least 1 second since clicking button
+    // and 1/10th a second since setting local storage
+    setTimeout(() => {
+      window.location.pathname = slug;
+    }, Math.min(100, Math.max(0, Date.now() - startTime + 1000)));
   };
+
+  if (isCreatingParty) {
+    return <LoadingIndicator />;
+  }
 
   return (
     <>

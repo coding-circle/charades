@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useLocalStorage } from "@rehooks/local-storage";
+import { writeStorage } from "@rehooks/local-storage";
 
 import api from "../../utils/api";
-import { TextInput, Button } from "../../components";
+import { TextInput, Button, LoadingIndicator } from "../../components";
 
 function JoinGame({
   slug,
@@ -12,7 +12,6 @@ function JoinGame({
   setErrorMessage,
 }) {
   const [roomCode, setRoomCode] = useState(slug);
-  const [, setLocalStorage] = useLocalStorage("charades");
   const [isJoiningParty, setIsJoiningParty] = useState(false);
 
   useEffect(() => {
@@ -20,6 +19,8 @@ function JoinGame({
   }, [slug]);
 
   const joinParty = async () => {
+    const startTime = Date.now();
+
     // prevent double clicking button
     if (isJoiningParty) return;
     setIsJoiningParty(true);
@@ -27,9 +28,9 @@ function JoinGame({
     const upperCaseRoomCode = roomCode.toUpperCase();
     const upperCaseUsername = username.toUpperCase();
 
-    const { error, username: uuidUsername } = await api.joinParty({
-      slug: upperCaseRoomCode,
+    const { error, uuidUsername } = await api.joinParty({
       username: upperCaseUsername,
+      slug: upperCaseRoomCode,
     });
 
     if (error) {
@@ -39,14 +40,21 @@ function JoinGame({
       return;
     }
 
-    setLocalStorage({
-      slug: upperCaseRoomCode,
+    writeStorage("charades", {
       username: uuidUsername,
+      slug: upperCaseRoomCode,
     });
 
-    window.location.pathname = upperCaseRoomCode;
-    setIsJoiningParty(false);
+    // make sure loading screen shows for at least 1 second since clicking button
+    // and 1/10th a second since setting local storage
+    setTimeout(() => {
+      window.location.pathname = upperCaseRoomCode;
+    }, Math.min(100, Math.max(0, Date.now() - startTime + 1000)));
   };
+
+  if (isJoiningParty) {
+    return <LoadingIndicator />;
+  }
 
   return (
     <>
