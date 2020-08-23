@@ -1,32 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { useLocalStorage } from "@rehooks/local-storage";
+import { useLocalStorage, writeStorage } from "@rehooks/local-storage";
 
 import Home from "./views/Home/Home";
 import Party from "./views/Party/Party";
 import Sandbox from "./views/Sandbox";
-import LoadingIndicator from "./components/LoadingIndicator";
 import api from "./utils/api";
-import ReactGA from 'react-ga';
+import ReactGA from "react-ga";
 
 const isDevelopment = process.env.NODE_ENV === "development";
 
-
 function App() {
-
   useEffect(() => {
-    ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID, {   
+    ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID, {
       titleCase: false,
       gaOptions: {
         userId: 173896885,
-        siteSpeedSampleRate: 100
-      }
+        siteSpeedSampleRate: 100,
+      },
     });
+
     ReactGA.pageview(window.location.pathname + window.location.search);
-    }, []);
+  }, []);
 
   const [currentView, setCurrentView] = useState("loading");
   const [party, setParty] = useState({});
-  const [localStorage, setLocalStorage] = useLocalStorage("charades", {
+  const [localStorage] = useLocalStorage("charades", {
     username: "",
     slug: "",
   });
@@ -39,7 +37,7 @@ function App() {
       const urlSlug = document.location.pathname.slice(1).toUpperCase();
 
       if (!urlSlug) {
-        setLocalStorage({
+        writeStorage("charades", {
           ...localStorage,
           slug: "",
         });
@@ -51,7 +49,7 @@ function App() {
         }
 
         if (urlSlug === localStorage.slug) {
-          const party = await api.getParty({ slug: localStorage.slug });
+          const party = await api.getParty({ slug: urlSlug });
 
           if (party && party.players.includes(localStorage.username)) {
             setParty(party);
@@ -59,16 +57,16 @@ function App() {
             return;
           }
         } else {
-          setLocalStorage({
+          writeStorage("charades", {
             ...localStorage,
             slug: urlSlug,
           });
         }
       }
+
       setCurrentView("home");
     };
 
-    // forces loading screen to show at least 500 ms
     setTimeout(loadSlug, 500);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -89,7 +87,9 @@ function App() {
         setCurrentViewToHome={setCurrentViewToHome}
       />
     ),
-    loading: <LoadingIndicator />,
+    // blank screen on inital load.
+    // loading indicators used on join/create party
+    loading: <div></div>,
     sandbox: <Sandbox />,
   };
 
@@ -97,10 +97,3 @@ function App() {
 }
 
 export default App;
-
-
-
-
-
-
-  
