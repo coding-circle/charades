@@ -8,6 +8,7 @@ function JoinGame({
   username,
   setUsername,
   showCreateGameView,
+  showHowToPlay,
   setErrorMessage,
   onJoinParty,
 }) {
@@ -76,15 +77,18 @@ function JoinGame({
         >
           Join Game
         </Button>
-      </main>
-      <footer className="app__footer">
         <Button
           onClick={showCreateGameView}
-          type="secondary"
-          className="button-secondary--min-width"
+          type="primary"
+          style={{ marginTop: "24px" }}
           icon="+"
         >
           Create Game
+        </Button>
+      </main>
+      <footer className="app__footer">
+        <Button onClick={showHowToPlay} className="button-secondary">
+          How To Play
         </Button>
       </footer>
     </>
