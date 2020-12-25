@@ -52,7 +52,6 @@ function App() {
     ReactGA.pageview(window.location.pathname + window.location.search);
   }, []);
 
-  // initialize
   // pull username from localStorage
   useEffect(() => {
     if (!username && localStorage.username) {
@@ -73,7 +72,7 @@ function App() {
     if (!urlSlug && currentView !== "home") {
       setCurrentView("home");
     }
-  }, [slug]);
+  }, [slug, currentView, urlSlug]);
 
   // update slug in localStorage
   useEffect(() => {
@@ -83,7 +82,7 @@ function App() {
         slug: urlSlug,
       });
     }
-  }, [slug, localStorage]);
+  }, [slug, localStorage, urlSlug]);
 
   useEffect(() => {
     const loadSlug = async () => {
@@ -99,20 +98,16 @@ function App() {
 
       const remoteParty = await api.getParty({ slug: urlSlug });
 
-      console.log(remoteParty, username);
-
-      if (remoteParty && remoteParty.players.includes(username)) {
+      if (remoteParty && remoteParty.players.includes(localStorage.username)) {
         setParty(remoteParty);
         setCurrentView("party");
-        return;
       } else if (currentView !== "home") {
-        console.log(2222);
-        // setCurrentView("home");
+        setCurrentView("home");
       }
     };
 
     loadSlug();
-  }, [username, currentView, party]);
+  }, [username, currentView, party, localStorage.username, urlSlug]);
 
   const views = {
     home: (
