@@ -4,7 +4,7 @@ import CreateGame from "./CreateParty";
 import JoinParty from "./JoinParty";
 import { Modal } from "../../components";
 
-function Home({ username: storageUsername, slug, setCurrentViewToParty }) {
+function Home({ username: storageUsername, slug, onJoinParty }) {
   const [createGameOpen, setCreateGameOpen] = useState(false);
   const [username, setUsername] = useState(storageUsername.slice(0, -7));
   const [errorMessage, setErrorMessage] = useState("");
@@ -21,7 +21,7 @@ function Home({ username: storageUsername, slug, setCurrentViewToParty }) {
           username={username}
           setUsername={setUsername}
           hideCreateGameView={hideCreateGameView}
-          setCurrentViewToParty={setCurrentViewToParty}
+          onJoinParty={onJoinParty}
           setErrorMessage={setErrorMessage}
         />
       ) : (
@@ -30,7 +30,7 @@ function Home({ username: storageUsername, slug, setCurrentViewToParty }) {
           username={username}
           setUsername={setUsername}
           showCreateGameView={showCreateGameView}
-          setCurrentViewToParty={setCurrentViewToParty}
+          onJoinParty={onJoinParty}
           setErrorMessage={setErrorMessage}
         />
       )}

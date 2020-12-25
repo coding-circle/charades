@@ -14,6 +14,7 @@ function CreateGame({
   setUsername,
   hideCreateGameView,
   setErrorMessage,
+  onJoinParty,
 }) {
   const [teamsCount, setTeamsCount] = useState(2);
   const [rotations, setRotations] = useState(1);
@@ -21,12 +22,11 @@ function CreateGame({
   const [isCreatingParty, setIsCreatingParty] = useState(false);
 
   const createParty = async () => {
-    const startTime = Date.now();
     setIsCreatingParty(true);
 
     const upperCaseUsername = username.toUpperCase();
 
-    const { error, slug, username: uuidUsername } = await api.createParty({
+    const { error, party } = await api.createParty({
       host: upperCaseUsername,
       settings: {
         teamsCount,
@@ -41,16 +41,7 @@ function CreateGame({
       return;
     }
 
-    writeStorage("charades", {
-      username: uuidUsername,
-      slug,
-    });
-
-    // make sure loading screen shows for at least 1 second since clicking button
-    // and 1/10th a second since setting local storage
-    setTimeout(() => {
-      window.location.pathname = slug;
-    }, Math.min(100, Math.max(0, Date.now() - startTime + 1000)));
+    onJoinParty(party, party.host);
   };
 
   if (isCreatingParty) {
