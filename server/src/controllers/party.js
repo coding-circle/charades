@@ -11,7 +11,7 @@ const createParty = async (req, res) => {
 
   req.socket.create(party.slug, party);
 
-  res.status(200).send({ slug: party.slug, username: party.host });
+  res.status(200).send({ party });
 };
 
 // join party
@@ -36,7 +36,7 @@ const joinParty = async (req, res) => {
 
   req.socket.broadcastParty(slug, party);
 
-  res.status(200).send({ uuidUsername });
+  res.status(200).send({ party, uuidUsername });
 };
 
 // get party
