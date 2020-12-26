@@ -1,10 +1,10 @@
 import { devMethods } from "../db/methods";
 
-const isDevelopment = process.env.NODE_ENV !== "production";
+const isProduction = process.env.NODE_ENV === "production";
 
 // get all parties
 const getAllParties = async (req, res) => {
-  if (isDevelopment) {
+  if (isProduction) {
     return res.status(400).send("ACCESS DENIED: dev only method");
   }
 
@@ -14,7 +14,7 @@ const getAllParties = async (req, res) => {
 
 // clear all parties
 const clearAllParties = async (req, res) => {
-  if (isDevelopment) {
+  if (isProduction) {
     return res.status(400).send("ACCESS DENIED: dev only method");
   }
 

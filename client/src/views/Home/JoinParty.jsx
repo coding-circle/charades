@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { writeStorage } from "@rehooks/local-storage";
 
 import api from "../../utils/api";
 import { TextInput, Button, LoadingIndicator } from "../../components";
@@ -10,6 +9,7 @@ function JoinGame({
   setUsername,
   showCreateGameView,
   setErrorMessage,
+  onJoinParty,
 }) {
   const [roomCode, setRoomCode] = useState(slug);
   const [isJoiningParty, setIsJoiningParty] = useState(false);
@@ -19,8 +19,6 @@ function JoinGame({
   }, [slug]);
 
   const joinParty = async () => {
-    const startTime = Date.now();
-
     // prevent double clicking button
     if (isJoiningParty) return;
     setIsJoiningParty(true);
@@ -28,7 +26,7 @@ function JoinGame({
     const upperCaseRoomCode = roomCode.toUpperCase();
     const upperCaseUsername = username.toUpperCase();
 
-    const { error, uuidUsername } = await api.joinParty({
+    const { error, party, uuidUsername } = await api.joinParty({
       username: upperCaseUsername,
       slug: upperCaseRoomCode,
     });
@@ -40,16 +38,7 @@ function JoinGame({
       return;
     }
 
-    writeStorage("charades", {
-      username: uuidUsername,
-      slug: upperCaseRoomCode,
-    });
-
-    // make sure loading screen shows for at least 1 second since clicking button
-    // and 1/10th a second since setting local storage
-    setTimeout(() => {
-      window.location.pathname = upperCaseRoomCode;
-    }, Math.min(100, Math.max(0, Date.now() - startTime + 1000)));
+    onJoinParty(party, uuidUsername);
   };
 
   if (isJoiningParty) {
