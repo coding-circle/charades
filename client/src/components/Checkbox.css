@@ -1,0 +1,20 @@
+.checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.checkbox * {
+  cursor: pointer;
+}
+
+.checkbox__input {
+  cursor: pointer;
+  max-width: 24rem;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 4px;
+  height: 16px;
+  width: 16px;
+  margin-right: 8px;
+}

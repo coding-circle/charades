@@ -20,7 +20,7 @@ export const joinPartyTests = () => {
     await clearParties();
   });
 
-  it("it should add a player to the players array", async () => {
+  it("should add a player to the players array", async () => {
     const { slug } = await createParty({
       host: "JACTEN",
     });
@@ -33,7 +33,7 @@ export const joinPartyTests = () => {
     expect(party.players.includes(username)).toBeTruthy();
   });
 
-  it("it should add a player to the team with fewest members when teams are uneven", async () => {
+  it("should add a player to the team with fewest members when teams are uneven", async () => {
     const { slug } = await createParty({ host: "BOBANYA" });
 
     await joinParty({ username: "paul", slug });
@@ -52,7 +52,7 @@ export const joinPartyTests = () => {
     expect(teamPlayers.includes(username)).toBeTruthy();
   });
 
-  it("it should prevent a user from joining with the same username", async () => {
+  it("should prevent a user from joining with the same username", async () => {
     const { slug } = await createParty({ host: "BOBANYA" });
 
     await joinParty({ username: "paul", slug });

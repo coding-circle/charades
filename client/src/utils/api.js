@@ -52,8 +52,6 @@ const joinParty = async ({ slug, username }) => {
 
 // update settings
 const updateSettings = async ({ slug, settings }) => {
-  console.log(settings);
-
   const res = await axios.put(`${API_URL}party/${slug}/settings`, {
     settings,
   });
@@ -71,8 +69,10 @@ const leaveParty = async ({ slug, username }) => {
 };
 
 // create game
-const createGame = async ({ slug }) => {
-  const res = await axios.post(`${API_URL}party/${slug}/game/create`);
+const createGame = async ({ slug, keepSameTeams }) => {
+  const res = await axios.post(`${API_URL}party/${slug}/game/create`, {
+    keepSameTeams,
+  });
 
   return res;
 };
