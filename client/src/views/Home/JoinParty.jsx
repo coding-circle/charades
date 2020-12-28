@@ -1,19 +1,27 @@
 import React, { useState, useEffect } from "react";
-
 import api from "../../utils/api";
-import { TextInput, Button, LoadingIndicator } from "../../components";
+import {
+  TextInput,
+  Button,
+  LoadingIndicator,
+  HowToPlayModal,
+} from "../../components";
 
 function JoinGame({
   slug,
   username,
   setUsername,
   showCreateGameView,
-  showHowToPlay,
   setErrorMessage,
   onJoinParty,
 }) {
   const [roomCode, setRoomCode] = useState(slug);
   const [isJoiningParty, setIsJoiningParty] = useState(false);
+  const [howToPlayOpen, setHowToPlayOpen] = useState(false);
+
+  // Show and hide content about how to play with charades app
+  const handleHowToPlayModalOpen = () => setHowToPlayOpen(true);
+  const handleHowToPlayModalClose = () => setHowToPlayOpen(false);
 
   useEffect(() => {
     setRoomCode(slug);
@@ -79,6 +87,7 @@ function JoinGame({
         </Button>
         <Button
           onClick={showCreateGameView}
+          className="button-disabled"
           type="primary"
           style={{ marginTop: "24px" }}
           icon="+"
@@ -87,9 +96,17 @@ function JoinGame({
         </Button>
       </main>
       <footer className="app__footer">
-        <Button onClick={showHowToPlay} className="button-secondary">
+        <Button onClick={handleHowToPlayModalOpen} className="button-secondary">
           How To Play
         </Button>
+        {/* Opens the 'How to Play' Modal, which explains the game */}
+        {howToPlayOpen ? (
+          <HowToPlayModal
+            isActive={howToPlayOpen}
+            onClickClose={handleHowToPlayModalClose}
+            onHandleHowToPlayModalClose={handleHowToPlayModalClose}
+          />
+        ) : null}
       </footer>
     </>
   );
