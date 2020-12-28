@@ -1,16 +1,17 @@
-import React from "react";
-import { PreviousTurnBox } from "../components";
+import React, { useState } from "react";
+import { Checkbox } from "../components";
 
 function Sandbox() {
+  const [checked, setChecked] = useState(false);
   return (
     <div className="app_main">
-      <h1> PreviousTurnBox </h1>
-      <PreviousTurnBox
-        player="george"
-        teamColor="red"
-        success={false}
-        prompt="fig tree"
-      />
+      <div>
+        <Checkbox
+          checked={checked}
+          onChange={(checked) => setChecked(checked)}
+          label="Baby"
+        />
+      </div>
     </div>
   );
 }

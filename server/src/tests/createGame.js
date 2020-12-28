@@ -20,14 +20,14 @@ export const createGameTests = () => {
     await clearParties();
   });
 
-  it("it should create a game when provided a slug", async () => {
+  it("should create a game when provided a slug", async () => {
     const party = await createParty({ host: "bobanya " });
     const updatedParty = await createGame({ slug: party.slug });
 
     expect(updatedParty.games.length).toEqual(1);
   });
 
-  it("it should compute the total turns based on number of players", async () => {
+  it("should compute the total turns based on number of players", async () => {
     const { slug } = await createParty({
       host: "bobanya",
       settings: {
@@ -45,7 +45,7 @@ export const createGameTests = () => {
     expect(party.games[0].totalTurns).toEqual(30);
   });
 
-  it("it should evenly distribute players across teams", async () => {
+  it("should evenly distribute players across teams", async () => {
     const { slug } = await createParty({ host: "bobanya" });
 
     await joinParty({ username: "paul", slug });
@@ -63,11 +63,7 @@ export const createGameTests = () => {
     expect(party.games[0].teams[1].teamPlayers.length).toEqual(4);
   });
 
-  it("it should evenly distribute players across teamsCount number of teams", async () => {});
-
-  it("it should randomly distribute players across teams", async () => {});
-
-  it("it should create a color for the team", async () => {
+  it("should create a color for the team", async () => {
     const { slug } = await createParty({
       host: "james",
     });
@@ -82,4 +78,6 @@ export const createGameTests = () => {
     expect("hsl").toEqual(party.games[0].teams[0].teamColor.substring(0, 3));
     expect("hsl").toEqual(party.games[0].teams[1].teamColor.substring(0, 3));
   });
+
+  it("should keep same teams when keepSameTeams is true", async () => {});
 };
