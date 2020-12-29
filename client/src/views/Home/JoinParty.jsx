@@ -19,7 +19,6 @@ function JoinGame({
   const [isJoiningParty, setIsJoiningParty] = useState(false);
   const [howToPlayOpen, setHowToPlayOpen] = useState(false);
 
-  // Show and hide content about how to play with charades app
   const handleHowToPlayModalOpen = () => setHowToPlayOpen(true);
   const handleHowToPlayModalClose = () => setHowToPlayOpen(false);
 
@@ -99,14 +98,12 @@ function JoinGame({
         <Button onClick={handleHowToPlayModalOpen} className="button-secondary">
           How To Play
         </Button>
-        {/* Opens the 'How to Play' Modal, which explains the game */}
-        {howToPlayOpen ? (
+        {howToPlayOpen && (
           <HowToPlayModal
             isActive={howToPlayOpen}
             onClickClose={handleHowToPlayModalClose}
-            onHandleHowToPlayModalClose={handleHowToPlayModalClose}
           />
-        ) : null}
+        )}
       </footer>
     </>
   );
