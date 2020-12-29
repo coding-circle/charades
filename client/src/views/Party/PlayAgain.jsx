@@ -41,33 +41,30 @@ function PlayGame({ party, onPlayAgainClose }) {
           name="teams-count"
           label="Teams"
           subLabel="The number of teams playing"
-          isNumberVariant={true}
           value={teamsCount}
           disabled={keepSameTeams}
           onChange={(evt) => {
-            setTeamsCount(evt.target.value);
+            setTeamsCount(evt.target.value.replace(/\D/,''));
           }}
         />
         <TextInput
           name="rotations"
           label="Rotations"
           subLabel="The number of rounds per player"
-          isNumberVariant={true}
           style={{ marginTop: "20px" }}
           value={rotations}
           onChange={(evt) => {
-            setRotations(evt.target.value);
+            setRotations(evt.target.value.replace(/\D/,''));
           }}
         />
         <TextInput
           name="turn-duration"
           label="Turn Duration"
           subLabel="The length of each turn (in seconds)"
-          isNumberVariant={true}
           style={{ marginTop: "20px" }}
           value={turnDurationSeconds}
           onChange={(evt) => {
-            setTurnDurationSeconds(evt.target.value);
+            setTurnDurationSeconds(evt.target.value.replace(/\D/,''));
           }}
         />
         <div style={{ marginTop: "32px", width: "100%", maxWidth: "24rem" }}>
