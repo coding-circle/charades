@@ -20,7 +20,7 @@ export const addPromptTests = () => {
     await clearParties();
   });
 
-  it("it should add a prompt to the prompts array", async () => {
+  it("should add a prompt to the prompts array", async () => {
     const { slug } = await createParty({ host: "andy" });
 
     const expectedPrompt = {

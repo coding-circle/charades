@@ -19,8 +19,9 @@ const addPrompt = async (req, res) => {
 // create game
 const createGame = async (req, res) => {
   const { slug } = req.params;
+  const { keepSameTeams } = req.body;
 
-  const party = await gameMethods.createGame({ slug });
+  const party = await gameMethods.createGame({ slug, keepSameTeams });
 
   req.socket.broadcastParty(slug, party);
 
