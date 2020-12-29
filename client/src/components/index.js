@@ -15,6 +15,7 @@ import ManagePlayersModal from "./ManagePlayersModal";
 import PreviousTurnBox from "./PreviousTurnBox";
 import SuccessMarker from "./SuccessMarker";
 import LoadingIndicator from "./LoadingIndicator";
+import HowToPlayModal from "./HowToPlayModal";
 import Checkbox from "./Checkbox";
 
 export {
@@ -35,5 +36,6 @@ export {
   PreviousTurnBox,
   SuccessMarker,
   LoadingIndicator,
+  HowToPlayModal,
   Checkbox,
 };

@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
-
 import api from "../../utils/api";
-import { TextInput, Button, LoadingIndicator } from "../../components";
+import {
+  TextInput,
+  Button,
+  LoadingIndicator,
+  HowToPlayModal,
+} from "../../components";
 
 function JoinGame({
   slug,
@@ -13,6 +17,10 @@ function JoinGame({
 }) {
   const [roomCode, setRoomCode] = useState(slug);
   const [isJoiningParty, setIsJoiningParty] = useState(false);
+  const [howToPlayOpen, setHowToPlayOpen] = useState(false);
+
+  const handleHowToPlayModalOpen = () => setHowToPlayOpen(true);
+  const handleHowToPlayModalClose = () => setHowToPlayOpen(false);
 
   useEffect(() => {
     setRoomCode(slug);
@@ -76,17 +84,25 @@ function JoinGame({
         >
           Join Game
         </Button>
-      </main>
-      <footer className="app__footer">
         <Button
           onClick={showCreateGameView}
-          type="secondary"
-          className="button-secondary--min-width"
+          className="button-disabled"
+          type="primary"
+          style={{ marginTop: "24px" }}
           icon="+"
         >
           Create Game
         </Button>
+      </main>
+      <footer className="app__footer">
+        <Button onClick={handleHowToPlayModalOpen} className="button-secondary">
+          How To Play
+        </Button>
       </footer>
+      <HowToPlayModal
+        isActive={howToPlayOpen}
+        onClickClose={handleHowToPlayModalClose}
+      />
     </>
   );
 }
