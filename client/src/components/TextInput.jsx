@@ -11,7 +11,6 @@ const TextInput = ({
   maxLength,
   multiline,
   disabled,
-  isNumberVariant,
 }) => {
   const classes = `${label && "text-input__label"}
     ${subLabel ? "text-input__label--with-sublabel" : ""}`;
