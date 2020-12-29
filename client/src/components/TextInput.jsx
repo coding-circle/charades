@@ -11,9 +11,11 @@ const TextInput = ({
   maxLength,
   multiline,
   disabled,
+  isNumberVariant,
 }) => {
   const classes = `${label && "text-input__label"}
     ${subLabel ? "text-input__label--with-sublabel" : ""}`;
+  const inputType = isNumberVariant ? "number" : "text";
 
   return (
     <div className="text-input" style={style}>
@@ -30,7 +32,7 @@ const TextInput = ({
         <textarea
           disabled={disabled}
           name={name}
-          type="text"
+          type={inputType}
           value={value}
           onChange={onChange}
           maxLength={maxLength}
@@ -42,7 +44,7 @@ const TextInput = ({
         <input
           disabled={disabled}
           name={name}
-          type="text"
+          type={inputType}
           value={value}
           onChange={onChange}
           maxLength={maxLength}

@@ -41,6 +41,7 @@ function PlayGame({ party, onPlayAgainClose }) {
           name="teams-count"
           label="Teams"
           subLabel="The number of teams playing"
+          isNumberVariant={true}
           value={teamsCount}
           disabled={keepSameTeams}
           onChange={(evt) => {
@@ -51,6 +52,7 @@ function PlayGame({ party, onPlayAgainClose }) {
           name="rotations"
           label="Rotations"
           subLabel="The number of rounds per player"
+          isNumberVariant={true}
           style={{ marginTop: "20px" }}
           value={rotations}
           onChange={(evt) => {
@@ -61,6 +63,7 @@ function PlayGame({ party, onPlayAgainClose }) {
           name="turn-duration"
           label="Turn Duration"
           subLabel="The length of each turn (in seconds)"
+          isNumberVariant={true}
           style={{ marginTop: "20px" }}
           value={turnDurationSeconds}
           onChange={(evt) => {
