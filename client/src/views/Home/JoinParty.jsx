@@ -98,11 +98,11 @@ function JoinGame({
         <Button onClick={handleHowToPlayModalOpen} className="button-secondary">
           How To Play
         </Button>
-        <HowToPlayModal
-          isActive={howToPlayOpen}
-          onClickClose={handleHowToPlayModalClose}
-        />
       </footer>
+      <HowToPlayModal
+        isActive={howToPlayOpen}
+        onClickClose={handleHowToPlayModalClose}
+      />
     </>
   );
 }
