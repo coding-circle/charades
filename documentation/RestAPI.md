@@ -78,6 +78,12 @@ Possibly deprecated. But perhaps this will be called on refresh?
 
 **Data Params:**
 
+```
+{
+  keepSameTeams: boolean,
+},
+```
+
 **Response:** Party Object
 
 **Notes:** Moves from lobby to prompt-writing phase.
@@ -99,7 +105,7 @@ Possibly deprecated. But perhaps this will be called on refresh?
 
 ```
 {
-  author: string
+  author: string,
   prompt: string,
 },
 ```

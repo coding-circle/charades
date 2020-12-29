@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import CreateGame from "./CreateParty";
 import JoinParty from "./JoinParty";
 import { Modal } from "../../components";

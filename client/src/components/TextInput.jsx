@@ -10,6 +10,7 @@ const TextInput = ({
   onChange,
   maxLength,
   multiline,
+  disabled,
 }) => {
   const classes = `${label && "text-input__label"}
     ${subLabel ? "text-input__label--with-sublabel" : ""}`;
@@ -27,6 +28,7 @@ const TextInput = ({
       </label>
       {multiline ? (
         <textarea
+          disabled={disabled}
           name={name}
           type="text"
           value={value}
@@ -38,6 +40,7 @@ const TextInput = ({
         />
       ) : (
         <input
+          disabled={disabled}
           name={name}
           type="text"
           value={value}
