@@ -59,6 +59,7 @@ function CreateGame({
           label="Teams"
           subLabel="The number of teams playing"
           value={teamsCount}
+          variant="number"
           onChange={(evt) => {
             setTeamsCount(evt.target.value);
           }}
@@ -69,6 +70,7 @@ function CreateGame({
           subLabel="The number of rounds per player"
           style={{ marginTop: "20px" }}
           value={rotations}
+          variant="number"
           onChange={(evt) => {
             setRotations(evt.target.value);
           }}
@@ -79,6 +81,7 @@ function CreateGame({
           subLabel="The length of each turn (in seconds)"
           style={{ marginTop: "20px" }}
           value={turnDurationSeconds}
+          variant="number"
           onChange={(evt) => {
             setTurnDurationSeconds(evt.target.value);
           }}
