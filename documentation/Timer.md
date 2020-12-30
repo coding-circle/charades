@@ -1,6 +1,6 @@
 # Timer Syncing in Charades
 
-This should probably just be a medium article. But here are the challenges of syncing time across multiple devices and how we handled them.
+This should probably just be a medium article. But here are the challenges of syncing time across multiple devices in JS and how we handled them.
 
 ### Problem
 
@@ -18,4 +18,8 @@ These three problems: unreliable intervals, falling asleep phones, and differing
 
 ### Working Solution - setTimeout() with resync at every 10th of a second with server/client system clock sync
 
-To solve the issue of differing system clocks we (see `useServerTime.js` hook).
+To solve the issue of differing system clocks we calulate the difference between the servers time and each client and use add that difference to the end time of a round (see `useServerTime.js` hook). This means that even if a client clock had been manually set to something completely random the timer should still be in sync.
+
+Two fix the issues caused by setInterval, we use recursivly call setTimeout every 10th of a second until the time runs out.
+
+This solves the issue of unreliable intervals b/c setInterval is adjustable
