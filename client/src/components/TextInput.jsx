@@ -23,7 +23,7 @@ const TextInput = ({
 
     onChange(e);
   };
-  const inputType = variant === "number" ? "numeric" : "text";
+  const inputMode = variant === "number" ? "numeric" : "text";
 
   return (
     <div className="text-input" style={style}>
@@ -47,7 +47,7 @@ const TextInput = ({
           className="text__bold text-input__multiline text__heading"
           cols="20"
           rows="2"
-          inputMode={inputType}
+          inputMode={inputMode}
         />
       ) : (
         <input
@@ -58,7 +58,7 @@ const TextInput = ({
           onChange={handleChange}
           maxLength={maxLength}
           className="text__all-caps text__bold text__heading"
-          inputMode={inputType}
+          inputMode={inputMode}
         />
       )}
     </div>
