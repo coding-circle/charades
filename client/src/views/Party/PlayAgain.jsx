@@ -42,9 +42,10 @@ function PlayGame({ party, onPlayAgainClose }) {
           label="Teams"
           subLabel="The number of teams playing"
           value={teamsCount}
+          variant="number"
           disabled={keepSameTeams}
           onChange={(evt) => {
-            setTeamsCount(evt.target.value.replace(/\D/,''));
+            setTeamsCount(evt.target.value);
           }}
         />
         <TextInput
@@ -53,8 +54,9 @@ function PlayGame({ party, onPlayAgainClose }) {
           subLabel="The number of rounds per player"
           style={{ marginTop: "20px" }}
           value={rotations}
+          variant="number"
           onChange={(evt) => {
-            setRotations(evt.target.value.replace(/\D/,''));
+            setRotations(evt.target.value);
           }}
         />
         <TextInput
@@ -63,8 +65,9 @@ function PlayGame({ party, onPlayAgainClose }) {
           subLabel="The length of each turn (in seconds)"
           style={{ marginTop: "20px" }}
           value={turnDurationSeconds}
+          variant="number"
           onChange={(evt) => {
-            setTurnDurationSeconds(evt.target.value.replace(/\D/,''));
+            setTurnDurationSeconds(evt.target.value);
           }}
         />
         <div style={{ marginTop: "32px", width: "100%", maxWidth: "24rem" }}>
