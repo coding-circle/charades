@@ -1,0 +1,39 @@
+name: npm test:server
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: npm install and build server
+        run: |
+          npm install:server
+          npm build:server
+      - uses: actions/upload-artifact@main
+        with:
+          name: webpack artifacts
+          path: public/
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-2016]
+        node-version: [12.x, 14.x]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@main
+        with:
+          name: webpack artifacts
+          path: public
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm install, and test
+        run: |
+          npm install:server
+          npm test:server
+        env:
+          CI: true
