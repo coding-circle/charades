@@ -8,7 +8,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: npm install and build server
         run: |
-          npm build:server
+          npm run install:server
+          npm run build:server
       - uses: actions/upload-artifact@main
         with:
           name: webpack artifacts
@@ -32,7 +33,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: npm install, and test
         run: |
-          npm install:server
-          npm test:server
+          npm run install:server
+          npm run test:server
         env:
           CI: true
