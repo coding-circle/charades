@@ -5,6 +5,7 @@
   "main": "src/app.js",
   "scripts": {
     "test": "jest --testTimeout=20000  --watch --runInBand --detectOpenHandles",
+    "test-ci": "jest --testTimeout=60 --runInBand --detectOpenHandles",
     "start": "nodemon --exec babel-node src/app.js",
     "build": "babel src -d dist"
   },

@@ -11,6 +11,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "14.x"
-      - name: npm install and build server
+      - name: npm install and run jest tests
         run: |
-          cd server && npm install && npm test
+          cd server && npm install && npm test-ci
