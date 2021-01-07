@@ -13,4 +13,4 @@ jobs:
           node-version: "14.x"
       - name: npm install and build server
         run: |
-          npm run test:server
+          cd server && npm install && npm test
