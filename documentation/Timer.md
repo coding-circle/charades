@@ -20,6 +20,6 @@ These three problems: unreliable intervals, falling asleep phones, and differing
 
 To solve the issue of differing system clocks we calulate the difference between the servers time and each client and use add that difference to the end time of a round (see `useServerTime.js` hook). This means that even if a client clock had been manually set to something completely random the timer should still be in sync.
 
-Two fix the issues caused by setInterval, we use recursivly call setTimeout every 10th of a second until the time runs out.
+Two fix the issues caused by setInterval, we use recursivly call setTimeout every 10th of a second until the time runs out. Every 10th a second we re-calculate the time remaining and update the countdown and percentage.
 
-This solves the issue of unreliable intervals b/c setInterval is adjustable
+This solves the issue of unreliable intervals b/c rather than a set
