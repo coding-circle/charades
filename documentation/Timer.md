@@ -1,6 +1,6 @@
 # Timer Syncing in Charades
 
-This should probably just be a medium article. But here are the challenges of syncing time across multiple devices in JS and how we handled them.
+Here are the challenges of syncing time across multiple devices in JS and how we handled them.
 
 ### Problem
 
@@ -22,4 +22,8 @@ To solve the issue of differing system clocks we calulate the difference between
 
 Two fix the issues caused by setInterval, we use recursivly call setTimeout every 10th of a second until the time runs out. Every 10th a second we re-calculate the time remaining and update the countdown and percentage.
 
-This solves the issue of unreliable intervals b/c rather than a set
+This solves the issue of unreliable intervals b/c rather than assuming the interval is constant, we just re-calculate at every interval until time has run out.
+
+### Ongoing issues
+
+This is mostly fixed, however phones will still go to sleep and timer will stop. As soon as they open it up it will continue and be in correct spot, but this prevents us from having say a sound that goes off at end. Ultimately this will be fixed if browser api allows us to request permission to keep window from going to sleep OR we write native apps.
