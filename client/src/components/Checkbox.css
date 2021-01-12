@@ -25,9 +25,20 @@
   margin-right: 12px;
 }
 
+.checkbox__label {
+  margin-inline-start: auto;
+  margin-right: 14px;
+
+}
+
 .checkbox--label-before .checkbox__overlay {
   margin-right: 0;
   margin-left: 12px;
+}
+.checkbox--label-before .checkbox__label {
+  margin-inline-end: auto;
+  margin-left: 14px;
+  margin-right: 0px;
 }
 
 .checkbox__check {

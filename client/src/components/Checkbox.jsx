@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Checkbox.css";
 
 function Checkbox({ label, checked, value, onChange, labelBefore }) {
-  const [isChecked, setChecked] = useState(checked ? checked : false);
+  const [isChecked, setChecked] = useState(!!checked);
   const handleChange = () => {
     const checkedState = !isChecked;
     setChecked(checkedState);
@@ -24,7 +24,7 @@ function Checkbox({ label, checked, value, onChange, labelBefore }) {
       <div className="checkbox__overlay">
         <span className="checkbox__check">&#10003;</span>
       </div>
-      <label htmlFor={`${label}-checkbox`}>{label}</label>
+      <label className="checkbox__label" htmlFor={`${label}-checkbox`}>{label}</label>
     </span>
   );
 }
