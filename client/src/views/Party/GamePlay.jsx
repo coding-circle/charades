@@ -297,6 +297,7 @@ function GamePlay({ party, username, onPoint, pointedAt }) {
             )}
             {teams.map((team, index) => (
               <TeamBox
+                isGameOver={isGameOver}
                 key={team.teamName}
                 myTeam={team.teamPlayers.includes(username)}
                 myTurn={actorUp === username}

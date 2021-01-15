@@ -3,6 +3,7 @@ import "./TeamBox.css";
 import { Button } from "./index";
 
 const TeamBox = ({
+  isGameOver,
   className,
   teamName,
   children,
@@ -29,7 +30,7 @@ const TeamBox = ({
         >
           {teamName}
         </div>
-        {myTeam && !myTurn && (
+        {myTeam && !myTurn && !isGameOver && (
           <Button
             onClick={onRenameClick}
             type="secondary"

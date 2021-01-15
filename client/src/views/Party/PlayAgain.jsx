@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import api from "../../utils/api";
 import { TextInput, Button, Checkbox } from "../../components";
 
-function PlayGame({ party, onPlayAgainClose }) {
+function PlayAgain({ party, onPlayAgainClose }) {
   const [keepSameTeams, setKeepSameTeams] = useState(false);
   const [teamsCount, setTeamsCount] = useState(party.settings.teamsCount);
   const [rotations, setRotations] = useState(party.settings.rotations);
@@ -100,4 +100,4 @@ function PlayGame({ party, onPlayAgainClose }) {
   );
 }
 
-export default PlayGame;
+export default PlayAgain;
