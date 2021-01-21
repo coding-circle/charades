@@ -40,8 +40,7 @@ export const renameTeamTests = () => {
       teamIndex: 0,
       teamName: "JACK'S ALL STAR CAT PARADE",
     });
-
     const updatedPartyTeamName = updatedParty.games[0].teams[0].teamName;
-    expect(updatedPartyTeamName).toEqual(party.games[0].teams[0].teamName);
+    expect(updatedPartyTeamName).toEqual("FLYING FUCKS");
   });
 };
