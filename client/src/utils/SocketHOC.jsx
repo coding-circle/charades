@@ -24,7 +24,7 @@ const Wrapper = (PartyComponent) =>
     const socket = useMemo(
       () =>
         io(`${SOCKET_URL}${props.slug}`, {
-          withCredentials: false,
+          withCredentials: true,
         }),
       [props.slug]
     );
