@@ -81,7 +81,6 @@ function JoinGame({
           onClick={joinParty}
           type="primary"
           style={{ marginTop: "24px" }}
-          disabled={!roomCode || !username}
         >
           Join Game
         </Button>
