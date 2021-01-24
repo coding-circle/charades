@@ -5,6 +5,8 @@ export default class SocketService {
     this.io = socketIo(server, {
       cors: {
         origin: process.env.CLIENT_URI,
+        methods: ["GET", "POST", "PUT"],
+        credentials: true,
       },
     });
     this.sockets = {};
