@@ -21,9 +21,13 @@ const Wrapper = (PartyComponent) =>
       });
     }, 1000);
 
-    const socket = useMemo(() => io(`${SOCKET_URL}${props.slug}`), [
-      props.slug,
-    ]);
+    const socket = useMemo(
+      () =>
+        io(`${SOCKET_URL}${props.slug}`, {
+          withCredentials: false,
+        }),
+      [props.slug]
+    );
 
     useEffect(() => {
       if (!isActive) {

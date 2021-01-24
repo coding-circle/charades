@@ -2,7 +2,11 @@ import socketIo from "socket.io";
 
 export default class SocketService {
   constructor(server) {
-    this.io = socketIo(server);
+    this.io = socketIo(server, {
+      cors: {
+        origin: process.env.CLIENT_URI,
+      },
+    });
     this.sockets = {};
   }
 
