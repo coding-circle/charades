@@ -6,6 +6,8 @@ import api from "../../utils/api";
 function PromptWriting({ party, username }) {
   const [prompt, setPrompt] = useState("");
 
+  const isHost = party.host === username;
+
   const getUserPromptsCount = useCallback(
     (username) => {
       return party.prompts.filter((prompt) => {
@@ -120,7 +122,7 @@ function PromptWriting({ party, username }) {
         )}
       </main>
       <footer className="app__footer">
-        {!remainingPromptWriters.length && (
+        {!remainingPromptWriters.length && isHost && (
           <Button
             type="secondary"
             className="button-secondary--min-width"
