@@ -35,7 +35,8 @@ To run this server, you have to connect to a MongoDB database. Your server will 
 Two options for getting a MONGO_URI for development:
 
 1. (most recommended) Sign up for Mongo Atlas yourself and create a databse for yourself, find the URI by going through the 'connect' flow.
-2. Run a local MongoDB instance and connect.
+2. Run a local MongoDB instance using Docker Compose with the command `docker compose up`.
+3. Run a local MongoDB instance and connect.
 
 ### Set up .env
 
@@ -43,6 +44,12 @@ Set your `MONGO_URI` evironment variable in a `.env` file inside `server/`. If y
 
 ```
 MONGO_URI="mongodb+srv://<username>:<password>@cluster0-cusns.mongodb.net/<database>?retryWrites=true&w=majority"
+```
+
+If you're using Docker Compose, set you `MONGO_URI` to:
+
+```
+MONGO_URI="mongodb://admin:password@localhost:27017?retryWrites=true&w=majority"
 ```
 
 I put an example `.env` file in `.env.sample` feel free to `mv .env.sample .env` to get started.
