@@ -6,8 +6,9 @@ A companion app for playing [charades](https://en.wikipedia.org/wiki/Charades)
 
 To run this server, you have to connect to a MongoDB database. Your server will do this automatically once you've set the MONGO_URI environment variable.
 
-You have at least three options for getting a MONGO_URI for development:
+You have at least four options for getting a MONGO_URI for development:
 
+- (Super Easy) Run MongoDB in a Docker container using Docker Compose with the command `docker compose up`
 - (Easiest) Slack Andy and ask for your own database on his Mongo Atlas account, he'll send you a URI
 - (Easy) Sign up for Mongo Atlas yourself and create a databse for yourself, find the URI by going through the 'connect' flow
 - (Probably Easy) Run MongoDB on your machine locally, figure out your own URI
@@ -18,6 +19,12 @@ Set your `MONGO_URI` evironment variable in a `.env` file inside `server/`. If y
 
 ```
 MONGO_URI="mongodb+srv://<username>:<password>@cluster0-cusns.mongodb.net/<database>?retryWrites=true&w=majority"
+```
+
+If you're using Docker Compose, set you `MONGO_URI` to:
+
+```
+MONGO_URI="mongodb://admin:password@localhost:27017?retryWrites=true&w=majority"
 ```
 
 I put an example `.env` file in `.env.sample` feel free to `mv .env.sample .env` to get started.

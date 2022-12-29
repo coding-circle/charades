@@ -9,3 +9,6 @@
 
 
 .DS_Store
+
+# docker volumes
+/dockervolume
