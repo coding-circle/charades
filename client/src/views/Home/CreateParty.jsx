@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { writeStorage } from "@rehooks/local-storage";
 
 import api from "../../utils/api";
 import {
@@ -14,6 +13,7 @@ function CreateGame({
   setUsername,
   hideCreateGameView,
   setErrorMessage,
+  onJoinParty,
 }) {
   const [teamsCount, setTeamsCount] = useState(2);
   const [rotations, setRotations] = useState(1);
@@ -21,12 +21,11 @@ function CreateGame({
   const [isCreatingParty, setIsCreatingParty] = useState(false);
 
   const createParty = async () => {
-    const startTime = Date.now();
     setIsCreatingParty(true);
 
     const upperCaseUsername = username.toUpperCase();
 
-    const { error, slug, username: uuidUsername } = await api.createParty({
+    const { error, party } = await api.createParty({
       host: upperCaseUsername,
       settings: {
         teamsCount,
@@ -41,16 +40,7 @@ function CreateGame({
       return;
     }
 
-    writeStorage("charades", {
-      username: uuidUsername,
-      slug,
-    });
-
-    // make sure loading screen shows for at least 1 second since clicking button
-    // and 1/10th a second since setting local storage
-    setTimeout(() => {
-      window.location.pathname = slug;
-    }, Math.min(100, Math.max(0, Date.now() - startTime + 1000)));
+    onJoinParty(party, party.host);
   };
 
   if (isCreatingParty) {
@@ -69,6 +59,7 @@ function CreateGame({
           label="Teams"
           subLabel="The number of teams playing"
           value={teamsCount}
+          variant="number"
           onChange={(evt) => {
             setTeamsCount(evt.target.value);
           }}
@@ -79,6 +70,7 @@ function CreateGame({
           subLabel="The number of rounds per player"
           style={{ marginTop: "20px" }}
           value={rotations}
+          variant="number"
           onChange={(evt) => {
             setRotations(evt.target.value);
           }}
@@ -89,6 +81,7 @@ function CreateGame({
           subLabel="The length of each turn (in seconds)"
           style={{ marginTop: "20px" }}
           value={turnDurationSeconds}
+          variant="number"
           onChange={(evt) => {
             setTurnDurationSeconds(evt.target.value);
           }}

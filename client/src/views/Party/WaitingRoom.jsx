@@ -42,9 +42,11 @@ function WaitingRoom({ party, username }) {
             host={party.host}
           />
         </TeamBox>
-        <p className="waiting-room__waiting-text">
-          Waiting for at least four players to join...
-        </p>
+        {party.players.length < 4 && (
+          <p className="waiting-room__waiting-text">
+            Waiting for at least four players to join...
+          </p>
+        )}
       </main>
       <footer className="app__footer">
         {isHost && (

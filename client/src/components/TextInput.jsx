@@ -10,9 +10,20 @@ const TextInput = ({
   onChange,
   maxLength,
   multiline,
+  disabled,
+  variant,
 }) => {
   const classes = `${label && "text-input__label"}
     ${subLabel ? "text-input__label--with-sublabel" : ""}`;
+
+  const handleChange = (e) => {
+    if (variant === "number") {
+      e.target.value = e.target.value.replace(/\D/, "");
+    }
+
+    onChange(e);
+  };
+  const inputMode = variant === "number" ? "numeric" : "text";
 
   return (
     <div className="text-input" style={style}>
@@ -27,23 +38,27 @@ const TextInput = ({
       </label>
       {multiline ? (
         <textarea
+          disabled={disabled}
           name={name}
           type="text"
           value={value}
-          onChange={onChange}
+          onChange={handleChange}
           maxLength={maxLength}
           className="text__bold text-input__multiline text__heading"
           cols="20"
           rows="2"
+          inputMode={inputMode}
         />
       ) : (
         <input
+          disabled={disabled}
           name={name}
           type="text"
           value={value}
-          onChange={onChange}
+          onChange={handleChange}
           maxLength={maxLength}
           className="text__all-caps text__bold text__heading"
+          inputMode={inputMode}
         />
       )}
     </div>

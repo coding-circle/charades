@@ -24,9 +24,9 @@
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "jest": "^26.0.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "mongoose": "^5.9.11",
-    "socket.io": "^2.3.0"
+    "socket.io": "^3.1.0"
   },
   "jest": {
     "testEnvironment": "node",

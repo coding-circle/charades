@@ -22,7 +22,7 @@ const db = new DbService(process.env.MONGO_URI);
 const socket = new SocketService(server);
 
 // middleware
-app.use(cors());
+app.use(cors({ origin: process.env.CLIENT_URI }));
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({

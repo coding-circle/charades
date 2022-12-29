@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { writeStorage } from "@rehooks/local-storage";
 
 import api from "../../utils/api";
-import { TextInput, Button, LoadingIndicator } from "../../components";
+import {
+  TextInput,
+  Button,
+  LoadingIndicator,
+  HowToPlayModal,
+} from "../../components";
 
 function JoinGame({
   slug,
@@ -10,17 +14,20 @@ function JoinGame({
   setUsername,
   showCreateGameView,
   setErrorMessage,
+  onJoinParty,
 }) {
   const [roomCode, setRoomCode] = useState(slug);
   const [isJoiningParty, setIsJoiningParty] = useState(false);
+  const [howToPlayOpen, setHowToPlayOpen] = useState(false);
+
+  const handleHowToPlayModalOpen = () => setHowToPlayOpen(true);
+  const handleHowToPlayModalClose = () => setHowToPlayOpen(false);
 
   useEffect(() => {
     setRoomCode(slug);
   }, [slug]);
 
   const joinParty = async () => {
-    const startTime = Date.now();
-
     // prevent double clicking button
     if (isJoiningParty) return;
     setIsJoiningParty(true);
@@ -28,7 +35,7 @@ function JoinGame({
     const upperCaseRoomCode = roomCode.toUpperCase();
     const upperCaseUsername = username.toUpperCase();
 
-    const { error, uuidUsername } = await api.joinParty({
+    const { error, party, uuidUsername } = await api.joinParty({
       username: upperCaseUsername,
       slug: upperCaseRoomCode,
     });
@@ -40,16 +47,7 @@ function JoinGame({
       return;
     }
 
-    writeStorage("charades", {
-      username: uuidUsername,
-      slug: upperCaseRoomCode,
-    });
-
-    // make sure loading screen shows for at least 1 second since clicking button
-    // and 1/10th a second since setting local storage
-    setTimeout(() => {
-      window.location.pathname = upperCaseRoomCode;
-    }, Math.min(100, Math.max(0, Date.now() - startTime + 1000)));
+    onJoinParty(party, uuidUsername);
   };
 
   if (isJoiningParty) {
@@ -83,21 +81,28 @@ function JoinGame({
           onClick={joinParty}
           type="primary"
           style={{ marginTop: "24px" }}
-          disabled={!roomCode || !username}
         >
           Join Game
         </Button>
-      </main>
-      <footer className="app__footer">
         <Button
           onClick={showCreateGameView}
-          type="secondary"
-          className="button-secondary--min-width"
+          className="button-disabled"
+          type="primary"
+          style={{ marginTop: "24px" }}
           icon="+"
         >
           Create Game
         </Button>
+      </main>
+      <footer className="app__footer">
+        <Button onClick={handleHowToPlayModalOpen} className="button-secondary">
+          How To Play
+        </Button>
       </footer>
+      <HowToPlayModal
+        isActive={howToPlayOpen}
+        onClickClose={handleHowToPlayModalClose}
+      />
     </>
   );
 }
